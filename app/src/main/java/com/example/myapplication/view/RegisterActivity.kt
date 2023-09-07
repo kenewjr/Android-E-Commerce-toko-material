@@ -1,0 +1,82 @@
+package com.example.myapplication.view
+
+import android.content.Intent
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.widget.Toast
+import com.example.myapplication.R
+import com.example.myapplication.model.PostRegisterUser
+import com.example.myapplication.network.ApiClient
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.activity_register.*
+import okhttp3.Callback
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
+import retrofit2.Call
+import retrofit2.Response
+
+@AndroidEntryPoint
+class RegisterActivity : AppCompatActivity() {
+    private lateinit var apiClient: ApiClient
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_register)
+        register()
+    }
+
+    private fun register(){
+        btn_daftar.setOnClickListener {
+            val username : String = etEmail_register.text.toString()
+            val nama : String = etNama_register.text.toString()
+            val password : String = etPassword_register.text.toString()
+            val phone : String = etPhone_register.text.toString()
+            val alamat : String = etAddress_register.text.toString()
+            if (etNama_register.text.isEmpty()){
+                Toast.makeText(this@RegisterActivity, "Nama lengkap harus di isi", Toast.LENGTH_SHORT).show()
+                tv_error_nama_register.text = "Nama lengkap harus di isi"
+            }
+            else if (etEmail_register.text.isEmpty()){
+                Toast.makeText(this@RegisterActivity, "Email harus diisi", Toast.LENGTH_SHORT).show()
+                tv_error_email_register.text = "Email harus diisi"
+            } else if ( etPassword_register.text.isEmpty()){
+                Toast.makeText(this@RegisterActivity, "Password harus di isi", Toast.LENGTH_SHORT).show()
+                tv_error_password_register.text = "Password harus di isi"
+            } else if ( etPassword_register.text.length < 5){
+                Toast.makeText(this@RegisterActivity, "Panjang Password kurang dari 5", Toast.LENGTH_SHORT).show()
+                tv_error_password_register.text = "Panjang Password kurang dari 5"
+            } else if (etPhone_register.text.isEmpty()){
+                Toast.makeText(this@RegisterActivity, "Nomor Handphone Tidak Boleh Kosong", Toast.LENGTH_SHORT).show()
+                tv_error_phone_register.text = "Nomor Handphone Harus di isi "
+            }else if (etAddress_register.text.isEmpty()){
+                Toast.makeText(this@RegisterActivity, "Address Tidak Boleh Kosong", Toast.LENGTH_SHORT).show()
+                tv_error_address_register.text = "Address Harus di isi "
+            }
+            else {
+                doRegister(username,nama,password,alamat,phone)
+            }
+        }
+        }
+
+    private fun doRegister(username: String, nama: String, password: String, alamat : String, phone : String){
+        apiClient = ApiClient()
+        apiClient.getApiService().register(username,password,nama, phone,alamat)
+            .enqueue(object : retrofit2.Callback<PostRegisterUser> {
+                override fun onResponse(
+                    call: Call<PostRegisterUser>,
+                    response: Response<PostRegisterUser>
+                ) {
+                    if (response.isSuccessful){
+                        startActivity(Intent(this@RegisterActivity, LoginActivity::class.java))
+                        Toast.makeText(this@RegisterActivity, "Berhasil Membuat Akun", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(this@RegisterActivity, "Email Sudah Terdaftar", Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<PostRegisterUser>, t: Throwable) {
+                    Toast.makeText(this@RegisterActivity, t.message, Toast.LENGTH_SHORT).show()
+                }
+            })
+    }
+}

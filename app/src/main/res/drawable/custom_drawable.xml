@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--untuk mengatur warna solid-->
+    <solid android:color="#FFFDFD"/>
+
+    <!--untuk mengatur corner radius (lengkungan)-->
+    <corners android:radius="5dp"/>
+
+    <!--untuk mengatur garis dipinggir-->
+    <stroke
+        android:color="#858383"
+        android:width="2dp"/>
+
+</shape>

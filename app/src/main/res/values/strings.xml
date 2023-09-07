@@ -1,0 +1,43 @@
+<resources>
+    <string name="app_name">E-Commerce</string>
+    <string name="title_activity_akun_saya">AkunSayaActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="home">Home</string>
+    <string name="notifikasi">Notifikasi</string>
+    <string name="jual">Jual</string>
+    <string name="daftar_jual">Daftar Jual</string>
+    <string name="akun">Akun</string>
+    <string name="akun_saya">Akun Saya</string>
+    <string name="todo">TODO</string>
+    <string name="keluar">Keluar</string>
+    <string name="penganturan_akun">Penganturan akun</string>
+    <array name="kota">
+        <item>Kota Karawang</item>
+        <item>Kota Jakarta</item>
+        <item>Kota Subang</item>
+        <item>Kota Bandung</item>
+        <item>Kota Cirebon</item>
+        <item>Kota Tasikmalaya</item>
+    </array>
+    <string name="title_activity_notifikasi_buyer">NotifikasiBuyerActivity</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+    <string-array name="kategori">
+        <item>- Pilih Kategori -</item>
+        <item>Baju</item>
+        <item>Celana</item>
+        <item>Sepatu</item>
+    </string-array>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="daftar_jual_saya">Daftar Jual Saya</string>
+    <string name="select_category" />
+    <string name="jalan_yos_sudarso" />
+    <string name="lorem_ipsum_dolor_sit_amet_consectetur_adipiscing_elit_sed_do_eiusmod_tempor_incididunt_ut_labore_et_dolore_magna_aliqua_ut_enim_ad_minim_veniam_quis_nostrud_exercitation_ullamco_laboris_nisi_ut_aliquip_ex_ea_commodo_consequat_duis_aute_irure_dolor_in_reprehenderit_in_voluptate_velit_esse_cillum_dolore_eu_fugiat_nulla">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla</string>
+</resources>
