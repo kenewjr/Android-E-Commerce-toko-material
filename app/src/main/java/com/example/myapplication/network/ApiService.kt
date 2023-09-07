@@ -68,4 +68,9 @@ interface ApiService {
     @GET("get_all_produk")
     suspend fun getallproduk():List<GetAllProdukItem>
 
+    @GET("getproduk_byid")
+    fun getprodukbyid(
+        @Query("id")id : Int
+    ):Call<GetAllProdukItem>
+
 }

@@ -13,7 +13,11 @@ import androidx.lifecycle.asLiveData
 import com.bumptech.glide.Glide
 import com.example.myapplication.R
 import com.example.myapplication.datastore.UserManager
+import com.example.myapplication.model.GetAllProdukItem
+import com.example.myapplication.network.ApiClient
 import com.example.myapplication.viewmodel.ViewModelHome
+import com.example.myapplication.viewmodel.ViewModelProductSeller
+import com.example.myapplication.viewmodel.ViewModelUser
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_add_product_buyer.*
@@ -24,7 +28,7 @@ import kotlinx.coroutines.DelicateCoroutinesApi
 @AndroidEntryPoint
 class AddProductBuyerActivity : AppCompatActivity() {
     private lateinit var userManager: UserManager
-//    private lateinit var apiClient: ApiClient
+     private lateinit var apiClient: ApiClient
     private var datalengkap :String = "ada"
     private var produk : String = ""
     private var produkpilih : String = ""
@@ -32,19 +36,19 @@ class AddProductBuyerActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_product_buyer)
         userManager = UserManager(this)
-//        apiClient = ApiClient()
+        apiClient = ApiClient()
         back.setOnClickListener {
             onBackPressed()
         }
 //        disablebutton()
-//        detailData()
+        detailData()
 //        postFavorite()
     }
 
 //    private fun disablebutton(){
 //        userManager = UserManager(this)
-//        val viewModel = ViewModelProvider(this)[ViewModelHome::class.java]
-//        viewModel.fetchbuyerorder(userManager.fetchAuthToken().toString())
+//        val viewModel = ViewModelProvider(this)[ViewModelUser::class.java]
+//        viewModel.getProfile(userManager.fetchId()!!.toInt())
 //        runOnUiThread {
 //        viewModel.order.observe(this) {
 //            for (z in it.indices) {
@@ -61,89 +65,59 @@ class AddProductBuyerActivity : AppCompatActivity() {
 //        }
 //        }
 //    }
-//
-//    private fun detailData(){
-//        userManager = UserManager(this)
-//        val dataProduct = intent.extras!!.getSerializable("detailproduk") as GetBuyerProductItem?
-//        val dataProductnotif = intent.extras!!.getSerializable("detailnotif") as GetNotifikasiItem?
-//
-//        val viewModelDataSeller = ViewModelProvider(this)[ViewModelUser::class.java]
-//        viewModelDataSeller.getProfiler(token = userManager.fetchAuthToken().toString())
-//        viewModelDataSeller.profileData.observe(this) {
-//            if (it.fullName.isNullOrEmpty() ||
-//                it.email.isNullOrEmpty() ||
-//                it.imageUrl.isNullOrEmpty() ||
-//                it.address.isNullOrEmpty() ||
-//                it.city.isNullOrEmpty() ||
-//                it.password.isNullOrEmpty() ||
-//                it.phoneNumber.toString().isNullOrEmpty()
-//            ) {
-//                datalengkap = "kosong"
-//            }
-//        }
-//        if (dataProduct != null) {
-//            val viewModel = ViewModelProvider(this)[ViewModelHome::class.java]
-//            viewModel.detailproduct(dataProduct.id)
-//            viewModel.detail.observe(this){
-//                Glide.with(this@AddProductBuyerActivity).load(it.user.imageUrl).override(45,45)
-//                    .into(IV_penjual)
-//                addBuyer_kota.text = it.user.city
-//                TV_nama.text = it.user.fullName
-//            }
-//            Glide.with(this)
-//                .load(dataProduct.imageUrl)
-//                .override(400,350)
-//                .into(tv_imgdetailproduct)
-//            produkpilih = dataProduct.id.toString()
-//            tv_judulproductdetail.text = dataProduct.name
-//            tv_acesorisproductdetail.text = dataProduct.categories.toString()
-//            tv_hargaproductdetail.text = dataProduct.basePrice.toString()
-//            tv_deskripsidetail.text = dataProduct.description
-//            tv_acesorisproductdetail.text = ""
-//            if (dataProduct.categories.isNotEmpty()){
-//                for (i in dataProduct.categories.indices){
-//                    if (dataProduct.categories.lastIndex == 0){
-//                        tv_acesorisproductdetail.text = dataProduct.categories[i].name
-//                        break
-//                    }
-//                    if (i == 0) {
-//                        tv_acesorisproductdetail.text = dataProduct.categories[i].name + ","
-//                    } else if (i != dataProduct.categories.lastIndex && i > 0){
-//                        tv_acesorisproductdetail.text = tv_acesorisproductdetail.text.toString() +
-//                        dataProduct.categories[i].name  + ","
-//                    } else {
-//                        tv_acesorisproductdetail.text = tv_acesorisproductdetail.text.toString() +
-//                        dataProduct.categories[i].name
-//                    }
-//                }
-//            } else {
-//                tv_acesorisproductdetail.text = "Lainnya"
-//            }
-//            if (dataProductnotif != null){
-//                addProductBuyer_btnTertarik.text = "Menunggu Respon Penjual"
-//            }else {
-//                addProductBuyer_btnTertarik.setOnClickListener {
-//                    Log.e("dada", datalengkap)
-//                    userManager.ceklogin.asLiveData().observe(this){
-//                        if (it == true && datalengkap == "ada"){
-//                            iniDialogTawarHarga()
-//                        } else if(datalengkap == "kosong") {
-//                            Toast.makeText(this, "Data Anda Belum Lengkap", Toast.LENGTH_SHORT)
-//                                .show()
-//                            startActivity(Intent(this, AkunSayaActivity::class.java))
-//                            finish()
-//                        }else{
-//                            Toast.makeText(this, "Anda Belum Login", Toast.LENGTH_SHORT).show()
-//                            startActivity(Intent(this, LoginActivity::class.java))
-//                            finish()
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//    }
-//
-//
+
+    private fun detailData(){
+        userManager = UserManager(this)
+        val dataProduct = intent.extras!!.getSerializable("detailproduk") as GetAllProdukItem?
+
+        val viewModelDataSeller = ViewModelProvider(this)[ViewModelUser::class.java]
+        viewModelDataSeller.getProfile(id = userManager.fetchId()!!.toInt())
+        viewModelDataSeller.profileData.observe(this) {
+            if (it.nama.isNullOrEmpty() ||
+                it.alamat.isNullOrEmpty() ||
+                it.nohp.isNullOrEmpty() ||
+                it.password.isNullOrEmpty()
+            ) {
+                datalengkap = "kosong"
+            }
+        }
+        if (dataProduct != null) {
+            val viewModel = ViewModelProvider(this)[ViewModelProductSeller::class.java]
+            viewModel.getProductid(dataProduct.id.toInt())
+            Glide.with(this)
+                .load(dataProduct.gambar)
+                .override(400,350)
+                .into(tv_imgdetailproduct)
+            produkpilih = dataProduct.id.toString()
+            tv_judulproductdetail.text = dataProduct.nama
+            tv_acesorisproductdetail.text = dataProduct.kategori.toString()
+            tv_hargaproductdetail.text = dataProduct.harga.toString()
+            tv_deskripsidetail.text = dataProduct.deskripsi
+            tv_acesorisproductdetail.text = ""
+            if (dataProductnotif != null){
+                addProductBuyer_btnTertarik.text = "Menunggu Respon Penjual"
+            }else {
+                addProductBuyer_btnTertarik.setOnClickListener {
+                    Log.e("dada", datalengkap)
+                    userManager.ceklogin.asLiveData().observe(this){
+                        if (it == true && datalengkap == "ada"){
+                            iniDialogTawarHarga()
+                        } else if(datalengkap == "kosong") {
+                            Toast.makeText(this, "Data Anda Belum Lengkap", Toast.LENGTH_SHORT)
+                                .show()
+                            startActivity(Intent(this, AkunSayaActivity::class.java))
+                            finish()
+                        }else{
+                            Toast.makeText(this, "Anda Belum Login", Toast.LENGTH_SHORT).show()
+                            startActivity(Intent(this, LoginActivity::class.java))
+                            finish()
+                        }
+                    }
+                }
+            }
+        }
+    }
+
 //    private fun iniDialogTawarHarga(){
 //        userManager = UserManager(this)
 //        val dialog = BottomSheetDialog(this)
