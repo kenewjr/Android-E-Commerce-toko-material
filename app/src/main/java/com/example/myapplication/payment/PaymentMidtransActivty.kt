@@ -1,16 +1,19 @@
 package com.example.myapplication.payment
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.example.myapplication.R
 import com.example.myapplication.viewmodel.ViewModelProductSeller
+import com.midtrans.sdk.corekit.core.MidtransSDK
 import com.midtrans.sdk.corekit.core.TransactionRequest
 import com.midtrans.sdk.corekit.core.themes.CustomColorTheme
+import com.midtrans.sdk.corekit.models.BillingAddress
+import com.midtrans.sdk.corekit.models.CustomerDetails
 import com.midtrans.sdk.corekit.models.ItemDetails
+import com.midtrans.sdk.corekit.models.ShippingAddress
 import com.midtrans.sdk.uikit.SdkUIFlowBuilder
-import kotlinx.android.synthetic.main.activity_add_product_buyer.*
 import kotlinx.android.synthetic.main.activity_payment_midtrans_activty.*
 
 class PaymentMidtransActivty : AppCompatActivity() {
@@ -52,6 +55,28 @@ class PaymentMidtransActivty : AppCompatActivity() {
             val detail = ItemDetails("NamaItem",hargaproduct.toDouble(),Jumlah.toInt(),"testi")
             val itemDetails = ArrayList<ItemDetails>()
             itemDetails.add(detail)
+            uiKitsDetails(transactionRequest)
+            transactionRequest.itemDetails =itemDetails
+            MidtransSDK.getInstance().transactionRequest = transactionRequest
+            MidtransSDK.getInstance().startPaymentUiFlow(this)
         }
+    }
+
+    fun uiKitsDetails(transactionRequest: TransactionRequest){
+        val customersDetails = CustomerDetails()
+        customersDetails.customerIdentifier = "abrar"
+        customersDetails.phone = "08897776"
+        val shippingAddress = ShippingAddress()
+        shippingAddress.address = "cilegon,banten"
+        shippingAddress.city = "tanggerang"
+        shippingAddress.postalCode = "42415"
+        customersDetails.shippingAddress = shippingAddress
+        val billingAddress = BillingAddress()
+        billingAddress.address = "cilegon,banten"
+        billingAddress.city = "tanggerang"
+        billingAddress.postalCode = "42415"
+        customersDetails.billingAddress = billingAddress
+
+        transactionRequest.customerDetails = customersDetails
     }
 }

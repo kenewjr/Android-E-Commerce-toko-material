@@ -2,14 +2,18 @@ package com.example.myapplication.datastore
 
 import android.content.Context
 import android.content.SharedPreferences
-import androidx.datastore.DataStore
+import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.*
-import com.example.myapplication.R
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.createDataStore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import com.example.myapplication.R
+
 
 class UserManager(context : Context) {
-    private  val dataStore: DataStore<Preferences> = context.createDataStore("login-prefs")
+    private val Context.dataStore by preferencesDataStore("app_preferences")
+    private  val dataStore: DataStore<Preferences> = context.dataStore("login-prefs")
     private val finger : DataStore<Preferences> = context.createDataStore("fingerprint")
     private var prefs: SharedPreferences = context.getSharedPreferences(context.getString(R.string.app_name), Context.MODE_PRIVATE)
 
