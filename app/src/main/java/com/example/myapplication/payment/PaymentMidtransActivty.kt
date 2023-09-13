@@ -1,6 +1,8 @@
 package com.example.myapplication.payment
 
+import android.content.ContentValues.TAG
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
@@ -14,25 +16,16 @@ import com.midtrans.sdk.corekit.models.CustomerDetails
 import com.midtrans.sdk.corekit.models.ItemDetails
 import com.midtrans.sdk.corekit.models.ShippingAddress
 import com.midtrans.sdk.uikit.SdkUIFlowBuilder
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_payment_midtrans_activty.*
 
+@AndroidEntryPoint
 class PaymentMidtransActivty : AppCompatActivity() {
     var hargabarang:Int = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_payment_midtrans_activty)
-        val idbarang = intent.getStringExtra("idproduk")
-        val viewModel = ViewModelProvider(this)[ViewModelProductSeller::class.java]
-        viewModel.getProductid(idbarang!!.toInt())
-        viewModel.getproduk.observe(this){
-            hargabarang = it.harga.toInt()
-            Glide.with(this)
-                .load(it.gambar)
-                .override(400, 350)
-                .into(produk_image)
-            nama_produk.setText(it.nama)
-            harga_produk.setText(it.harga)
-        }
+
         SdkUIFlowBuilder.init()
             .setClientKey("SB-Mid-client-UyV8fwVUJHmHywYZ")
             .setContext(applicationContext)
@@ -40,11 +33,13 @@ class PaymentMidtransActivty : AppCompatActivity() {
                     result ->
 
             })
-            .setMerchantBaseUrl("http://192.168.1.150/skripsi/midtrans")
+            .setMerchantBaseUrl("http://192.168.1.150/skripsi/midtrans/")
             .enableLog(true)
             .setColorTheme(CustomColorTheme("#FFE51255", "#B61548", "#FFE51255"))
             .setLanguage("id")
             .buildSDK()
+
+            viewModel()
 
         pesan.setOnClickListener {
             val hargaproduct = hargabarang
@@ -78,5 +73,28 @@ class PaymentMidtransActivty : AppCompatActivity() {
         customersDetails.billingAddress = billingAddress
 
         transactionRequest.customerDetails = customersDetails
+    }
+
+    private fun viewModel(){
+        val viewModel = ViewModelProvider(this)[ViewModelProductSeller::class.java]
+        val idbarang = intent.getStringExtra("idproduk")
+        viewModel.getProductid(idbarang!!.toInt())
+        viewModel.getProductLiveData().observe(this@PaymentMidtransActivty) { it ->
+            if (it != null) {
+                Log.e(TAG, it.nama_produk.toString())
+
+                hargabarang = it.harga.toInt()
+                Glide.with(this)
+                    .load(it.gambar)
+                    .override(400, 350)
+                    .into(produk_image)
+                nama_produk.text = it.nama_produk
+                harga_produk.text = it.harga
+            }else {
+                Log.e("midtranssss","kosong")
+            }
+        }
+
+        Log.e(TAG,hargabarang.toString())
     }
 }

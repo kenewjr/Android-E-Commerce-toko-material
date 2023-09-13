@@ -30,9 +30,7 @@ class ChangePasswordActivity : AppCompatActivity() {
         setContentView(R.layout.activity_change_password)
         userManager = UserManager(this)
         apiClient = ApiClient()
-        userManager.username.asLiveData().observe(this){
-            username = it
-        }
+        username = userManager.fetchusername().toString()
         changePassword()
         back_keakunsaya.setOnClickListener {
                 startActivity(Intent(this,AkunsayaActivty::class.java))

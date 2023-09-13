@@ -31,9 +31,7 @@ class ProfileActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
         userManager = UserManager(this)
-        userManager.username.asLiveData().observe(this){
-            username = it
-        }
+        username = userManager.fetchusername().toString()
         updatedata()
         Log.e(TAG,username)
         back.setOnClickListener {

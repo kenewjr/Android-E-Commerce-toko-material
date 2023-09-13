@@ -1,73 +1,34 @@
 package com.example.myapplication.datastore
 
 import android.content.Context
-import android.content.SharedPreferences
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.*
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.createDataStore
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
-import com.example.myapplication.R
+import android.preference.PreferenceManager
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+
 
 
 class UserManager(context : Context) {
-    private val Context.dataStore by preferencesDataStore("app_preferences")
-    private  val dataStore: DataStore<Preferences> = context.dataStore("login-prefs")
-    private val finger : DataStore<Preferences> = context.createDataStore("fingerprint")
-    private var prefs: SharedPreferences = context.getSharedPreferences(context.getString(R.string.app_name), Context.MODE_PRIVATE)
+    private val prefs by lazy {
+        PreferenceManager.getDefaultSharedPreferences(context)
+    }
 
     companion object {
         const val ID = "ID"
         const val IMAGEUSER = "IMAGEUSER"
         const val KOTA = "KOTA"
-        val USERNAME = preferencesKey<String>("USERNAME")
-        val NAME = preferencesKey<String>("NAME")
-        val HARGA = preferencesKey<String>("HARGA")
-        val KATEGORI = preferencesKey<String>("KATEGORI")
-        val LOKASI = preferencesKey<String>("LOKASI")
-        val DESC = preferencesKey<String>("DESC")
-        val IMAGE = preferencesKey<String>("IMAGE")
-        val PASSWORD = preferencesKey<String>("PASSWORD")
-        val BOOLEAN = preferencesKey<Boolean>("BOOLEAN")
-    }
-    suspend fun preview(
-        nama : String,
-        harga : String,
-        kategori : String,
-        deskripsi : String,
-        lokasi : String,
-        image : String
-    ){
-        dataStore.edit {
-            it[NAME] = nama
-            it[HARGA] = harga
-            it[KATEGORI] = kategori
-            it[LOKASI] = lokasi
-            it[DESC] = deskripsi
-            it[IMAGE] = image
-        }
-    }
-    suspend fun logindata(
-        username: String,
-        password: String
-    ){
-        dataStore.edit {
-            it[USERNAME] = username
-            it[PASSWORD]= password
-        }
+        const val BOOLEAN_KEY = "my_boolean_key"
+        const val USERNAME = "USERNAME"
+        const val PASSWORD = "PASSWORD"
     }
 
-    suspend fun setBoolean(boolean: Boolean) {
-        dataStore.edit {
-            it[BOOLEAN] = boolean
-        }
+    private val _booleanLiveData = MutableLiveData<Boolean>()
+    fun setBooleanValue(value: Boolean) {
+        prefs.edit().putBoolean(BOOLEAN_KEY, value).apply()
+        _booleanLiveData.value = value // Notify LiveData observers of the change
     }
 
-    suspend fun clearPreview() {
-        dataStore.edit {
-            it.clear()
-        }
+    fun getBooleanValue(): Boolean {
+        return prefs.getBoolean(BOOLEAN_KEY, false) // Replace false with the default value you want
     }
     fun logout(){
         val edit = prefs.edit()
@@ -82,14 +43,20 @@ class UserManager(context : Context) {
             .apply()
     }
 
-    fun fetchId(): String? {
-        return prefs.getString(ID, null)
-    }
-    val ceklogin: Flow<Boolean> = dataStore.data.map {
-        it[BOOLEAN] ?: false
+    fun savedata(username:String,password:String){
+        val editor = prefs.edit()
+        editor.putString(USERNAME,username)
+        editor.putString(PASSWORD,password)
+            .apply()
     }
 
-    val username : Flow<String> = dataStore.data.map {
-        it[USERNAME] ?: ""
+    fun fetchusername(): String?{
+        return prefs.getString(USERNAME,null)
+    }
+    fun fetchpassword(): String?{
+        return prefs.getString(PASSWORD,null)
+    }
+    fun fetchId(): String? {
+        return prefs.getString(ID, null)
     }
 }

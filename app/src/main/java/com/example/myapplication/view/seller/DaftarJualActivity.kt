@@ -41,15 +41,14 @@ class DaftarJualActivity : AppCompatActivity() {
                 return@OnNavigationItemSelectedListener true
             }
             R.id.jual -> {
-                userManager.ceklogin.asLiveData().observe(this){
-                    if (it == true){
+                val booleanvalue = userManager.getBooleanValue()
+                    if (booleanvalue == true){
                         startActivity(Intent(this, LengkapiDetailProductActivity::class.java))
                     } else {
                         Toast.makeText(applicationContext, "Anda Belum Login", Toast.LENGTH_SHORT).show()
                         startActivity(Intent(this, LoginActivity::class.java))
                         finish()
                     }
-                }
             }
             R.id.akun -> {
                 Toast.makeText(this, "Kamu Sedang Berada Di Akun", Toast.LENGTH_SHORT).show()

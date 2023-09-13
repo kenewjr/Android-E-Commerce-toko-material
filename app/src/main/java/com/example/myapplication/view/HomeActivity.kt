@@ -43,15 +43,14 @@ class HomeActivity : AppCompatActivity() {
                 return@OnNavigationItemSelectedListener true
             }
             R.id.jual -> {
-                userManager.ceklogin.asLiveData().observe(this){
-                    if (it == true){
+                val booleanvalue = userManager.getBooleanValue()
+                    if (booleanvalue == true){
                         startActivity(Intent(this, LengkapiDetailProductActivity::class.java))
                     } else {
                         Toast.makeText(applicationContext, "Anda Belum Login", Toast.LENGTH_SHORT).show()
                         startActivity(Intent(this, LoginActivity::class.java))
                         finish()
                     }
-                }
             }
             R.id.akun -> {
                 startActivity(Intent(this, AkunsayaActivty::class.java))
@@ -96,7 +95,6 @@ class HomeActivity : AppCompatActivity() {
         adapterHome.setHasStableIds(true)
         rv_homeProduk.adapter = adapterHome
         val viewModel = ViewModelProvider(this)[ViewModelHome::class.java]
-        viewModel.searchproduct("")
         viewModel.product.observe(this) {
             if (it != null) {
                 runOnUiThread {

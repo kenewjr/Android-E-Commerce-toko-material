@@ -71,6 +71,6 @@ interface ApiService {
     @GET("getproduk_byid")
     fun getprodukbyid(
         @Query("id")id : Int
-    ):Call<GetAllProdukItem>
+    ):Call<GetDataProductSellerItemItem>
 
 }

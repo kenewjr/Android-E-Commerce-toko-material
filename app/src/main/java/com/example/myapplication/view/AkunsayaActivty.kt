@@ -1,9 +1,12 @@
 package com.example.myapplication.view
 
+import android.annotation.SuppressLint
+import android.content.ContentValues.TAG
 import android.content.DialogInterface
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isInvisible
@@ -25,6 +28,7 @@ class AkunsayaActivty : AppCompatActivity() {
     private lateinit var  userManager: UserManager
     private var username : String = ""
 
+
     private val bottomNavigasi = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when(item.itemId){
             R.id.notifikasi -> {
@@ -36,15 +40,14 @@ class AkunsayaActivty : AppCompatActivity() {
                 return@OnNavigationItemSelectedListener true
             }
             R.id.jual -> {
-                userManager.ceklogin.asLiveData().observe(this){
-                    if (it == true){
+                val booleanvalue = userManager.getBooleanValue()
+                    if (booleanvalue == true){
                         startActivity(Intent(this, LengkapiDetailProductActivity::class.java))
                     } else {
                         Toast.makeText(applicationContext, "Anda Belum Login", Toast.LENGTH_SHORT).show()
                         startActivity(Intent(this, LoginActivity::class.java))
                         finish()
                     }
-                }
             }
             R.id.akun -> {
                 Toast.makeText(this, "Kamu Sedang Berada Di Akun", Toast.LENGTH_SHORT).show()
@@ -58,17 +61,16 @@ class AkunsayaActivty : AppCompatActivity() {
         false
     }
 
+    @SuppressLint("SuspiciousIndentation")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_akunsaya_activty)
         val botnav = findViewById<BottomNavigationView>(R.id.navigation)
         botnav.setOnNavigationItemSelectedListener(bottomNavigasi)
         userManager = UserManager(this)
-        userManager.username.asLiveData().observe(this){
-            username = it
-        }
-        userManager.ceklogin.asLiveData().observe(this){
-            if (it == true){
+        username = userManager.fetchusername().toString()
+        val booleanvalue = userManager.getBooleanValue()
+            if (booleanvalue == true){
                 akunsaya_login.isInvisible = true
                 user_akunsaya.text = "selamat datang $username"
                 keluar()
@@ -82,7 +84,6 @@ class AkunsayaActivty : AppCompatActivity() {
                     finish()
                 }
             }
-        }
         keluar()
         ubahAkun()
         changePassword()
@@ -97,13 +98,10 @@ class AkunsayaActivty : AppCompatActivity() {
 
                 .setPositiveButton("YA"){ _: DialogInterface, _: Int ->
                     Toast.makeText(this, "Berhasil Keluar", Toast.LENGTH_SHORT).show()
-                    GlobalScope.launch {
-                        dataUserManager.setBoolean(false)
+                        dataUserManager.setBooleanValue(false)
                         dataUserManager.logout()
-                        dataUserManager.clearPreview()
                         startActivity(Intent(this@AkunsayaActivty, HomeActivity::class.java))
                         finish()
-                    }
                 }
                 .setNegativeButton("TIDAK"){ dialogInterface: DialogInterface, _: Int ->
                     Toast.makeText(this, "Tidak Jadi Keluar", Toast.LENGTH_SHORT).show()

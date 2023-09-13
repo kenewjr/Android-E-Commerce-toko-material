@@ -1,12 +1,14 @@
 package com.example.myapplication.viewmodel
 
 import and5.abrar.e_commerce.repository.ProductRepository
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.myapplication.model.GetAllProdukItem
 import com.example.myapplication.model.GetCategorySellerItem
+import com.example.myapplication.model.GetDataProductSellerItemItem
 import com.example.myapplication.model.PostSellerProduct
 import com.example.myapplication.network.ApiService
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,8 +26,10 @@ class ViewModelProductSeller @Inject constructor(private var productRepository: 
 
     private val livedataJualProduct = MutableLiveData<PostSellerProduct>()
 
-    private val getProduct = MutableLiveData<GetAllProdukItem>()
-    val getproduk : LiveData<GetAllProdukItem> = getProduct
+    private val getProduct = MutableLiveData<GetDataProductSellerItemItem>()
+    fun getProductLiveData(): LiveData<GetDataProductSellerItemItem> {
+        return getProduct
+    }
 
     private val apiServices = api
     fun getSellerCategory(){
@@ -36,17 +40,18 @@ class ViewModelProductSeller @Inject constructor(private var productRepository: 
     }
 
     fun getProductid(id : Int){
-        apiServices.getprodukbyid(id).enqueue(object : Callback<GetAllProdukItem>{
+        apiServices.getprodukbyid(id).enqueue(object : Callback<GetDataProductSellerItemItem>{
             override fun onResponse(
-                call: Call<GetAllProdukItem>,
-                response: Response<GetAllProdukItem>
+                call: Call<GetDataProductSellerItemItem>,
+                response: Response<GetDataProductSellerItemItem>
             ) {
                 if(response.isSuccessful){
                     getProduct.value = response.body()
+                    Log.e("vmps",response.body().toString())
                 }
             }
 
-            override fun onFailure(call: Call<GetAllProdukItem>, t: Throwable) {
+            override fun onFailure(call: Call<GetDataProductSellerItemItem>, t: Throwable) {
                 //
             }
 

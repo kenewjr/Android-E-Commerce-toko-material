@@ -52,9 +52,7 @@ dependencies {
     //noinspection GradleDependency
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.2.0"
     //noinspection GradleDependency
-    implementation "androidx.datastore:datastore-preferences:1.0.0"
-    implementation "androidx.datastore:datastore:1.0.0"
-
+    implementation "androidx.datastore:datastore-preferences:1.0.0-alpha01"
 //    library GSON
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
 

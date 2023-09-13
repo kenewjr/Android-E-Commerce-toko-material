@@ -48,13 +48,14 @@ class LoginActivity : AppCompatActivity() {
                 ) {
                     if (response.isSuccessful) {
                         Toast.makeText(this@LoginActivity, "Berhasil Login", Toast.LENGTH_SHORT).show()
-                        GlobalScope.launch {
-                            userManager.setBoolean(true)
-                            userManager.logindata(loginusername,loginPassword)
+                            userManager.setBooleanValue(true)
                             userManager.saveId(
                                 id = response.body()!!.payload.id
                             )
-                        }
+                            userManager.savedata(
+                                username = loginusername,
+                                password = loginPassword
+                            )
                         startActivity(Intent(applicationContext, HomeActivity::class.java))
                         finish()
                     } else if (login_email.text.toString().isEmpty()){
