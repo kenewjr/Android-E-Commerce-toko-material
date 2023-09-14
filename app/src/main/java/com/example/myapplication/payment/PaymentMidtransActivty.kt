@@ -29,11 +29,7 @@ class PaymentMidtransActivty : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_payment_midtrans_activty)
         viewModel()
-        SdkUI()
-        pesan()
 
-    }
-    fun SdkUI(){
         SdkUIFlowBuilder.init()
             .setClientKey("SB-Mid-client-UyV8fwVUJHmHywYZ")
             .setContext(applicationContext)
@@ -45,15 +41,14 @@ class PaymentMidtransActivty : AppCompatActivity() {
             .setColorTheme(CustomColorTheme("#FFE51255", "#B61548", "#FFE51255"))
             .setLanguage("id")
             .buildSDK()
-    }
-    fun pesan(){
+
         pesan.setOnClickListener {
-            val hargaproduct = hargabarang
             val Jumlah = etJumlah.text.toString()
             val catatan = etCatatan.text.toString()
-            val convert = hargaproduct*Jumlah.toDouble()
+            val convert = hargabarang*Jumlah.toDouble()
+            Log.e("convert",convert.toString())
             val transactionRequest = TransactionRequest("material-"+System.currentTimeMillis().toShort()+"",convert)
-            val detail = ItemDetails("NamaItem",hargaproduct.toDouble(),Jumlah.toInt(),"testi")
+            val detail = ItemDetails("NamaItem",hargabarang.toDouble(),Jumlah.toInt(),"testi")
             val itemDetails = ArrayList<ItemDetails>()
             itemDetails.add(detail)
             uiKitsDetails(transactionRequest)
@@ -61,6 +56,13 @@ class PaymentMidtransActivty : AppCompatActivity() {
             MidtransSDK.getInstance().transactionRequest = transactionRequest
             MidtransSDK.getInstance().startPaymentUiFlow(this)
         }
+
+    }
+    fun SdkUI(){
+
+    }
+    fun pesan(){
+
     }
     fun uiKitsDetails(transactionRequest: TransactionRequest){
         val customersDetails = CustomerDetails()
@@ -85,7 +87,6 @@ class PaymentMidtransActivty : AppCompatActivity() {
         val idbarang = intent.getStringExtra("idproduk")
         viewModel.getProductid(22)
         viewModel.productid.observe(this@PaymentMidtransActivty) { it ->
-            Log.e("vm",it.toString())
             if (it != null) {
                 Log.e(TAG, it.nama_produk.toString())
                 hargabarang = it.harga.toInt()
@@ -95,11 +96,10 @@ class PaymentMidtransActivty : AppCompatActivity() {
                     .into(produk_image)
                 nama_produk.text = it.nama_produk
                 harga_produk.text = it.harga
+                Log.e("harga",hargabarang.toString())
             }else {
                 Log.e("midtranssss","kosong")
             }
         }
-
-        Log.e("harga",hargabarang.toString())
     }
 }
