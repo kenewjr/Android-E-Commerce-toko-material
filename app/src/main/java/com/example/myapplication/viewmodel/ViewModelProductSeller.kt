@@ -26,10 +26,7 @@ class ViewModelProductSeller @Inject constructor(private var productRepository: 
 
     private val livedataJualProduct = MutableLiveData<PostSellerProduct>()
 
-    private val getProduct = MutableLiveData<GetDataProductSellerItemItem>()
-    fun getProductLiveData(): LiveData<GetDataProductSellerItemItem> {
-        return getProduct
-    }
+
 
     private val apiServices = api
     fun getSellerCategory(){
@@ -39,24 +36,7 @@ class ViewModelProductSeller @Inject constructor(private var productRepository: 
         }
     }
 
-    fun getProductid(id : Int){
-        apiServices.getprodukbyid(id).enqueue(object : Callback<GetDataProductSellerItemItem>{
-            override fun onResponse(
-                call: Call<GetDataProductSellerItemItem>,
-                response: Response<GetDataProductSellerItemItem>
-            ) {
-                if(response.isSuccessful){
-                    getProduct.value = response.body()
-                    Log.e("vmps",response.body().toString())
-                }
-            }
 
-            override fun onFailure(call: Call<GetDataProductSellerItemItem>, t: Throwable) {
-                //
-            }
-
-        })
-    }
     fun jualproduct(
         nama : String,
         desc : String,

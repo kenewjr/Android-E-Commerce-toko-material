@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.example.myapplication.R
+import com.example.myapplication.viewmodel.ViewModelHome
 import com.example.myapplication.viewmodel.ViewModelProductSeller
 import com.midtrans.sdk.corekit.core.MidtransSDK
 import com.midtrans.sdk.corekit.core.TransactionRequest
@@ -18,29 +19,34 @@ import com.midtrans.sdk.corekit.models.ShippingAddress
 import com.midtrans.sdk.uikit.SdkUIFlowBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_payment_midtrans_activty.*
+import kotlinx.coroutines.DelicateCoroutinesApi
 
+@DelicateCoroutinesApi
 @AndroidEntryPoint
 class PaymentMidtransActivty : AppCompatActivity() {
     var hargabarang:Int = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_payment_midtrans_activty)
+        viewModel()
+        SdkUI()
+        pesan()
 
+    }
+    fun SdkUI(){
         SdkUIFlowBuilder.init()
             .setClientKey("SB-Mid-client-UyV8fwVUJHmHywYZ")
             .setContext(applicationContext)
             .setTransactionFinishedCallback({
                     result ->
-
             })
             .setMerchantBaseUrl("http://192.168.1.150/skripsi/midtrans/")
             .enableLog(true)
             .setColorTheme(CustomColorTheme("#FFE51255", "#B61548", "#FFE51255"))
             .setLanguage("id")
             .buildSDK()
-
-            viewModel()
-
+    }
+    fun pesan(){
         pesan.setOnClickListener {
             val hargaproduct = hargabarang
             val Jumlah = etJumlah.text.toString()
@@ -56,7 +62,6 @@ class PaymentMidtransActivty : AppCompatActivity() {
             MidtransSDK.getInstance().startPaymentUiFlow(this)
         }
     }
-
     fun uiKitsDetails(transactionRequest: TransactionRequest){
         val customersDetails = CustomerDetails()
         customersDetails.customerIdentifier = "abrar"
@@ -76,13 +81,13 @@ class PaymentMidtransActivty : AppCompatActivity() {
     }
 
     private fun viewModel(){
-        val viewModel = ViewModelProvider(this)[ViewModelProductSeller::class.java]
+        val viewModel = ViewModelProvider(this)[ViewModelHome::class.java]
         val idbarang = intent.getStringExtra("idproduk")
-        viewModel.getProductid(idbarang!!.toInt())
-        viewModel.getProductLiveData().observe(this@PaymentMidtransActivty) { it ->
+        viewModel.getProductid(22)
+        viewModel.productid.observe(this@PaymentMidtransActivty) { it ->
+            Log.e("vm",it.toString())
             if (it != null) {
                 Log.e(TAG, it.nama_produk.toString())
-
                 hargabarang = it.harga.toInt()
                 Glide.with(this)
                     .load(it.gambar)
@@ -95,6 +100,6 @@ class PaymentMidtransActivty : AppCompatActivity() {
             }
         }
 
-        Log.e(TAG,hargabarang.toString())
+        Log.e("harga",hargabarang.toString())
     }
 }

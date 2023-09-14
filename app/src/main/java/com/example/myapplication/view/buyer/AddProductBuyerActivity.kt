@@ -91,7 +91,6 @@ class AddProductBuyerActivity : AppCompatActivity() {
         }
         if (dataProduct != null) {
             val viewModel = ViewModelProvider(this)[ViewModelProductSeller::class.java]
-            viewModel.getProductid(dataProduct.id.toInt())
             Glide.with(this)
                 .load(dataProduct.gambar)
                 .override(400, 350)
@@ -103,5 +102,10 @@ class AddProductBuyerActivity : AppCompatActivity() {
             tv_deskripsidetail.text = dataProduct.deskripsi
             tv_acesorisproductdetail.text = ""
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        finish()
     }
 }
