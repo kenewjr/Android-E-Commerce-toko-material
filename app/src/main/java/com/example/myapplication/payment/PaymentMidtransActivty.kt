@@ -17,6 +17,7 @@ import com.midtrans.sdk.corekit.models.CustomerDetails
 import com.midtrans.sdk.corekit.models.ItemDetails
 import com.midtrans.sdk.corekit.models.ShippingAddress
 import com.midtrans.sdk.uikit.SdkUIFlowBuilder
+
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_payment_midtrans_activty.*
 import kotlinx.coroutines.DelicateCoroutinesApi
@@ -29,19 +30,23 @@ class PaymentMidtransActivty : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_payment_midtrans_activty)
         viewModel()
-
+        SdkUI()
+        pesan()
+    }
+    fun SdkUI(){
         SdkUIFlowBuilder.init()
             .setClientKey("SB-Mid-client-UyV8fwVUJHmHywYZ")
             .setContext(applicationContext)
             .setTransactionFinishedCallback({
                     result ->
             })
-            .setMerchantBaseUrl("http://192.168.1.150/skripsi/midtrans/")
+            .setMerchantBaseUrl("http://192.168.1.150/skripsi/midtrans.php/")
             .enableLog(true)
             .setColorTheme(CustomColorTheme("#FFE51255", "#B61548", "#FFE51255"))
             .setLanguage("id")
             .buildSDK()
-
+    }
+    fun pesan(){
         pesan.setOnClickListener {
             val Jumlah = etJumlah.text.toString()
             val catatan = etCatatan.text.toString()
@@ -56,13 +61,6 @@ class PaymentMidtransActivty : AppCompatActivity() {
             MidtransSDK.getInstance().transactionRequest = transactionRequest
             MidtransSDK.getInstance().startPaymentUiFlow(this)
         }
-
-    }
-    fun SdkUI(){
-
-    }
-    fun pesan(){
-
     }
     fun uiKitsDetails(transactionRequest: TransactionRequest){
         val customersDetails = CustomerDetails()
