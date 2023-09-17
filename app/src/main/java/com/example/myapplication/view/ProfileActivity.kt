@@ -33,7 +33,6 @@ class ProfileActivity : AppCompatActivity() {
         userManager = UserManager(this)
         username = userManager.fetchusername().toString()
         updatedata()
-        Log.e(TAG,username)
         back.setOnClickListener {
             startActivity(Intent(this,AkunsayaActivty::class.java))
         }

@@ -38,6 +38,12 @@
             android:name=".view.AkunsayaActivty"
             android:exported="true" />
         <activity
+            android:name=".view.seller.DaftarJualActivity"
+            android:exported="true" />
+        <activity
+            android:name=".view.seller.EditProduct"
+            android:exported="true" />
+        <activity
             android:name=".view.HomeActivity"
             android:exported="false" />
         <activity
@@ -48,7 +54,7 @@
             android:exported="false" />
         <activity
             android:name=".view.seller.LengkapiDetailProductActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".view.ProfileActivity"
             android:exported="false" />

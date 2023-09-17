@@ -15,19 +15,21 @@ import com.example.myapplication.R
 import com.example.myapplication.datastore.UserManager
 import com.example.myapplication.view.HomeActivity
 import com.example.myapplication.view.LoginActivity
+import com.example.myapplication.view.adapter.AdapterProductSeller
 import com.example.myapplication.view.buyer.NotifikasiBuyerActivity
+import com.example.myapplication.viewmodel.ViewModelHome
+import com.example.myapplication.viewmodel.ViewModelProductSeller
+import com.example.myapplication.viewmodel.ViewModelUser
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_daftar_jual_seller.*
-import kotlinx.android.synthetic.main.activity_daftar_jual_seller.daftarHistory
-import kotlinx.android.synthetic.main.activity_daftar_jual_seller.daftar_jualEdit
 import kotlinx.coroutines.DelicateCoroutinesApi
 
 @DelicateCoroutinesApi
 @AndroidEntryPoint
 class DaftarJualActivity : AppCompatActivity() {
 
-//    private lateinit var adapter : AdapterProductSeller
+    private lateinit var adapter : AdapterProductSeller
     private lateinit var  userManager: UserManager
 
     private val bottomNavigasi = BottomNavigationView.OnNavigationItemSelectedListener { item ->
@@ -69,7 +71,7 @@ class DaftarJualActivity : AppCompatActivity() {
         botnav.setOnNavigationItemSelectedListener(bottomNavigasi)
 //        val viewModelSeller = ViewModelProvider(this)[ViewModelProductSeller::class.java]
 //        viewModelSeller.getSeller(userManager.fetchAuthToken().toString())
-//        initView()
+       initView()
 //        editSeller()
 //        addProduct()
 //        cardView_diminatiSeller.setOnClickListener {
@@ -84,39 +86,38 @@ class DaftarJualActivity : AppCompatActivity() {
 
     }
 
-//     fun initView(){
-//        val viewModelDataSeller = ViewModelProvider(this)[ViewModelProductSeller::class.java]
-//        viewModelDataSeller.getSeller(token = userManager.fetchAuthToken().toString())
-//        viewModelDataSeller.seller.observe(this){
-//            TV_nama_product.text = it.fullName
-//            TV_kota_product.text = it.city
-//            Glide.with(applicationContext).load(it.imageUrl).into(IV_penjual_product)
-//        }
-//        initRecyclerView()
-//    }
-//
-//    private fun initRecyclerView(){
-//        userManager = UserManager(this)
-//        val viewModelProductSeller = ViewModelProvider(this)[ViewModelProductSeller::class.java]
-//        viewModelProductSeller.getAllSellerProduct("available", token = userManager.fetchAuthToken().toString())
-//        adapter = AdapterProductSeller(){
-//            val clickedproduct = Bundle()
-//            clickedproduct.putSerializable("detailorder",it)
-//            val pindah = Intent(this,EditProduct::class.java)
-//            pindah.putExtras(clickedproduct)
-//            startActivity(pindah)
-//        }
-//        rvProductSeller.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-//        rvProductSeller.adapter = adapter
-//
-//        viewModelProductSeller.sellerProduct.observe(this) {
-//            if (it.isNotEmpty()){
-//                adapter.setDataProductSeller(it)
-//                adapter.notifyDataSetChanged()
-//            }
-//
-//        }
-//    }
+     fun initView(){
+         val viewModelDataSeller = ViewModelProvider(this)[ViewModelUser::class.java]
+         viewModelDataSeller.getProfile(id = userManager.fetchId()!!.toInt())
+         viewModelDataSeller.profileData.observe(this) {
+             TV_nama_product.setText(it.nama)
+             TV_kota_product.setText(it.alamat)
+         }
+        initRecyclerView()
+    }
+
+    private fun initRecyclerView(){
+        userManager = UserManager(this)
+        val viewModel = ViewModelProvider(this)[ViewModelHome::class.java]
+
+        adapter = AdapterProductSeller(){
+            val clickedproduct = Bundle()
+            clickedproduct.putSerializable("detailorder",it)
+            val pindah = Intent(this,EditProduct::class.java)
+            pindah.putExtras(clickedproduct)
+            startActivity(pindah)
+        }
+        rvProductSeller.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        rvProductSeller.adapter = adapter
+
+        viewModel.product.observe(this) {
+            if (it.isNotEmpty()){
+                adapter.setDataProductSeller(it)
+                adapter.notifyDataSetChanged()
+            }
+
+        }
+    }
 //
 //    private fun editSeller(){
 //        daftar_jualEdit.setOnClickListener {

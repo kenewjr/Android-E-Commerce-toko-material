@@ -101,6 +101,8 @@ class HomeActivity : AppCompatActivity() {
                     adapterHome.setProduk(it)
                     adapterHome.notifyDataSetChanged()
                 }
+            }else {
+
             }
         }
     }

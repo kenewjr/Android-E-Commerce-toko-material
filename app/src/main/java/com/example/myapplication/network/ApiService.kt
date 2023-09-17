@@ -73,4 +73,10 @@ interface ApiService {
         @Query("id")id : Int
     ):Call<GetDataProductSellerItemItem>
 
+    @FormUrlEncoded
+    @POST("delete_produk")
+    fun deleteProduk(
+        @Field("delete")delete :String,
+        @Field("id")id: Int
+    ):Call<Response>
 }

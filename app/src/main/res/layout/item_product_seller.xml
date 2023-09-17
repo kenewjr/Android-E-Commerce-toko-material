@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    android:id="@+id/cardProductSeller"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginStart="8dp"
+    android:layout_marginEnd="8dp"
+    android:layout_marginBottom="10dp"
+    android:layout_marginTop="10dp"
+    app:cardCornerRadius="15dp"
+    app:cardElevation="5dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/textTanggalUpdate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="2022012018291829182198"
+            android:textColor="@color/black"
+            android:textSize="10sp"
+            android:textStyle="normal"
+            android:gravity="end"
+            android:visibility="gone"
+            android:layout_marginEnd="15dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/imageProductSeller"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="HardcodedText,MissingConstraints,SmallSp" />
+
+        <ImageView
+            android:id="@+id/imageProductSeller"
+            android:layout_width="90dp"
+            android:layout_height="70dp"
+            android:layout_margin="8dp"
+            android:src="@drawable/jamtangan"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription,MissingConstraints" />
+
+        <TextView
+            android:id="@+id/tvJudul_product_seller"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="10dp"
+            android:gravity="start"
+            android:text="Nama Produk : Jam Tangan Casio"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toTopOf="@+id/tvKategori_product_seller"
+            app:layout_constraintEnd_toStartOf="@id/button_edit_card"
+            app:layout_constraintStart_toEndOf="@+id/imageProductSeller"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed"
+            tools:ignore="HardcodedText,MissingConstraints" />
+
+        <TextView
+            android:id="@+id/tvKategori_product_seller"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:gravity="start"
+            android:text="Kota : Kota"
+            android:textColor="@color/black"
+            android:textSize="13sp"
+            app:layout_constraintEnd_toStartOf="@id/button_edit_card"
+            app:layout_constraintBottom_toTopOf="@+id/tvHarga_product_seller"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/imageProductSeller"
+            app:layout_constraintTop_toBottomOf="@+id/tvJudul_product_seller"
+            tools:ignore="HardcodedText,MissingConstraints,SmallSp" />
+
+        <TextView
+            android:id="@+id/tvHarga_product_seller"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:gravity="start"
+            android:text="Harga : Rp. 150.000"
+            android:textColor="@color/black"
+            android:textSize="13sp"
+            app:layout_constraintEnd_toStartOf="@id/button_edit_card"
+            app:layout_constraintBottom_toTopOf="@+id/tvStatus_product_seller"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/imageProductSeller"
+            app:layout_constraintTop_toBottomOf="@+id/tvKategori_product_seller"
+            tools:ignore="HardcodedText,MissingConstraints" />
+
+        <TextView
+            android:id="@+id/tvStatus_product_seller"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:gravity="start"
+            android:text="status"
+            android:textColor="#EF0808"
+            android:textSize="10sp"
+            android:textStyle="italic"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/button_edit_card"
+            app:layout_constraintStart_toEndOf="@+id/imageProductSeller"
+            app:layout_constraintTop_toBottomOf="@+id/tvHarga_product_seller"
+            tools:ignore="HardcodedText,MissingConstraints,SmallSp" />
+
+        <ImageView
+            android:id="@+id/button_edit_card"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/ic_edit_"
+            android:tint="#47B89D"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/button_delete_card"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed"
+            tools:ignore="ContentDescription,MissingConstraints,UseAppTint" />
+
+        <ImageView
+            android:id="@+id/button_delete_card"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/ic_hapus"
+            android:tint="#CA2424"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button_edit_card"
+            tools:ignore="ContentDescription,MissingConstraints,UseAppTint" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

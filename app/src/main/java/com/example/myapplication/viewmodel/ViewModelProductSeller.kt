@@ -26,7 +26,7 @@ class ViewModelProductSeller @Inject constructor(private var productRepository: 
 
     private val livedataJualProduct = MutableLiveData<PostSellerProduct>()
 
-
+    private val deleteProduct = MutableLiveData<com.example.myapplication.model.Response>()
 
     private val apiServices = api
     fun getSellerCategory(){
@@ -36,7 +36,29 @@ class ViewModelProductSeller @Inject constructor(private var productRepository: 
         }
     }
 
+    fun deleteProduct(
+        delete : String,
+        id: Int
+    ){
+        apiServices.deleteProduk(
+            delete,
+            id
+        ).enqueue(object : Callback<com.example.myapplication.model.Response>{
+            override fun onResponse(
+                call: Call<com.example.myapplication.model.Response>,
+                response: Response<com.example.myapplication.model.Response>
+            ) {
+                if(response.isSuccessful){
+                    deleteProduct.value = response.body()
+                }
+            }
 
+            override fun onFailure(call: Call<com.example.myapplication.model.Response>, t: Throwable) {
+                //
+            }
+
+        })
+    }
     fun jualproduct(
         nama : String,
         desc : String,

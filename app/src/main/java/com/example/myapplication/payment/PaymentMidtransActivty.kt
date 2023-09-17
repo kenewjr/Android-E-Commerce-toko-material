@@ -66,6 +66,7 @@ class PaymentMidtransActivty : AppCompatActivity() {
         val customersDetails = CustomerDetails()
         customersDetails.customerIdentifier = "abrar"
         customersDetails.phone = "08897776"
+        customersDetails.email = "sukijah@gmail.com"
         val shippingAddress = ShippingAddress()
         shippingAddress.address = "cilegon,banten"
         shippingAddress.city = "tanggerang"
@@ -83,7 +84,7 @@ class PaymentMidtransActivty : AppCompatActivity() {
     private fun viewModel(){
         val viewModel = ViewModelProvider(this)[ViewModelHome::class.java]
         val idbarang = intent.getStringExtra("idproduk")
-        viewModel.getProductid(22)
+        viewModel.getProductid(idbarang!!.toInt())
         viewModel.productid.observe(this@PaymentMidtransActivty) { it ->
             if (it != null) {
                 Log.e(TAG, it.nama_produk.toString())

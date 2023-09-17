@@ -45,7 +45,6 @@ class ViewModelHome @Inject constructor(apiService: ApiService): ViewModel() {
             ) {
                 if(response.isSuccessful){
                     getProduct.value = response.body()
-                    Log.e("vmps",response.body().toString())
                 }
             }
 
