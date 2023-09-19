@@ -79,4 +79,17 @@ interface ApiService {
         @Field("delete")delete :String,
         @Field("id")id: Int
     ):Call<Response>
+
+    @FormUrlEncoded
+    @POST("tambah_history")
+    fun tambahHistory(
+        @Field("id_user")id_user :Int,
+        @Field("id_produk")id_produk: Int,
+        @Field("nama_pembeli")nama_pembeli: String,
+        @Field("tgl_transaksi")tgl_transaksi: String,
+        @Field("nama_produk")nama_produk: String,
+        @Field("harga_produk")harga_produk: String,
+        @Field("jumlah_produk")jumlah_produk: String,
+        @Field("gambar")gambar: String
+    ):Call<GetHistoryItem>
 }

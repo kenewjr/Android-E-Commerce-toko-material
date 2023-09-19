@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.myapplication.R
 import com.example.myapplication.datastore.UserManager
+import com.example.myapplication.view.AkunsayaActivty
 import com.example.myapplication.view.HomeActivity
 import com.example.myapplication.view.LoginActivity
 import com.example.myapplication.view.adapter.AdapterProductSeller
@@ -45,7 +46,8 @@ class DaftarJualActivity : AppCompatActivity() {
             R.id.jual -> {
                 val booleanvalue = userManager.getBooleanValue()
                     if (booleanvalue == true){
-                        startActivity(Intent(this, LengkapiDetailProductActivity::class.java))
+                        Toast.makeText(this, "Kamu Sedang Berada Di Akun", Toast.LENGTH_SHORT).show()
+                        return@OnNavigationItemSelectedListener false
                     } else {
                         Toast.makeText(applicationContext, "Anda Belum Login", Toast.LENGTH_SHORT).show()
                         startActivity(Intent(this, LoginActivity::class.java))
@@ -53,8 +55,8 @@ class DaftarJualActivity : AppCompatActivity() {
                     }
             }
             R.id.akun -> {
-                Toast.makeText(this, "Kamu Sedang Berada Di Akun", Toast.LENGTH_SHORT).show()
-                return@OnNavigationItemSelectedListener false
+                startActivity(Intent(this, AkunsayaActivty::class.java))
+                return@OnNavigationItemSelectedListener true
             }
             R.id.daftar_jual -> {
                 startActivity(Intent(this, DaftarJualActivity::class.java))
@@ -71,19 +73,18 @@ class DaftarJualActivity : AppCompatActivity() {
         botnav.setOnNavigationItemSelectedListener(bottomNavigasi)
 //        val viewModelSeller = ViewModelProvider(this)[ViewModelProductSeller::class.java]
 //        viewModelSeller.getSeller(userManager.fetchAuthToken().toString())
-       initView()
-//        editSeller()
-//        addProduct()
+        initView()
+        editSeller()
+        addProduct()
 //        cardView_diminatiSeller.setOnClickListener {
 //            startActivity(Intent(this, DaftarJualDiminatiSellerActivity::class.java))
 //        }
 //        daftarTerjuall.setOnClickListener {
 //            startActivity(Intent(this,DaftarJualTerjual::class.java))
 //        }
-//        daftarHistory.setOnClickListener {
-//            startActivity(Intent(this,DaftarJualHistory::class.java))
-//        }
-
+        daftarHistory.setOnClickListener {
+            startActivity(Intent(this,DaftarJualHistory::class.java))
+        }
     }
 
      fun initView(){
@@ -118,15 +119,15 @@ class DaftarJualActivity : AppCompatActivity() {
 
         }
     }
-//
-//    private fun editSeller(){
-//        daftar_jualEdit.setOnClickListener {
-//            startActivity(Intent(this, AkunSayaActivity::class.java))
-//        }
-//    }
-//    private fun addProduct(){
-//        image_tambah_produk.setOnClickListener {
-//            startActivity(Intent(this, LengkapiDetailProductActivity::class.java))
-//        }
-//    }
+
+    private fun editSeller(){
+        daftar_jualEdit.setOnClickListener {
+            startActivity(Intent(this, AkunsayaActivty::class.java))
+        }
+    }
+    private fun addProduct(){
+        image_tambah_produk.setOnClickListener {
+            startActivity(Intent(this, LengkapiDetailProductActivity::class.java))
+        }
+    }
 }

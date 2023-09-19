@@ -51,7 +51,6 @@ class PaymentMidtransActivty : AppCompatActivity() {
             val Jumlah = etJumlah.text.toString()
             val catatan = etCatatan.text.toString()
             val convert = hargabarang*Jumlah.toDouble()
-            Log.e("convert",convert.toString())
             val transactionRequest = TransactionRequest("material-"+System.currentTimeMillis().toShort()+"",convert)
             val detail = ItemDetails("NamaItem",hargabarang.toDouble(),Jumlah.toInt(),"testi")
             val itemDetails = ArrayList<ItemDetails>()
@@ -60,6 +59,8 @@ class PaymentMidtransActivty : AppCompatActivity() {
             transactionRequest.itemDetails =itemDetails
             MidtransSDK.getInstance().transactionRequest = transactionRequest
             MidtransSDK.getInstance().startPaymentUiFlow(this)
+            val transactionId = transactionRequest.orderId
+            Log.e("orderid",transactionId)
         }
     }
     fun uiKitsDetails(transactionRequest: TransactionRequest){
@@ -87,7 +88,6 @@ class PaymentMidtransActivty : AppCompatActivity() {
         viewModel.getProductid(idbarang!!.toInt())
         viewModel.productid.observe(this@PaymentMidtransActivty) { it ->
             if (it != null) {
-                Log.e(TAG, it.nama_produk.toString())
                 hargabarang = it.harga.toInt()
                 Glide.with(this)
                     .load(it.gambar)
@@ -95,7 +95,6 @@ class PaymentMidtransActivty : AppCompatActivity() {
                     .into(produk_image)
                 nama_produk.text = it.nama_produk
                 harga_produk.text = it.harga
-                Log.e("harga",hargabarang.toString())
             }else {
                 Log.e("midtranssss","kosong")
             }
