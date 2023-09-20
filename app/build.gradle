@@ -91,6 +91,7 @@ dependencies {
     //animation
     //noinspection GradleDependency
     implementation 'com.airbnb.android:lottie:3.4.4'
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
     // For using the Midtrans Sandbox
     implementation 'com.midtrans:uikit:2.0.0-SANDBOX' // change the number to the latest version
 }

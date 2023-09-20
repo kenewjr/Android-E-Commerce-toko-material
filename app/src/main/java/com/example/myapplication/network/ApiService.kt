@@ -89,7 +89,11 @@ interface ApiService {
         @Field("tgl_transaksi")tgl_transaksi: String,
         @Field("nama_produk")nama_produk: String,
         @Field("harga_produk")harga_produk: String,
+        @Field("total_harga")total_harga: String,
         @Field("jumlah_produk")jumlah_produk: String,
         @Field("gambar")gambar: String
     ):Call<GetHistoryItem>
+
+    @GET("get_history")
+    fun getHistory():Call<List<GetHistoryItem>>
 }

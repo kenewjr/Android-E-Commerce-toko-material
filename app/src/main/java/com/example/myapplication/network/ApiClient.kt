@@ -11,6 +11,7 @@ class ApiClient {
     private lateinit var apiService: ApiService
     private lateinit var apiMidtrans: ApiMidtrans
     val BASE = "http://192.168.1.150/skripsi/"
+    val SANDBOX = "https://api.sandbox.midtrans.com/v2/"
 
 
     private  val logging : HttpLoggingInterceptor
@@ -27,23 +28,18 @@ class ApiClient {
 
     private val clint = OkHttpClient.Builder().addInterceptor(logging).build()
 
-//    val apiMidtrans = Retrofit.Builder()
-//        .baseUrl("https://api.sandbox.midtrans.com/v2/")
-//        .addConverterFactory(GsonConverterFactory.create())
-//        .client(clint)
-//        .build()
 
     fun getApiMidtrans(): ApiMidtrans {
 
         // Initialize ApiService if not initialized yet
-        if (!::apiService.isInitialized) {
+        if (!::apiMidtrans.isInitialized) {
             val retrofit = Retrofit.Builder()
-                .baseUrl(BASE)
+                .baseUrl(SANDBOX)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .client(clint)
                 .build()
 
-            apiService = retrofit.create(ApiService::class.java)
+            apiMidtrans = retrofit.create(apiMidtrans::class.java)
         }
 
         return apiMidtrans

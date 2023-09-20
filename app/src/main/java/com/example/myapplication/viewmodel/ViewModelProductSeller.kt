@@ -6,10 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.myapplication.model.GetAllProdukItem
-import com.example.myapplication.model.GetCategorySellerItem
-import com.example.myapplication.model.GetDataProductSellerItemItem
-import com.example.myapplication.model.PostSellerProduct
+import com.example.myapplication.model.*
 import com.example.myapplication.network.ApiService
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -25,6 +22,11 @@ class ViewModelProductSeller @Inject constructor(private var productRepository: 
     var sellerCategory = MutableLiveData<List<GetCategorySellerItem>>()
 
     private val livedataJualProduct = MutableLiveData<PostSellerProduct>()
+
+    private val livedatabuyerorder = MutableLiveData<GetHistoryItem>()
+
+    private val livedatahistory = MutableLiveData<List<GetHistoryItem>>()
+    val datahistory : LiveData<List<GetHistoryItem>> = livedatahistory
 
     private val deleteProduct = MutableLiveData<com.example.myapplication.model.Response>()
 
@@ -64,13 +66,48 @@ class ViewModelProductSeller @Inject constructor(private var productRepository: 
         idProduk : Int,
         namaUser : String,
         tglTransaksi : String,
-        NamaProduk : String,
+        namaProduk : String,
         hargaProduk : String,
         totalHarga : String,
         jumlahProduk : String,
         gambar : String
     ){
+    apiServices.tambahHistory(idUser,idProduk,namaUser,tglTransaksi,namaProduk,hargaProduk,totalHarga,jumlahProduk,gambar)
+        .enqueue(object : Callback<GetHistoryItem>{
+            override fun onResponse(
+                call: Call<GetHistoryItem>,
+                response: Response<GetHistoryItem>
+            ) {
+                if (response.isSuccessful){
+                    livedatabuyerorder.value = response.body()
+                }
+            }
 
+            override fun onFailure(call: Call<GetHistoryItem>, t: Throwable) {
+                //
+            }
+        })
+
+    }
+
+    fun getHistory()
+    {
+        apiServices.getHistory().enqueue(object : Callback<List<GetHistoryItem>>{
+            override fun onResponse(
+                call: Call<List<GetHistoryItem>>,
+                response: Response<List<GetHistoryItem>>
+            ) {
+                if (response.isSuccessful){
+                    livedatahistory.value = response.body()
+                }
+            }
+
+            override fun onFailure(call: Call<List<GetHistoryItem>>, t: Throwable) {
+                //
+            }
+
+
+        })
     }
     fun jualproduct(
         nama : String,

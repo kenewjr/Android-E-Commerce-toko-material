@@ -8,7 +8,7 @@ import retrofit2.http.Path
 interface ApiMidtrans {
     @GET("{ORDER_ID}/status")
     fun getStatus(
-        @Path("ORDER_ID") ORDER_ID:Int
+        @Path("ORDER_ID") ORDER_ID:String
     ): Call<GetPaymentStatus>
 
 }

@@ -7,13 +7,20 @@
     android:layout_height="match_parent"
     tools:context=".payment.PaymentMidtransActivty">
 
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeup_refresh"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp">
+
     <TextView
         android:id="@+id/nama_toko"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="toko material"/>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
     <ImageView
-        android:layout_below="@id/nama_toko"
+        android:layout_below="@id/swipeup_refresh"
         android:id="@+id/produk_image"
         android:layout_width="match_parent"
         android:layout_height="343dp"/>

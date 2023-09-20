@@ -103,9 +103,4 @@ class AddProductBuyerActivity : AppCompatActivity() {
             tv_acesorisproductdetail.text = ""
         }
     }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        finish()
-    }
 }

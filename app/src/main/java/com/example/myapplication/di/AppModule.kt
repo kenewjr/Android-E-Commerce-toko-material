@@ -1,5 +1,6 @@
 package com.example.myapplication.di
 
+import com.example.myapplication.network.ApiMidtrans
 import com.example.myapplication.network.ApiService
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -44,4 +45,9 @@ object AppModule {
     @Provides
     fun provideApi(retrofit: Retrofit) : ApiService =
         retrofit.create(ApiService::class.java)
+
+    @Singleton
+    @Provides
+    fun provideApiMidtrans(retrofit: Retrofit) : ApiMidtrans =
+        retrofit.create(ApiMidtrans::class.java)
 }

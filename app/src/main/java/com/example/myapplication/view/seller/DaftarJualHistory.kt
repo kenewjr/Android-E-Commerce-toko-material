@@ -93,23 +93,24 @@ class DaftarJualHistory : AppCompatActivity() {
 //        }
 //        initRecyclerView()
 //    }
-//    private fun initRecyclerView(){
-//        userManager = UserManager(this)
-//        val viewModelProductSeller = ViewModelProvider(this)[ViewModelProductSeller::class.java]
-//        viewModelProductSeller.getorderstatusall(token = userManager.fetchAuthToken().toString(),"")
-//        adapter = AdapterTerjual {
-//
-//        }
-//        rv_history.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-//        rv_history.adapter = adapter
-//        viewModelProductSeller.dataorder.observe(this){
-//            if (it.isNotEmpty()){
-//                adapter.setDataOrder(it)
-//                adapter.notifyDataSetChanged()
-//                kalaukosongHistory.isInvisible = true
-//            } else {
-//                kalaukosongHistory.isVisible = true
-//            }
-//        }
-//    }
+
+    private fun initRecyclerView(){
+        userManager = UserManager(this)
+        val viewModelProductSeller = ViewModelProvider(this)[ViewModelProductSeller::class.java]
+        viewModelProductSeller.getHistory()
+        adapter = AdapterTerjual {
+
+        }
+        rv_history.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        rv_history.adapter = adapter
+        viewModelProductSeller.datahistory.observe(this){
+            if (it.isNotEmpty()){
+                adapter.setDataOrder(it)
+                adapter.notifyDataSetChanged()
+                kalaukosongHistory.isInvisible = true
+            } else {
+                kalaukosongHistory.isVisible = true
+            }
+        }
+    }
 }
