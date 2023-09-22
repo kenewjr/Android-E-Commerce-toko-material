@@ -45,9 +45,4 @@ object AppModule {
     @Provides
     fun provideApi(retrofit: Retrofit) : ApiService =
         retrofit.create(ApiService::class.java)
-
-    @Singleton
-    @Provides
-    fun provideApiMidtrans(retrofit: Retrofit) : ApiMidtrans =
-        retrofit.create(ApiMidtrans::class.java)
 }

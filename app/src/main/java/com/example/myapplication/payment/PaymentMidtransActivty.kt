@@ -12,6 +12,7 @@ import com.example.myapplication.datastore.UserManager
 import com.example.myapplication.viewmodel.ViewModelHome
 import com.example.myapplication.viewmodel.ViewModelMidtrans
 import com.example.myapplication.viewmodel.ViewModelProductSeller
+import com.midtrans.sdk.corekit.callback.TransactionFinishedCallback
 import com.midtrans.sdk.corekit.core.MidtransSDK
 import com.midtrans.sdk.corekit.core.TransactionRequest
 import com.midtrans.sdk.corekit.core.themes.CustomColorTheme
@@ -28,60 +29,36 @@ import kotlinx.coroutines.DelicateCoroutinesApi
 
 @DelicateCoroutinesApi
 @AndroidEntryPoint
-class PaymentMidtransActivty : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener {
+class PaymentMidtransActivty : AppCompatActivity(), TransactionFinishedCallback {
     var hargabarang:Int = 0
     var orderId : String = ""
+    var gambar : String = ""
+    var namaProduk : String = ""
+    var tgltransaksi : String = ""
+    var namauser : String = ""
+    var totalharga : String = ""
     private lateinit var userManager: UserManager
-    private val list = ArrayList<TransactionRequest>()
-    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_payment_midtrans_activty)
-        initializeSwipeRefreshLayout()
+        userManager = UserManager(this)
         viewModel()
-        SdkUI()
+        runOnUiThread {
+            SdkUIFlowBuilder.init()
+                .setClientKey("SB-Mid-client-UyV8fwVUJHmHywYZ")
+                .setContext(this)
+                .setTransactionFinishedCallback(this)
+                .setMerchantBaseUrl("http://192.168.1.150/skripsi/midtrans.php/")
+                .enableLog(true)
+                .setColorTheme(CustomColorTheme("#FFE51255", "#B61548", "#FFE51255"))
+                .setLanguage("id")
+                .buildSDK()
+        }
         pesan()
-    }
-    fun SdkUI(){
-        SdkUIFlowBuilder.init()
-            .setClientKey("SB-Mid-client-UyV8fwVUJHmHywYZ")
-            .setContext(applicationContext)
-            .setTransactionFinishedCallback { result ->
-                if (result.response != null) {
-                    when (result.status) {
-                        TransactionResult.STATUS_SUCCESS -> Toast.makeText(
-                            this,
-                            "Transaction Finished. ID: " + result.response.transactionId,
-                            Toast.LENGTH_LONG
-                        ).show()
-                        TransactionResult.STATUS_PENDING -> Toast.makeText(
-                            this,
-                            "Transaction Pending. ID: " + result.response.transactionId,
-                            Toast.LENGTH_LONG
-                        ).show()
-                        TransactionResult.STATUS_FAILED -> Toast.makeText(
-                            this,
-                            "Transaction Failed. ID: " + result.response.transactionId + ". Message: " + result.response.statusMessage,
-                            Toast.LENGTH_LONG
-                        ).show()
-                    }
-                    result.response.statusMessage
-                    addHistory()
-                } else if (result.isTransactionCanceled) {
-                    Toast.makeText(this, "Transaction Canceled", Toast.LENGTH_LONG).show()
-                } else {
-                    if (result.status.equals(TransactionResult.STATUS_INVALID, ignoreCase = true)) {
-                        Toast.makeText(this, "Transaction Invalid", Toast.LENGTH_LONG).show()
-                    } else {
-                        Toast.makeText(this, "Transaction Finished with failure.", Toast.LENGTH_LONG).show()
-                    }
-                }
-            }
-            .setMerchantBaseUrl("http://192.168.1.150/skripsi/midtrans.php/")
-            .enableLog(true)
-            .setColorTheme(CustomColorTheme("#FFE51255", "#B61548", "#FFE51255"))
-            .setLanguage("id")
-            .buildSDK()
+        TransactionFinishedCallback {
+            addHistory()
+        }
     }
 
     fun pesan(){
@@ -115,7 +92,6 @@ class PaymentMidtransActivty : AppCompatActivity(), SwipeRefreshLayout.OnRefresh
         billingAddress.city = "tanggerang"
         billingAddress.postalCode = "42415"
         customersDetails.billingAddress = billingAddress
-
         transactionRequest.customerDetails = customersDetails
     }
 
@@ -125,29 +101,23 @@ class PaymentMidtransActivty : AppCompatActivity(), SwipeRefreshLayout.OnRefresh
         val viewModel = ViewModelProvider(this)[ViewModelHome::class.java]
         val idUser = userManager.fetchId()!!.toInt()
         val idbarang = intent.getStringExtra("idproduk")
-        var gambar : String = ""
-        var namaProduk : String = ""
-        viewModel.getProductid(idbarang!!.toInt())
-        viewModel.productid.observe(this){
-            gambar = it.gambar
-            namaProduk = it.nama_produk
-        }
         viewModelMidtrans.getStatus(orderId)
-        viewModelMidtrans.datastatus.observe(this){
-            viewModelProductSeller.tambahHistory(
-                idUser,
-                idbarang!!.toInt(),
-                it.metadata.extra_info.user_id,it.transaction_time,
-                namaProduk,
-                hargabarang.toString(),
-                it.gross_amount,
-                etJumlah.text.toString(),
-                gambar
-            )
+        viewModel.getProductid(idbarang!!.toInt())
+        viewModel.productid.observe(this) {it ->
+            viewModelMidtrans.datastatus.observe(this) {t->
+                viewModelProductSeller.tambahHistory(
+                    idUser,
+                    idbarang.toInt(),
+                    t.metadata.extra_info.user_id,
+                    t.transaction_time,
+                    it.nama_produk,
+                    hargabarang.toString(),
+                    t.gross_amount,
+                    etJumlah.text.toString(),
+                    it.gambar
+                )
+            }
         }
-
-
-
     }
     private fun viewModel(){
         val viewModel = ViewModelProvider(this)[ViewModelHome::class.java]
@@ -168,24 +138,32 @@ class PaymentMidtransActivty : AppCompatActivity(), SwipeRefreshLayout.OnRefresh
         }
     }
 
-    private fun initializeSwipeRefreshLayout() {
-        swipeRefreshLayout = findViewById(R.id.swipeup_refresh)
-        swipeRefreshLayout.setOnRefreshListener(this)
-        swipeRefreshLayout.post {
-            swipeRefreshLayout.isRefreshing = true
-            list.clear()
-            loadData()
+    override fun onTransactionFinished(transactionResult: TransactionResult) {
+
+        when {
+            transactionResult.response != null -> {
+                when (transactionResult.status) {
+                    TransactionResult.STATUS_SUCCESS -> {
+                        Toast.makeText(this, "Success transaction", Toast.LENGTH_LONG).show()
+                    }
+                    TransactionResult.STATUS_PENDING -> {
+                        addHistory()
+                        Toast.makeText(this, "Pending transaction", Toast.LENGTH_LONG).show()
+                    }
+                    TransactionResult.STATUS_FAILED -> {
+                        Toast.makeText(this, "Failed ${transactionResult.response.statusMessage}", Toast.LENGTH_LONG).show()
+                    }
+                }
+            }
+            transactionResult.isTransactionCanceled -> {
+                Toast.makeText(this, "Canceled transaction", Toast.LENGTH_LONG).show()
+            }
+            else -> {
+                if (transactionResult.status.equals(TransactionResult.STATUS_INVALID, true))
+                    Toast.makeText(this, "Invalid transaction", Toast.LENGTH_LONG).show()
+                else
+                    Toast.makeText(this, "Failure transaction", Toast.LENGTH_LONG).show()
+            }
         }
-    }
-
-    override fun onRefresh() {
-        list.removeAt(0)
-        loadData()
-    }
-
-    private fun loadData() {
-        swipeRefreshLayout.isRefreshing = true
-        SdkUI()
-        swipeRefreshLayout.isRefreshing = false
     }
 }

@@ -9,10 +9,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class ApiClient {
     private lateinit var apiService: ApiService
-    private lateinit var apiMidtrans: ApiMidtrans
-    val BASE = "http://192.168.1.150/skripsi/"
-    val SANDBOX = "https://api.sandbox.midtrans.com/v2/"
 
+    val BASE = "http://192.168.1.150/skripsi/"
 
     private  val logging : HttpLoggingInterceptor
         get() {
@@ -27,24 +25,6 @@ class ApiClient {
         .create()
 
     private val clint = OkHttpClient.Builder().addInterceptor(logging).build()
-
-
-    fun getApiMidtrans(): ApiMidtrans {
-
-        // Initialize ApiService if not initialized yet
-        if (!::apiMidtrans.isInitialized) {
-            val retrofit = Retrofit.Builder()
-                .baseUrl(SANDBOX)
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .client(clint)
-                .build()
-
-            apiMidtrans = retrofit.create(apiMidtrans::class.java)
-        }
-
-        return apiMidtrans
-    }
-
     fun getApiService(): ApiService {
 
         // Initialize ApiService if not initialized yet
