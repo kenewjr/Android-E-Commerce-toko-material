@@ -10,7 +10,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 class ApiClient {
     private lateinit var apiService: ApiService
 
-    val BASE = "http://192.168.1.150/skripsi/"
+    val BASE = "https://dev.vzcyberd.cloud/abrar/API/"
 
     private  val logging : HttpLoggingInterceptor
         get() {

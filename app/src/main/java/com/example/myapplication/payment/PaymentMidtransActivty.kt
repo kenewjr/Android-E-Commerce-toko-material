@@ -9,6 +9,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.bumptech.glide.Glide
 import com.example.myapplication.R
 import com.example.myapplication.datastore.UserManager
+import com.example.myapplication.model.GetHistoryItem
 import com.example.myapplication.viewmodel.ViewModelHome
 import com.example.myapplication.viewmodel.ViewModelMidtrans
 import com.example.myapplication.viewmodel.ViewModelProductSeller
@@ -37,6 +38,7 @@ class PaymentMidtransActivty : AppCompatActivity(), TransactionFinishedCallback 
     var tgltransaksi : String = ""
     var namauser : String = ""
     var totalharga : String = ""
+    var id_riwayat =0
     private lateinit var userManager: UserManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,6 +46,14 @@ class PaymentMidtransActivty : AppCompatActivity(), TransactionFinishedCallback 
         setContentView(R.layout.activity_payment_midtrans_activty)
         userManager = UserManager(this)
         viewModel()
+        val viewModelProductSeller = ViewModelProvider(this)[ViewModelProductSeller::class.java]
+        viewModelProductSeller.getHistory()
+        viewModelProductSeller.datahistory.observe(this){
+             val lastHistoryItem = it[it.size-1]
+            id_riwayat = lastHistoryItem.id.toInt()+1
+            Log.e("idriwayat",id_riwayat.toString())
+        }
+
         runOnUiThread {
             SdkUIFlowBuilder.init()
                 .setClientKey("SB-Mid-client-UyV8fwVUJHmHywYZ")
@@ -71,6 +81,7 @@ class PaymentMidtransActivty : AppCompatActivity(), TransactionFinishedCallback 
             val itemDetails = ArrayList<ItemDetails>()
             itemDetails.add(detail)
             uiKitsDetails(transactionRequest)
+            transactionRequest.customField1 = id_riwayat.toString()
             transactionRequest.itemDetails =itemDetails
             MidtransSDK.getInstance().transactionRequest = transactionRequest
             MidtransSDK.getInstance().startPaymentUiFlow(this)

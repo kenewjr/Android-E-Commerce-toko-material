@@ -32,7 +32,7 @@ interface ApiService {
         @Field("password")password : String
     ): Call<PostRegisterUser>
 
-    @GET("get_userid")
+    @GET("get_userid.php")
     fun profileuser(
         @Query("user_id")id : Int
     ): Call<DataUser>
@@ -57,7 +57,7 @@ interface ApiService {
         @Field("gambar")gambar : String
     ):Call<PostSellerProduct>
 
-    @GET("get_all_kategori")
+    @GET("get_all_kategori.php")
     suspend fun GetCategory() : List<GetCategorySellerItem>
 
     @GET("produk_search")
@@ -65,10 +65,10 @@ interface ApiService {
         @Query("search")search:String
     ):Call<List<GetAllProdukItem>>
 
-    @GET("get_all_produk")
+    @GET("get_all_produk.php")
     suspend fun getallproduk():List<GetAllProdukItem>
 
-    @GET("getproduk_byid")
+    @GET("getproduk_byid.php")
     fun getprodukbyid(
         @Query("id")id : Int
     ):Call<GetDataProductSellerItemItem>
@@ -81,7 +81,7 @@ interface ApiService {
     ):Call<Response>
 
     @FormUrlEncoded
-    @POST("tambah_history")
+    @POST("tambah_history.php")
     fun tambahHistory(
         @Field("id_user")id_user :Int,
         @Field("id_produk")id_produk: Int,
@@ -94,6 +94,6 @@ interface ApiService {
         @Field("gambar")gambar: String
     ):Call<GetHistoryItem>
 
-    @GET("get_history")
+    @GET("get_history.php")
     fun getHistory():Call<List<GetHistoryItem>>
 }

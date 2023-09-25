@@ -21,6 +21,7 @@ import com.example.myapplication.view.LoginActivity
 import com.example.myapplication.view.adapter.AdapterTerjual
 import com.example.myapplication.view.buyer.NotifikasiBuyerActivity
 import com.example.myapplication.viewmodel.ViewModelProductSeller
+import com.example.myapplication.viewmodel.ViewModelUser
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_daftar_jual_history.*
@@ -80,19 +81,18 @@ class DaftarJualHistory : AppCompatActivity() {
         daftar_jualEdit.setOnClickListener {
             startActivity(Intent(this,AkunsayaActivty::class.java))
         }
-//        initView()
+       initView()
     }
 
-//    private fun initView(){
-//        val viewModelDataSeller = ViewModelProvider(this)[ViewModelProductSeller::class.java]
-//        viewModelDataSeller.getSeller(token = userManager.fetchAuthToken().toString())
-//        viewModelDataSeller.seller.observe(this){
-//            TV_nama.text = it.fullName
-//            diminati_profileKota.text = it.city
-//            Glide.with(applicationContext).load(it.imageUrl).into(IV_penjual)
-//        }
-//        initRecyclerView()
-//    }
+    private fun initView(){
+        val viewModelDataSeller = ViewModelProvider(this)[ViewModelUser::class.java]
+        viewModelDataSeller.getProfile(id = userManager.fetchId()!!.toInt())
+        viewModelDataSeller.profileData.observe(this) {
+            TV_nama.text = it.nama
+            diminati_profileKota.text = it.alamat
+        }
+        initRecyclerView()
+    }
 
     private fun initRecyclerView(){
         userManager = UserManager(this)

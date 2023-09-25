@@ -27,6 +27,7 @@ class ViewModelProductSeller @Inject constructor(private var productRepository: 
 
     private val livedatahistory = MutableLiveData<List<GetHistoryItem>>()
     val datahistory : LiveData<List<GetHistoryItem>> = livedatahistory
+    val historyList: List<GetHistoryItem>? = datahistory.value
 
     private val deleteProduct = MutableLiveData<com.example.myapplication.model.Response>()
 

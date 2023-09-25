@@ -17,7 +17,7 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
-    private const val BASE_URL = "http://192.168.1.150/skripsi/"
+    private const val BASE_URL = "https://dev.vzcyberd.cloud/abrar/API/"
     private  val logging : HttpLoggingInterceptor
         get(){
             val httpLoggingInterceptor = HttpLoggingInterceptor()

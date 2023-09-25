@@ -29,11 +29,11 @@ class AdapterTerjual(private  var onClick :(GetHistoryItem)->Unit) : RecyclerVie
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.itemView.tvJudul_product_seller.text = "Nama Produk : ${dataOrder!![position].nama_pembeli}"
-        holder.itemView.tvKategori_product_seller.text = "Kota : ${dataOrder!![position].nama_pembeli}"
-        holder.itemView.tvHarga_product_seller.text = "Harga : Rp. ${dataOrder!![position].nama_pembeli}"
-        holder.itemView.tvStatus_product_seller.text = "status : ${dataOrder!![position].nama_pembeli}"
-        holder.itemView.textTanggalUpdate.text = dataOrder!![position].nama_pembeli
+        holder.itemView.tvJudul_product_seller.text = "Nama Produk : ${dataOrder!![position].nama_produk}"
+        holder.itemView.tvKategori_product_seller.text = "Jumlah Produk : ${dataOrder!![position].jumlah_produk}"
+        holder.itemView.tvHarga_product_seller.text = "Harga : Rp. ${dataOrder!![position].total_harga}"
+        holder.itemView.tvStatus_product_seller.text = "Harga Produk : ${dataOrder!![position].harga_produk}"
+        holder.itemView.textTanggalUpdate.text = dataOrder!![position].tgl_transaksi
         Glide.with(holder.itemView.context)
             .load(dataOrder!![position].gambar)
             .into(holder.itemView.imageProductSeller)
