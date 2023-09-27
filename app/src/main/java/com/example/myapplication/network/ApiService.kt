@@ -96,4 +96,9 @@ interface ApiService {
 
     @GET("get_history.php")
     fun getHistory():Call<List<GetHistoryItem>>
+
+    @GET("get_historybyUserid.php")
+    fun getHistoryUserID(
+        @Query("id_user")id_user : Int
+    ):Call<List<GetHistoryItem>>
 }

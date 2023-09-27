@@ -5,6 +5,7 @@ package com.example.myapplication.view.buyer
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.MutableLiveData
@@ -12,9 +13,11 @@ import androidx.lifecycle.asLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myapplication.R
 import com.example.myapplication.datastore.UserManager
+import com.example.myapplication.model.GetHistoryItem
 import com.example.myapplication.network.ApiClient
 import com.example.myapplication.view.HomeActivity
 import com.example.myapplication.view.LoginActivity
+import com.example.myapplication.view.adapter.AdapterNotifikasiBuyer
 import com.example.myapplication.view.seller.DaftarJualActivity
 import com.example.myapplication.view.seller.LengkapiDetailProductActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -31,7 +34,7 @@ import retrofit2.Response
 class NotifikasiBuyerActivity : AppCompatActivity() {
     private lateinit var  userManager: UserManager
     private lateinit var apiClient: ApiClient
-//    private lateinit var adapterNotifikasiBuyer: AdapterNotifikasiBuyer
+    private lateinit var adapterNotifikasiBuyer: AdapterNotifikasiBuyer
     private val bottomNavigasi = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when(item.itemId){
             R.id.notifikasi -> {
@@ -71,57 +74,30 @@ class NotifikasiBuyerActivity : AppCompatActivity() {
         userManager = UserManager(this)
         val botnav = findViewById<BottomNavigationView>(R.id.navigation)
         botnav.setOnNavigationItemSelectedListener(bottomNavigasi)
-//        fetchnotif()
-
+        fetchnotif()
     }
 
-//    private fun fetchnotif(){
-//        apiClient.getApiService().getNotif(token = userManager.fetchAuthToken().toString()).enqueue(object : Callback<List<GetNotifikasiItem>>{
-//            override fun onResponse(
-//                call: Call<List<GetNotifikasiItem>>,
-//                response: Response<List<GetNotifikasiItem>>
-//            ) {
-//                if(response.isSuccessful){
-//                    adapterNotifikasiBuyer = AdapterNotifikasiBuyer(response.body()!!) {
-//                        apiClient.getApiService()
-//                            .patchNotif(token = userManager.fetchAuthToken().toString(),it.id)
-//                            .enqueue(object : Callback<GetNotifikasiItem>{
-//                                override fun onResponse(
-//                                    call: Call<GetNotifikasiItem>,
-//                                    response: Response<GetNotifikasiItem>
-//                                ) {
-//                                    if (response.isSuccessful ){
-//                                        var livedata : MutableLiveData<GetNotifikasiItem> = MutableLiveData()
-//                                        livedata.postValue(response.body())
-//                                        recreate()
-//                                    }
-//                                }
-//
-//                                override fun onFailure(
-//                                    call: Call<GetNotifikasiItem>,
-//                                    t: Throwable
-//                                ) {
-//                                 //
-//                                }
-//
-//                            })
-//                    }
-//
-//                    rv_notifikasiBuyer.layoutManager = LinearLayoutManager(applicationContext)
-//                    rv_notifikasiBuyer.adapter = adapterNotifikasiBuyer
-//
-//                }
-//            }
-//
-//            override fun onFailure(call: Call<List<GetNotifikasiItem>>, t: Throwable) {
-//                //
-//            }
-//
-//        })
-//    }
+    private fun fetchnotif(){
+        apiClient.getApiService().getHistoryUserID(userManager.fetchId()!!.toInt())
+            .enqueue(object : Callback<List<GetHistoryItem>>{
+            override fun onResponse(
+                call: Call<List<GetHistoryItem>>,
+                response: Response<List<GetHistoryItem>>
+            ) {
+                if (response.isSuccessful) {
+                    adapterNotifikasiBuyer = AdapterNotifikasiBuyer(response.body()!!) {}
+                    rv_notifikasiBuyer.layoutManager = LinearLayoutManager(applicationContext)
+                    rv_notifikasiBuyer.adapter = adapterNotifikasiBuyer
+                }
+            }
+            override fun onFailure(call: Call<List<GetHistoryItem>>, t: Throwable) {
+                Log.e("error",t.message.toString())
+            }
+    })
+    }
 
     override fun onResume() {
         super.onResume()
-//        fetchnotif()
+        fetchnotif()
     }
 }

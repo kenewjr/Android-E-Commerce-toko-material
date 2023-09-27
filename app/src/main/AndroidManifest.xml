@@ -38,6 +38,9 @@
             android:name=".view.seller.DaftarJualHistory"
             android:exported="true" />
         <activity
+            android:name=".view.buyer.NotifikasiBuyerActivity"
+            android:exported="true" />
+        <activity
             android:name=".view.AkunsayaActivty"
             android:exported="true" />
         <activity
