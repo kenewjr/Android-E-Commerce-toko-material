@@ -11,12 +11,14 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.myapplication.R
 import com.example.myapplication.datastore.UserManager
 import com.example.myapplication.model.GetAllProdukItem
 import com.example.myapplication.network.ApiClient
 import com.example.myapplication.payment.PaymentMidtransActivty
+import com.example.myapplication.view.adapter.AdapterKomentar
 import com.example.myapplication.viewmodel.ViewModelHome
 import com.example.myapplication.viewmodel.ViewModelProductSeller
 import com.example.myapplication.viewmodel.ViewModelUser
@@ -24,6 +26,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_add_product_buyer.*
 import kotlinx.android.synthetic.main.activity_add_product_buyer.back
+import kotlinx.android.synthetic.main.activity_notifikasi_buyer.*
 import kotlinx.android.synthetic.main.custom_dialog_hargatawar_buyer.view.*
 import kotlinx.coroutines.DelicateCoroutinesApi
 
@@ -35,6 +38,7 @@ class AddProductBuyerActivity : AppCompatActivity() {
     private var datalengkap: String = "ada"
     private var produk: String = ""
     private var produkpilih: String = ""
+    private lateinit var  adapterKomentar: AdapterKomentar
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_product_buyer)
@@ -49,31 +53,37 @@ class AddProductBuyerActivity : AppCompatActivity() {
             pindah.putExtra("idproduk",dataProduct!!.id)
             startActivity(pindah)
         }
-//        disablebutton()
         detailData()
+        komentar()
+        disablebutton()
     }
 
-//    private fun disablebutton(){
-//        userManager = UserManager(this)
-//        val viewModel = ViewModelProvider(this)[ViewModelUser::class.java]
-//        viewModel.getProfile(userManager.fetchId()!!.toInt())
-//        runOnUiThread {
-//        viewModel.order.observe(this) {
-//            for (z in it.indices) {
-//                produk = it[z].productId.toString()
-//                if (produkpilih == produk) {
-//                    addProductBuyer_btnTertarik.text =
-//                        "Menunggu Respon Penjual Atau Batalkan Orderan"
-//                    addProductBuyer_btnTertarik.setOnClickListener {
-//                        startActivity(Intent(this@AddProductBuyerActivity,OrderBuyer::class.java))
-//                    }
-//                }
-//
-//            }
-//        }
-//        }
-//    }
+    private fun disablebutton(){
+        userManager = UserManager(this)
+        val viewModel = ViewModelProvider(this)[ViewModelUser::class.java]
+        viewModel.getOrder(userManager.fetchId()!!.toInt(),produkpilih.toInt())
+        runOnUiThread {
+            viewModel.OrderData.observe(this){
+                if (it.status == "pending"){
+                    addProductBuyer_btnTertarik.text = "Segera Selesaikan Pembayaran"
+                }
+            }
+        }
+    }
 
+    private fun komentar(){
+        val dataProduct = intent.extras!!.getSerializable("detailproduk") as GetAllProdukItem?
+        val viewModelKomentar = ViewModelProvider(this)[ViewModelUser::class.java]
+        viewModelKomentar.getKomentar(dataProduct!!.id.toInt())
+        adapterKomentar = AdapterKomentar {  }
+        rv_produkkomen.layoutManager = LinearLayoutManager(this)
+        rv_produkkomen.adapter = adapterKomentar
+        viewModelKomentar.komentarData.observe(this){
+            adapterKomentar.setKomentar(it)
+            adapterKomentar.notifyDataSetChanged()
+        }
+
+    }
     private fun detailData() {
         userManager = UserManager(this)
         val dataProduct = intent.extras!!.getSerializable("detailproduk") as GetAllProdukItem?

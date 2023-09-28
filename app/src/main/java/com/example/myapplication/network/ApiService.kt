@@ -101,4 +101,22 @@ interface ApiService {
     fun getHistoryUserID(
         @Query("id_user")id_user : Int
     ):Call<List<GetHistoryItem>>
+    @GET("get_historybyUid&Pid.php")
+    fun getOrder(
+        @Query("id_user")id_user : Int,
+        @Query("id_produk")id_produk : Int
+    ):Call<GetHistoryItem>
+    @FormUrlEncoded
+    @POST("tambah_komentar.php")
+    fun tambahKomentar(
+        @Field("id_user")id_user :Int,
+        @Field("komentar")komentar: String,
+        @Field("nama_pembeli")nama_pembeli: String,
+        @Field("id_produk")id_produk: String
+    ):Call<Response>
+
+    @GET("get_komentarPid.php")
+    fun getKomentar(
+        @Query("id_produk")id_produk : Int
+    ):Call<List<GetKomentarItem>>
 }

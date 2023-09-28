@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cardKomentarBuyer"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="3dp"
+    android:layout_marginTop="3dp"
+    app:cardCornerRadius="15dp"
+    app:cardElevation="30dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tvNama_pembeli"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:text="Jam Tangan Casio"
+            android:textColor="@color/black"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            tools:ignore="HardcodedText" />
+
+        <TextView
+            android:id="@+id/tvKomentar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvNama_pembeli"
+            android:layout_marginLeft="10dp"
+            android:text="ku yang dulu bukan yang sekarang"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            android:textStyle="normal"
+            tools:ignore="HardcodedText,RtlHardcoded" />
+
+        <TextView
+            android:id="@+id/tvWaktu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvKomentar"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:text="Penawaran Produk"
+            android:textSize="15sp"
+            tools:ignore="HardcodedText" />
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>
