@@ -27,6 +27,7 @@ class ViewModelUser@Inject constructor(api: ApiService): ViewModel() {
     private val liveDataKomentar = MutableLiveData<List<GetKomentarItem>>()
     val komentarData : LiveData<List<GetKomentarItem>> = liveDataKomentar
 
+    private val liveKomentar= MutableLiveData<com.example.myapplication.model.Response>()
     fun getProfile(id : Int){
         apiService.profileuser(id).enqueue(object : Callback<DataUser>{
             override fun onResponse(call: Call<DataUser>, response: Response<DataUser>) {
@@ -42,7 +43,26 @@ class ViewModelUser@Inject constructor(api: ApiService): ViewModel() {
             }
         })
     }
+    fun addKomentar(komentar:String,id_produk: Int,id_user: Int,nama: String){
+        apiService.tambahKomentar(id_user,komentar,nama,id_produk).enqueue(object : Callback<com.example.myapplication.model.Response>{
+            override fun onResponse(
+                call: Call<com.example.myapplication.model.Response>,
+                response: Response<com.example.myapplication.model.Response>
+            ) {
+                if (response.isSuccessful) {
+                    liveKomentar.value = response.body()
+                }
+            }
 
+            override fun onFailure(
+                call: Call<com.example.myapplication.model.Response>,
+                t: Throwable
+            ) {
+                //
+            }
+
+        })
+    }
     fun getKomentar(id_produk: Int){
         apiService.getKomentar(id_produk).enqueue(object : Callback<List<GetKomentarItem>>{
             override fun onResponse(

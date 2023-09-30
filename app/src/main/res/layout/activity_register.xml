@@ -88,8 +88,8 @@
             <EditText
                 android:id="@+id/etNama_register"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Contoh : Kelompok Empat"
+                android:layout_height="match_parent"
+                android:hint="Contoh : Agus Wicaksono"
                 android:background="@drawable/custom_drawable"
                 android:inputType="text"
                 tools:ignore="HardcodedText,Autofill,LabelFor,TextFields" />
@@ -137,8 +137,8 @@
             <EditText
                 android:id="@+id/etEmail_register"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Contoh : kenewjr"
+                android:layout_height="match_parent"
+                android:hint="Contoh : Agus"
                 android:background="@drawable/custom_drawable"
                 android:inputType="textEmailAddress"
                 tools:ignore="HardcodedText,Autofill,LabelFor,TextFields" />
@@ -189,8 +189,8 @@
             <EditText
                 android:id="@+id/etPassword_register"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Contoh : KelompokEmpat_123"
+                android:layout_height="match_parent"
+                android:hint="Contoh : Agus123"
                 android:background="@drawable/custom_drawable"
                 android:inputType="textPassword"
                 tools:ignore="HardcodedText,Autofill,LabelFor,TextFields" />
@@ -240,7 +240,7 @@
             <EditText
                 android:id="@+id/etPhone_register"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:hint="Contoh : 6285779688533"
                 android:background="@drawable/custom_drawable"
                 android:inputType="text"
@@ -290,7 +290,7 @@
             <EditText
                 android:id="@+id/etAddress_register"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:hint="Contoh : Jl. Singaperbangsa"
                 android:background="@drawable/custom_drawable"
                 android:inputType="text"

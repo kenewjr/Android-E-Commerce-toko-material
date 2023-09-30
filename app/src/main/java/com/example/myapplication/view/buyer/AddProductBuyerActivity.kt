@@ -8,6 +8,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
@@ -28,6 +29,7 @@ import kotlinx.android.synthetic.main.activity_add_product_buyer.*
 import kotlinx.android.synthetic.main.activity_add_product_buyer.back
 import kotlinx.android.synthetic.main.activity_notifikasi_buyer.*
 import kotlinx.android.synthetic.main.custom_dialog_hargatawar_buyer.view.*
+import kotlinx.android.synthetic.main.custom_dialog_komentar.view.*
 import kotlinx.coroutines.DelicateCoroutinesApi
 
 @DelicateCoroutinesApi
@@ -36,7 +38,7 @@ class AddProductBuyerActivity : AppCompatActivity() {
     private lateinit var userManager: UserManager
     private lateinit var apiClient: ApiClient
     private var datalengkap: String = "ada"
-    private var produk: String = ""
+    private var nama: String = ""
     private var produkpilih: String = ""
     private lateinit var  adapterKomentar: AdapterKomentar
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,8 +55,11 @@ class AddProductBuyerActivity : AppCompatActivity() {
             pindah.putExtra("idproduk",dataProduct!!.id)
             startActivity(pindah)
         }
+        imageKomen.setOnClickListener {
+            addKomentar()
+        }
         detailData()
-        komentar()
+        fetchkomentar()
         disablebutton()
     }
 
@@ -71,7 +76,22 @@ class AddProductBuyerActivity : AppCompatActivity() {
         }
     }
 
-    private fun komentar(){
+    private fun addKomentar(){
+        userManager = UserManager(this)
+        val viewModelKomentar = ViewModelProvider(this)[ViewModelUser::class.java]
+        val dataProduct = intent.extras!!.getSerializable("detailproduk") as GetAllProdukItem?
+        val dialogView = layoutInflater.inflate(R.layout.custom_dialog_komentar, null)
+        val dialogbuilder = AlertDialog.Builder(this).setView(dialogView).create()
+        val btnaddkomen = dialogView.addKomentarbtn
+        btnaddkomen.setOnClickListener {
+            val komentar = dialogView.edt_komentar.text.toString()
+            viewModelKomentar.addKomentar(komentar,dataProduct!!.id.toInt(),userManager.fetchId()!!.toInt(),nama)
+            dialogbuilder.dismiss()
+        }
+        dialogbuilder.setCancelable(true)
+        dialogbuilder.show()
+    }
+    private fun fetchkomentar(){
         val dataProduct = intent.extras!!.getSerializable("detailproduk") as GetAllProdukItem?
         val viewModelKomentar = ViewModelProvider(this)[ViewModelUser::class.java]
         viewModelKomentar.getKomentar(dataProduct!!.id.toInt())
@@ -98,6 +118,7 @@ class AddProductBuyerActivity : AppCompatActivity() {
             ) {
                 datalengkap = "kosong"
             }
+            nama = it.nama
         }
         if (dataProduct != null) {
             val viewModel = ViewModelProvider(this)[ViewModelProductSeller::class.java]

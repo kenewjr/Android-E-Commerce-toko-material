@@ -73,7 +73,7 @@
                 <EditText
                     android:id="@+id/edt_namaprodut"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:background="@drawable/custom_drawable"
                     android:hint="Nama Product"
                     android:inputType="text"
@@ -110,7 +110,7 @@
                 <EditText
                     android:id="@+id/edt_hargaproduct"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:background="@drawable/custom_drawable"
                     android:hint="Harga Product"
                     android:inputType="numberDecimal"
@@ -185,7 +185,7 @@
                 <EditText
                     android:id="@+id/edt_deskripsi"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:background="@drawable/custom_drawable"
                     android:hint="Deskripsi"
                     android:inputType="text"
@@ -222,10 +222,10 @@
                 <EditText
                     android:id="@+id/edt_lokasi"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:background="@drawable/custom_drawable"
                     android:hint="Stok"
-                    android:inputType="text"
+                    android:inputType="number"
                     tools:ignore="HardcodedText,Autofill,LabelFor,TextFields,SpeakableTextPresentCheck" />
 
             </com.google.android.material.textfield.TextInputLayout>

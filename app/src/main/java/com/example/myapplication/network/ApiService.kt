@@ -112,7 +112,7 @@ interface ApiService {
         @Field("id_user")id_user :Int,
         @Field("komentar")komentar: String,
         @Field("nama_pembeli")nama_pembeli: String,
-        @Field("id_produk")id_produk: String
+        @Field("id_produk")id_produk: Int
     ):Call<Response>
 
     @GET("get_komentarPid.php")
