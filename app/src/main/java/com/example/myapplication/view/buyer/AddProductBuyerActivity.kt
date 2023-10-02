@@ -71,6 +71,8 @@ class AddProductBuyerActivity : AppCompatActivity() {
             viewModel.OrderData.observe(this){
                 if (it.status == "pending"){
                     addProductBuyer_btnTertarik.text = "Segera Selesaikan Pembayaran"
+                }else {
+                    addProductBuyer_btnTertarik.text = "Beli Sekarang"
                 }
             }
         }
@@ -121,7 +123,8 @@ class AddProductBuyerActivity : AppCompatActivity() {
             nama = it.nama
         }
         if (dataProduct != null) {
-            val viewModel = ViewModelProvider(this)[ViewModelProductSeller::class.java]
+            val viewModel = ViewModelProvider(this)[ViewModelHome::class.java]
+            viewModel.getProductid(dataProduct.id.toInt())
             Glide.with(this)
                 .load(dataProduct.gambar)
                 .override(400, 350)

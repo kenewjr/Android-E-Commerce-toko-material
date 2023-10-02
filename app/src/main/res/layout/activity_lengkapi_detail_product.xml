@@ -144,15 +144,11 @@
                 app:layout_constraintTop_toBottomOf="@id/tv_kategori"
                 tools:ignore="MissingConstraints">
 
-                <MultiAutoCompleteTextView
+                <Spinner
                     android:id="@+id/select_kategori"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/custom_drawable"
-                    android:completionThreshold="1"
-                    android:ems="10"
-                    android:hint="Select Category"
-                    tools:ignore="HardcodedText,SpeakableTextPresentCheck" />
+                    android:spinnerMode="dropdown" />
 
             </com.google.android.material.textfield.TextInputLayout>
 

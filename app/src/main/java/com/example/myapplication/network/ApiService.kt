@@ -9,14 +9,14 @@ import javax.inject.Singleton
 
 interface ApiService {
     @FormUrlEncoded
-    @POST("login_user")
+    @POST("login_user.php")
     fun login(
         @Field("username")username : String,
         @Field("password")password : String
     ): Call<ResponseLogin>
 
     @FormUrlEncoded
-    @POST("register_user")
+    @POST("register_user.php")
     fun register(
         @Field("username")username : String,
         @Field("password")password : String,
@@ -26,7 +26,7 @@ interface ApiService {
     ): Call<PostRegisterUser>
 
     @FormUrlEncoded
-    @POST("ganti_password")
+    @POST("ganti_password.php")
     fun changePassword(
         @Field("username")username : String,
         @Field("password")password : String
@@ -38,7 +38,7 @@ interface ApiService {
     ): Call<DataUser>
 
     @FormUrlEncoded
-    @POST("update_user")
+    @POST("update_user.php")
     fun updateuser(
         @Field("username")username : String,
         @Field("nama")nama : String,
@@ -47,7 +47,7 @@ interface ApiService {
     ):Call<DataUser>
 
     @FormUrlEncoded
-    @POST("tambah_barang")
+    @POST("tambah_barang.php")
     fun tambahbarang(
         @Field("nama_produk")namaProduk : String,
         @Field("kategori_produk")kategoriProduk : String,
@@ -60,7 +60,7 @@ interface ApiService {
     @GET("get_all_kategori.php")
     suspend fun GetCategory() : List<GetCategorySellerItem>
 
-    @GET("produk_search")
+    @GET("produk_search.php")
     fun searchproduk(
         @Query("search")search:String
     ):Call<List<GetAllProdukItem>>
@@ -74,7 +74,7 @@ interface ApiService {
     ):Call<GetDataProductSellerItemItem>
 
     @FormUrlEncoded
-    @POST("delete_produk")
+    @POST("delete_produk.php")
     fun deleteProduk(
         @Field("delete")delete :String,
         @Field("id")id: Int

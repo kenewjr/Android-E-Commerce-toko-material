@@ -86,7 +86,9 @@ class ViewModelUser@Inject constructor(api: ApiService): ViewModel() {
                 call: Call<GetHistoryItem>,
                 response: Response<GetHistoryItem>
             ) {
+                if(response.isSuccessful){
                 liveDataOrder.value = response.body()
+                }
             }
 
             override fun onFailure(call: Call<GetHistoryItem>, t: Throwable) {

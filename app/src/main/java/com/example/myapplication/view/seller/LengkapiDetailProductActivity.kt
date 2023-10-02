@@ -15,6 +15,8 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Base64
 import android.util.Log
+import android.view.View
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.MultiAutoCompleteTextView
 import android.widget.Toast
@@ -28,6 +30,7 @@ import androidx.lifecycle.asLiveData
 import com.bumptech.glide.Glide
 import com.example.myapplication.R
 import com.example.myapplication.datastore.UserManager
+import com.example.myapplication.model.GetCategorySellerItem
 import com.example.myapplication.view.HomeActivity
 import com.example.myapplication.viewmodel.ViewModelProductSeller
 import dagger.hilt.android.AndroidEntryPoint
@@ -67,6 +70,7 @@ class LengkapiDetailProductActivity : AppCompatActivity() {
     var categoryName = mutableListOf<String>()
     var selectedName: MutableList<String?> = mutableListOf()
     var selectedID: MutableList<Int> = mutableListOf()
+    private lateinit var selectedCategory: GetCategorySellerItem
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -74,32 +78,14 @@ class LengkapiDetailProductActivity : AppCompatActivity() {
         setContentView(R.layout.activity_lengkapi_detail_product)
         userManager = UserManager(this)
         getCategory()
-        arrayAdapter = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, categoryName)
-        select_kategori.setAdapter(arrayAdapter)
-        select_kategori.setTokenizer(MultiAutoCompleteTextView.CommaTokenizer())
-        arrayAdapter.notifyDataSetChanged()
-        select_kategori.setOnItemClickListener { _, _, position, _ ->
-            val selected: String? = arrayAdapter.getItem(position)
-            selectedName.add(arrayAdapter.getItem(position))
-            selectedID.add(categoryID[position])
-            categoryName.remove(selected)
-            categoryID.remove(categoryID[position])
-            val getID = selectedID.toString()
-            postCategory = getID.replace("[", "").replace("]", "")
-        }
+
         back.setOnClickListener {
             startActivity(Intent(this,DaftarJualActivity::class.java) )
         }
         btn_terbitkan.setOnClickListener {
             jualbarang()
         }
-//        btn_preview.setOnClickListener {
-//            GlobalScope.launch {
-//                userManager.clearPreview()
-//            }
-//            preview()
-//            getPreview()
-//      }
+
 
         icon_foto.setOnClickListener {
             if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
@@ -111,70 +97,9 @@ class LengkapiDetailProductActivity : AppCompatActivity() {
         }
 
     }
-//    fun getPreview(){
-//        userManager = UserManager(this)
-//        val viewModelDataSeller = ViewModelProvider(this)[ViewModelProductSeller::class.java]
-//        viewModelDataSeller.getSeller(token = userManager.fetchAuthToken().toString())
-//        val dialogView = layoutInflater.inflate(R.layout.customdialog_preview, null)
-//        val dialogbuilder = AlertDialog.Builder(this).setView(dialogView).create()
-//        val btnpreview = dialogView.addProductSeller_btnTerbit
-//        viewModelDataSeller.seller.observe(this) {
-//            dialogView.TV_nama.text = "Nama Seller" + it.fullName
-//            dialogView.seller_kota.text = "Kota Seller" + it.city
-//            Glide.with(dialogView.IV_penjual.context).load(it.imageUrl).into(dialogView.IV_penjual)
-//        }
-//        userManager.harga.asLiveData().observe(this){
-//            dialogView.addProduct_harga.text = "Rp.$it"
-//        }
-//        userManager.name.asLiveData().observe(this){
-//            dialogView.addProduct_namaproduk.text = "Nama Produk : $it"
-//        }
-//        userManager.deskripsi.asLiveData().observe(this){
-//            dialogView.addProduct_deskripsi.text = it
-//        }
-//        userManager.kategori.asLiveData().observe(this){
-//            dialogView.addProduct_category.text = it
-//        }
-//        userManager.gambar.asLiveData().observe(this){
-//            Glide.with(dialogView.add_gambar.context).load(it).into(dialogView.add_gambar)
-//        }
-//        btnpreview.setOnClickListener {
-//            jualbarang()
-//            dialogbuilder.dismiss()
-//        }
-//        dialogbuilder.setCancelable(true)
-//        dialogbuilder.show()
-//    }
-//    fun preview() {
-//        val namaproduk = edt_namaprodut.text.toString()
-//        val lokasi = edt_lokasi.text.toString()
-//        val categoryproduk = selectedName
-//        val hargaproduk = edt_hargaproduct.text.toString()
-//        val deskripsi = edt_deskripsi.text.toString()
-//        if (selectedUri != null) {
-//            val photoUri = selectedUri
-//            uploadPhoto(photoUri!!,
-//                successHandler = { uri ->
-//                    GlobalScope.launch {
-//                        userManager.preview(
-//                            namaproduk,
-//                            hargaproduk,
-//                            categoryproduk.toString(),
-//                            deskripsi,
-//                            lokasi,
-//                            uri
-//                        )
-//                    }
-//                },
-//                errorHandler = {
-//                    Toast.makeText(this, "Gagal.", Toast.LENGTH_SHORT).show()
-//                }
-//            )
-//        }
-//    }
-//
+
     fun jualbarang(){
-        var categoryProduct : String = postCategory
+        var categoryProduct : String = selectedCategory.id.toString()
         val namaProdcut : String = edt_namaprodut.text.toString()
         val hargaProduct : String = edt_hargaproduct.text.toString()
         val stok: String = edt_lokasi.text.toString()
@@ -270,9 +195,19 @@ class LengkapiDetailProductActivity : AppCompatActivity() {
     private fun getCategory(){
         val viewModelSellerCategory = ViewModelProvider(this)[ViewModelProductSeller::class.java]
         viewModelSellerCategory.sellerCategory.observe(this){ it ->
-            it.forEach{
-                categoryName.add(it.name)
-                categoryID.add(it.id)
+            val categoryNames = it.map { it.name }.toMutableList()
+            val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, categoryNames)
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            select_kategori.adapter = adapter
+
+            select_kategori.onItemSelectedListener  = object  : AdapterView.OnItemSelectedListener{
+                override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                    selectedCategory = it[p2]
+                }
+
+                override fun onNothingSelected(p0: AdapterView<*>?) {
+                    TODO("Not yet implemented")
+                }
             }
         }
         viewModelSellerCategory.getSellerCategory()
