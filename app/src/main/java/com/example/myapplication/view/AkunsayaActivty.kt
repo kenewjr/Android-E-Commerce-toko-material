@@ -12,6 +12,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.lifecycle.asLiveData
+import com.example.myapplication.BuildConfig
 import com.example.myapplication.R
 import com.example.myapplication.datastore.UserManager
 import com.example.myapplication.view.buyer.NotifikasiBuyerActivity
@@ -69,6 +70,7 @@ class AkunsayaActivty : AppCompatActivity() {
         botnav.setOnNavigationItemSelectedListener(bottomNavigasi)
         userManager = UserManager(this)
         username = userManager.fetchusername().toString()
+        versiapp.text = BuildConfig.VERSION_NAME
         val booleanvalue = userManager.getBooleanValue()
             if (booleanvalue == true){
                 akunsaya_login.isInvisible = true
@@ -88,6 +90,7 @@ class AkunsayaActivty : AppCompatActivity() {
         ubahAkun()
         changePassword()
     }
+
 
     private fun keluar(){
         val dataUserManager = UserManager(this)
