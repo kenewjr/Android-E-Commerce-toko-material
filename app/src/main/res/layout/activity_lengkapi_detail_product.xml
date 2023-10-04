@@ -266,37 +266,17 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_preview"
-                android:layout_width="170dp"
-                android:layout_height="64dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
-                android:background="@drawable/custom_drawable"
-                android:text="Preview"
-                android:textSize="16sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/inputfoto"
-                app:layout_constraintVertical_bias="0.855"
-                tools:ignore="HardcodedText,MissingConstraints" />
-
-            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_terbitkan"
-                android:layout_width="170dp"
+                android:layout_width="match_parent"
                 android:layout_height="64dp"
                 android:layout_marginEnd="20dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp"
+                android:layout_marginStart="20dp"
                 android:background="@drawable/login_btn_bg"
                 android:text="Terbitkan"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toEndOf="@+id/btn_preview"
                 app:layout_constraintTop_toBottomOf="@+id/inputfoto"
                 app:layout_constraintVertical_bias="0.854"
                 tools:ignore="HardcodedText,MissingConstraints" />

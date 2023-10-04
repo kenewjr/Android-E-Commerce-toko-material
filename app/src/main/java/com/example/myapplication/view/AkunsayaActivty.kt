@@ -70,7 +70,7 @@ class AkunsayaActivty : AppCompatActivity() {
         botnav.setOnNavigationItemSelectedListener(bottomNavigasi)
         userManager = UserManager(this)
         username = userManager.fetchusername().toString()
-        versiapp.text = BuildConfig.VERSION_NAME
+        versiapp.text = "versi : "+BuildConfig.VERSION_NAME
         val booleanvalue = userManager.getBooleanValue()
             if (booleanvalue == true){
                 akunsaya_login.isInvisible = true

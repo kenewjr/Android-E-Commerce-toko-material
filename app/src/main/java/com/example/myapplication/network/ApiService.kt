@@ -85,6 +85,7 @@ interface ApiService {
     fun tambahHistory(
         @Field("id_user")id_user :Int,
         @Field("id_produk")id_produk: Int,
+        @Field("order_id")order_id: String,
         @Field("nama_pembeli")nama_pembeli: String,
         @Field("tgl_transaksi")tgl_transaksi: String,
         @Field("nama_produk")nama_produk: String,

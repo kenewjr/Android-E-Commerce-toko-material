@@ -52,16 +52,16 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="30dp"
-                android:paddingTop="10dp"
                 android:text="Nama Product"
                 android:textColor="@color/black"
                 android:textSize="16sp"
-                android:textStyle="bold"
+                android:textStyle="normal"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvlengkapi"
                 tools:ignore="HardcodedText,MissingConstraints" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputeditnamaproduct"
+                android:id="@+id/textInputnamaproduct"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
                 android:layout_marginStart="20dp"
@@ -75,11 +75,11 @@
                 <EditText
                     android:id="@+id/edt_namaprodut"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:background="@drawable/custom_drawable"
                     android:hint="Nama Product"
                     android:inputType="text"
-                    tools:ignore="HardcodedText,Autofill,LabelFor,TextFields" />
+                    tools:ignore="HardcodedText,Autofill,LabelFor,TextFields,SpeakableTextPresentCheck" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -92,13 +92,13 @@
                 android:text="Harga Product"
                 android:textColor="@color/black"
                 android:textSize="16sp"
-                android:textStyle="bold"
+                android:textStyle="normal"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textInputeditnamaproduct"
+                app:layout_constraintTop_toBottomOf="@+id/textInputnamaproduct"
                 tools:ignore="HardcodedText,MissingConstraints" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textInputedithargaproduct"
+                android:id="@+id/textInputhargaproduct"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
                 android:layout_marginStart="20dp"
@@ -112,11 +112,11 @@
                 <EditText
                     android:id="@+id/edt_hargaproduct"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:background="@drawable/custom_drawable"
                     android:hint="Harga Product"
                     android:inputType="numberDecimal"
-                    tools:ignore="HardcodedText,Autofill,LabelFor,TextFields" />
+                    tools:ignore="HardcodedText,Autofill,LabelFor,TextFields,SpeakableTextPresentCheck" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -129,32 +129,28 @@
                 android:text="Kategori"
                 android:textColor="@color/black"
                 android:textSize="16sp"
-                android:textStyle="bold"
+                android:textStyle="normal"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textInputedithargaproduct"
+                app:layout_constraintTop_toBottomOf="@+id/textInputhargaproduct"
                 tools:ignore="HardcodedText,MissingConstraints" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textselectkategori"
                 android:layout_width="match_parent"
                 android:layout_height="65dp"
-                android:layout_marginStart="20dp"
                 android:layout_marginTop="5dp"
+                android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_kategori"
                 tools:ignore="MissingConstraints">
 
-                <MultiAutoCompleteTextView
-                    android:id="@+id/edt_select_kategori"
+                <Spinner
+                    android:id="@+id/select_kategori"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/custom_drawable"
-                    android:completionThreshold="1"
-                    android:ems="10"
-                    android:hint="Select Category"
-                    tools:ignore="HardcodedText" />
+                    android:spinnerMode="dropdown" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -167,13 +163,13 @@
                 android:text="Description"
                 android:textColor="@color/black"
                 android:textSize="16sp"
-                android:textStyle="bold"
+                android:textStyle="normal"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textselectkategori"
                 tools:ignore="HardcodedText,MissingConstraints" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/editdeskripsi"
+                android:id="@+id/deskripsi"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
                 android:layout_marginStart="20dp"
@@ -187,11 +183,11 @@
                 <EditText
                     android:id="@+id/edt_deskripsi"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:background="@drawable/custom_drawable"
                     android:hint="Deskripsi"
                     android:inputType="text"
-                    tools:ignore="HardcodedText,Autofill,LabelFor,TextFields" />
+                    tools:ignore="HardcodedText,Autofill,LabelFor,TextFields,SpeakableTextPresentCheck" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -201,12 +197,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="15dp"
-                android:text="Location"
+                android:text="Stok"
                 android:textColor="@color/black"
                 android:textSize="16sp"
-                android:textStyle="bold"
+                android:textStyle="normal"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editdeskripsi"
+                app:layout_constraintTop_toBottomOf="@+id/deskripsi"
                 tools:ignore="HardcodedText,MissingConstraints" />
 
             <com.google.android.material.textfield.TextInputLayout
@@ -222,13 +218,13 @@
                 tools:ignore="MissingConstraints">
 
                 <EditText
-                    android:id="@+id/edt_editlokasi"
+                    android:id="@+id/edt_lokasi"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:background="@drawable/custom_drawable"
-                    android:hint="Lokasi"
-                    android:inputType="text"
-                    tools:ignore="HardcodedText,Autofill,LabelFor,TextFields" />
+                    android:hint="Stok"
+                    android:inputType="number"
+                    tools:ignore="HardcodedText,Autofill,LabelFor,TextFields,SpeakableTextPresentCheck" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -241,7 +237,7 @@
                 android:text="Foto Product"
                 android:textColor="@color/black"
                 android:textSize="16sp"
-                android:textStyle="bold"
+                android:textStyle="normal"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/lokasi"
                 tools:ignore="HardcodedText,MissingConstraints" />
@@ -254,7 +250,6 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
                 android:gravity="top"
-                android:hint="@string/jalan_yos_sudarso"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -268,7 +263,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="5sp"
                     android:background="@drawable/custom_drawable"
-                    android:contentDescription="@string/todo"
+                    android:contentDescription="gambar produk"
                     android:src="@drawable/ic_camera" />
             </com.google.android.material.textfield.TextInputLayout>
 

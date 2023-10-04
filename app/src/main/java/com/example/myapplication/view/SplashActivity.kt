@@ -149,7 +149,7 @@ class SplashActivity : AppCompatActivity() {
                     // Bandingkan dengan versi saat ini
                     val currentVersion = BuildConfig.VERSION_NAME
 
-                    if (latestVersion > currentVersion) {
+                    if (compareVersions(latestVersion, currentVersion)) {
                         // Ada pembaruan tersedia
                         runOnUiThread {
                             val dialog = AlertDialog.Builder(this@SplashActivity)
@@ -159,6 +159,7 @@ class SplashActivity : AppCompatActivity() {
                                     // Tindakan ketika pengguna mengklik "Ya" (unduh pembaruan)
                                     // Panggil metode untuk mengunduh pembaruan aplikasi di sini
                                     startAppUpdate(linkdl)
+                                    checkAccount()
                                 }
                                 .setNegativeButton("Nanti") { _, _ ->
                                     // Tindakan ketika pengguna mengklik "Nanti" (tutup dialog)
@@ -168,10 +169,43 @@ class SplashActivity : AppCompatActivity() {
 
                             dialog.show()
                         }
+                    }else {
+                        checkAccount()
                     }
                 }
             }
         })
+    }
+
+    fun compareVersions(latestVersion: String, currentVersion: String): Boolean {
+        val latestParts = parseVersionString(latestVersion)
+        val currentParts = parseVersionString(currentVersion)
+
+        if (latestParts.isEmpty() || currentParts.isEmpty()) {
+            return false // Format versi tidak valid
+        }
+
+        for (i in 0 until minOf(latestParts.size, currentParts.size)) {
+            if (latestParts[i] > currentParts[i]) {
+                return true // latestVersion lebih baru
+            } else if (latestParts[i] < currentParts[i]) {
+                return false // currentVersion lebih baru
+            }
+        }
+
+        // Jika kode mencapai sini, versi sama atau currentVersion lebih baru
+        return false
+    }
+
+    fun parseVersionString(version: String): List<Int> {
+        val parts = version.replace("v", "").split(".").mapNotNull {
+            try {
+                it.toInt()
+            } catch (e: NumberFormatException) {
+                null // Mengabaikan bagian yang tidak dapat diurai menjadi angka
+            }
+        }
+        return parts
     }
 
 

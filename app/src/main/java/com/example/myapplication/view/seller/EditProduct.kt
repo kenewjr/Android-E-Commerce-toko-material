@@ -13,6 +13,7 @@ import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
@@ -22,10 +23,14 @@ import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.example.myapplication.R
 import com.example.myapplication.datastore.UserManager
+import com.example.myapplication.model.GetCategorySellerItem
 import com.example.myapplication.view.AkunsayaActivty
 import com.example.myapplication.viewmodel.ViewModelProductSeller
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.activity_lengkapi_detail_product.*
 import kotlinx.android.synthetic.main.custom_edit_product.*
+import kotlinx.android.synthetic.main.custom_edit_product.icon_foto
+import kotlinx.android.synthetic.main.custom_edit_product.select_kategori
 import kotlinx.coroutines.DelicateCoroutinesApi
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -51,6 +56,7 @@ class EditProduct : AppCompatActivity() {
     private lateinit var image : Uri
     private var ngambil : Boolean = false
     private var categorystatus : Boolean = false
+    private lateinit var selectedCategory: GetCategorySellerItem
 
     private val galleryResult = registerForActivityResult(ActivityResultContracts.GetContent()) { result ->
         icon_foto.setImageURI(result)
@@ -68,23 +74,6 @@ class EditProduct : AppCompatActivity() {
         }
         runOnUiThread {
             getCategory()
-            arrayAdapter =
-                ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, categoryName)
-            edt_select_kategori.setAdapter(arrayAdapter)
-            edt_select_kategori.setTokenizer(MultiAutoCompleteTextView.CommaTokenizer())
-            arrayAdapter.notifyDataSetChanged()
-            edt_select_kategori.setOnItemClickListener { _, _, position, _ ->
-                val selected: String? = arrayAdapter.getItem(position)
-                selectedName.add(arrayAdapter.getItem(position))
-                selectedID.add(categoryID[position])
-                categoryName.remove(selected)
-                categoryID.remove(categoryID[position])
-                val getID = selectedID.toString()
-                if (getID.isNotEmpty()) {
-                    categorystatus = true
-                }
-                postCategory = getID.replace("[", "").replace("]", "")
-            }
         }
         icon_foto.setOnClickListener {
             when {
@@ -248,9 +237,19 @@ class EditProduct : AppCompatActivity() {
     private fun getCategory(){
         val viewModelSellerCategory = ViewModelProvider(this)[ViewModelProductSeller::class.java]
         viewModelSellerCategory.sellerCategory.observe(this){ it ->
-            it.forEach{
-                categoryName.add(it.name)
-                categoryID.add(it.id)
+            val categoryNames = it.map { it.name }.toMutableList()
+            val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, categoryNames)
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            select_kategori.adapter = adapter
+
+            select_kategori.onItemSelectedListener  = object  : AdapterView.OnItemSelectedListener{
+                override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                    selectedCategory = it[p2]
+                }
+
+                override fun onNothingSelected(p0: AdapterView<*>?) {
+                    TODO("Not yet implemented")
+                }
             }
         }
         viewModelSellerCategory.getSellerCategory()

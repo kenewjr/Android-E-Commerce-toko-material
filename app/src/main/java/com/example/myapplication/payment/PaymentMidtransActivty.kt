@@ -119,6 +119,7 @@ class PaymentMidtransActivty : AppCompatActivity(), TransactionFinishedCallback 
                 viewModelProductSeller.tambahHistory(
                     idUser,
                     idbarang.toInt(),
+                    t.order_id,
                     t.metadata.extra_info.user_id,
                     t.transaction_time,
                     it.nama_produk,
