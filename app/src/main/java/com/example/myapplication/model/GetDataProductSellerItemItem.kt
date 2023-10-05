@@ -7,6 +7,7 @@ data class GetDataProductSellerItemItem(
     val harga: String,
     val id: String,
     val kategori: String,
+    val kategori_id: Int,
     val nama_produk: String,
     val stok: String,
     val update_at: String,

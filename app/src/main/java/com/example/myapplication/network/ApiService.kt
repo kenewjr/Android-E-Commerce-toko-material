@@ -120,4 +120,18 @@ interface ApiService {
     fun getKomentar(
         @Query("id_produk")id_produk : Int
     ):Call<List<GetKomentarItem>>
+
+    @FormUrlEncoded
+    @POST("edit_produk")
+    fun editProduk(
+        @Field("id")id : Int,
+        @Field("nama_produk")namaProduk : String,
+        @Field("kategori_produk")kategoriProduk : String,
+        @Field("deskripsi")deskripsi : String,
+        @Field("stok")stok : String,
+        @Field("harga")harga : String,
+        @Field("gambar")gambar : String
+    ):Call<Response>
+
+
 }

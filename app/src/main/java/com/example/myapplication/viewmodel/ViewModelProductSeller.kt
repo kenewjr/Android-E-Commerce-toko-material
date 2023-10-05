@@ -15,6 +15,7 @@ import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import retrofit2.http.Field
 import javax.inject.Inject
 
 @HiltViewModel
@@ -31,6 +32,8 @@ class ViewModelProductSeller @Inject constructor(private var productRepository: 
 
     private val deleteProduct = MutableLiveData<com.example.myapplication.model.Response>()
 
+    private val updateproduct = MutableLiveData<com.example.myapplication.model.Response>()
+
     private val apiServices = api
     fun getSellerCategory(){
         viewModelScope.launch {
@@ -39,6 +42,33 @@ class ViewModelProductSeller @Inject constructor(private var productRepository: 
         }
     }
 
+    fun editProduct(
+       id : Int,
+        namaProduk : String,
+        kategoriProduk : String,
+       deskripsi : String,
+       stok : String,
+        harga : String,
+        gambar : String
+    ){
+        apiServices.editProduk(id, namaProduk, kategoriProduk, deskripsi, stok, harga, gambar)
+            .enqueue(object : Callback<com.example.myapplication.model.Response>{
+                override fun onResponse(
+                    call: Call<com.example.myapplication.model.Response>,
+                    response: Response<com.example.myapplication.model.Response>
+                ) {
+                    updateproduct.value = response.body()
+                }
+
+                override fun onFailure(
+                    call: Call<com.example.myapplication.model.Response>,
+                    t: Throwable
+                ) {
+                   //
+                }
+
+            })
+    }
     fun deleteProduct(
         delete : String,
         id: Int

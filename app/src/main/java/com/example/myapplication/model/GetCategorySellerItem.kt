@@ -10,7 +10,7 @@ data class GetCategorySellerItem(
     @SerializedName("createdAt")
     val createdAt: String,
     @SerializedName("id")
-    val id: Int,
+    var id: Int,
     @SerializedName("name")
     val name: String,
 ):Parcelable
