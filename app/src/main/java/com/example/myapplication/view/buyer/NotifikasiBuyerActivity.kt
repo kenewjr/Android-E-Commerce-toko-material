@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isInvisible
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,6 +16,7 @@ import com.example.myapplication.R
 import com.example.myapplication.datastore.UserManager
 import com.example.myapplication.model.GetHistoryItem
 import com.example.myapplication.network.ApiClient
+import com.example.myapplication.view.AkunsayaActivty
 import com.example.myapplication.view.HomeActivity
 import com.example.myapplication.view.LoginActivity
 import com.example.myapplication.view.adapter.AdapterNotifikasiBuyer
@@ -35,11 +37,16 @@ class NotifikasiBuyerActivity : AppCompatActivity() {
     private lateinit var  userManager: UserManager
     private lateinit var apiClient: ApiClient
     private lateinit var adapterNotifikasiBuyer: AdapterNotifikasiBuyer
+
     private val bottomNavigasi = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when(item.itemId){
             R.id.notifikasi -> {
-                startActivity(Intent(this, NotifikasiBuyerActivity::class.java))
-                return@OnNavigationItemSelectedListener true
+                Toast.makeText(this, "Kamu Sedang Berada Di Notifikasi", Toast.LENGTH_SHORT).show()
+                return@OnNavigationItemSelectedListener false
+            }
+            R.id.history -> {
+                Toast.makeText(this, "Kamu Sedang Berada Di History", Toast.LENGTH_SHORT).show()
+                return@OnNavigationItemSelectedListener false
             }
             R.id.dashboard -> {
                 startActivity(Intent(this, HomeActivity::class.java))
@@ -47,16 +54,17 @@ class NotifikasiBuyerActivity : AppCompatActivity() {
             }
             R.id.jual -> {
                 val booleanvalue = userManager.getBooleanValue()
-                    if (booleanvalue == true){
-                        startActivity(Intent(this, LengkapiDetailProductActivity::class.java))
-                    } else {
-                        Toast.makeText(applicationContext, "Anda Belum Login", Toast.LENGTH_SHORT).show()
-                        startActivity(Intent(this, LoginActivity::class.java))
-                        finish()
-                    }
+                if (booleanvalue == true){
+                    startActivity(Intent(this, LengkapiDetailProductActivity::class.java))
+                } else {
+                    Toast.makeText(applicationContext, "Anda Belum Login", Toast.LENGTH_SHORT).show()
+                    startActivity(Intent(this, LoginActivity::class.java))
+                    finish()
+                }
+                return@OnNavigationItemSelectedListener true
             }
             R.id.akun -> {
-                Toast.makeText(this, "Kamu Sedang Berada Di Akun", Toast.LENGTH_SHORT).show()
+                startActivity(Intent(this, AkunsayaActivty::class.java))
                 return@OnNavigationItemSelectedListener false
             }
             R.id.daftar_jual -> {
@@ -72,8 +80,18 @@ class NotifikasiBuyerActivity : AppCompatActivity() {
         setContentView(R.layout.activity_notifikasi_buyer)
         apiClient = ApiClient()
         userManager = UserManager(this)
-        val botnav = findViewById<BottomNavigationView>(R.id.navigation)
-        botnav.setOnNavigationItemSelectedListener(bottomNavigasi)
+        val booleanvalue = userManager.getBooleanValue()
+        if (booleanvalue && userManager.fetchstatus() == "seller") {
+            val botnav = findViewById<BottomNavigationView>(R.id.navigation)
+            val botnav2 = findViewById<BottomNavigationView>(R.id.default_navigation)
+            botnav2.isInvisible = true
+            botnav.setOnNavigationItemSelectedListener(bottomNavigasi)
+        } else {
+            val botnav = findViewById<BottomNavigationView>(R.id.default_navigation)
+            val botnav2 = findViewById<BottomNavigationView>(R.id.navigation)
+            botnav2.isInvisible = true
+            botnav.setOnNavigationItemSelectedListener(bottomNavigasi)
+        }
         fetchnotif()
     }
 

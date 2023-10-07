@@ -14,6 +14,7 @@ class UserManager(context : Context) {
 
     companion object {
         const val ID = "ID"
+        const val STATUS = "STATUS"
         const val IMAGEUSER = "IMAGEUSER"
         const val KOTA = "KOTA"
         const val BOOLEAN_KEY = "my_boolean_key"
@@ -43,15 +44,19 @@ class UserManager(context : Context) {
             .apply()
     }
 
-    fun savedata(username:String,password:String){
+    fun savedata(username:String,password:String,status:String){
         val editor = prefs.edit()
         editor.putString(USERNAME,username)
+        editor.putString(STATUS,status)
         editor.putString(PASSWORD,password)
             .apply()
     }
 
     fun fetchusername(): String?{
         return prefs.getString(USERNAME,null)
+    }
+    fun fetchstatus(): String?{
+        return prefs.getString(STATUS,null)
     }
     fun fetchpassword(): String?{
         return prefs.getString(PASSWORD,null)

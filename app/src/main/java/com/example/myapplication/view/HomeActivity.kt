@@ -12,6 +12,7 @@ import android.os.Looper
 import android.view.View
 import android.widget.SearchView
 import android.widget.Toast
+import androidx.core.view.isInvisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
 import androidx.recyclerview.widget.GridLayoutManager
@@ -38,9 +39,20 @@ class HomeActivity : AppCompatActivity() {
                 startActivity(Intent(this, NotifikasiBuyerActivity::class.java))
                 return@OnNavigationItemSelectedListener true
             }
-            R.id.dashboard -> {
-                startActivity(Intent(this, HomeActivity::class.java))
+            R.id.history -> {
+                val booleanvalue = userManager.getBooleanValue()
+                if (booleanvalue == true) {
+                    startActivity(Intent(this, NotifikasiBuyerActivity::class.java))
+                } else {
+                    Toast.makeText(applicationContext, "Anda Belum Login", Toast.LENGTH_SHORT).show()
+                    startActivity(Intent(this, LoginActivity::class.java))
+                    finish()
+                }
                 return@OnNavigationItemSelectedListener true
+            }
+            R.id.dashboard -> {
+                Toast.makeText(this, "Kamu Sedang Berada Di Home", Toast.LENGTH_SHORT).show()
+                return@OnNavigationItemSelectedListener false
             }
             R.id.jual -> {
                 val booleanvalue = userManager.getBooleanValue()
@@ -51,6 +63,7 @@ class HomeActivity : AppCompatActivity() {
                         startActivity(Intent(this, LoginActivity::class.java))
                         finish()
                     }
+                return@OnNavigationItemSelectedListener true
             }
             R.id.akun -> {
                 startActivity(Intent(this, AkunsayaActivty::class.java))
@@ -67,8 +80,19 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
         userManager = UserManager(this)
-        val botnav = findViewById<BottomNavigationView>(R.id.navigation)
-        botnav.setOnNavigationItemSelectedListener(bottomNavigasi)
+        val booleanvalue = userManager.getBooleanValue()
+        if (booleanvalue && userManager.fetchstatus() == "seller") {
+            val botnav = findViewById<BottomNavigationView>(R.id.navigation)
+            val botnav2 = findViewById<BottomNavigationView>(R.id.default_navigation)
+            botnav2.isInvisible = true
+            botnav.setOnNavigationItemSelectedListener(bottomNavigasi)
+        } else {
+            val botnav = findViewById<BottomNavigationView>(R.id.default_navigation)
+            val botnav2 = findViewById<BottomNavigationView>(R.id.navigation)
+            botnav2.isInvisible = true
+            botnav.setOnNavigationItemSelectedListener(bottomNavigasi)
+        }
+
         if (isOnline(this)) {
             search()
             iniviewmodel()

@@ -33,8 +33,12 @@ class AkunsayaActivty : AppCompatActivity() {
     private val bottomNavigasi = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when(item.itemId){
             R.id.notifikasi -> {
-                startActivity(Intent(this, NotifikasiBuyerActivity::class.java))
-                return@OnNavigationItemSelectedListener true
+                Toast.makeText(this, "Kamu Sedang Berada Di Notifikasi", Toast.LENGTH_SHORT).show()
+                return@OnNavigationItemSelectedListener false
+            }
+            R.id.history -> {
+                Toast.makeText(this, "Kamu Sedang Berada Di History", Toast.LENGTH_SHORT).show()
+                return@OnNavigationItemSelectedListener false
             }
             R.id.dashboard -> {
                 startActivity(Intent(this, HomeActivity::class.java))
@@ -42,13 +46,14 @@ class AkunsayaActivty : AppCompatActivity() {
             }
             R.id.jual -> {
                 val booleanvalue = userManager.getBooleanValue()
-                    if (booleanvalue == true){
-                        startActivity(Intent(this, LengkapiDetailProductActivity::class.java))
-                    } else {
-                        Toast.makeText(applicationContext, "Anda Belum Login", Toast.LENGTH_SHORT).show()
-                        startActivity(Intent(this, LoginActivity::class.java))
-                        finish()
-                    }
+                if (booleanvalue == true){
+                    startActivity(Intent(this, LengkapiDetailProductActivity::class.java))
+                } else {
+                    Toast.makeText(applicationContext, "Anda Belum Login", Toast.LENGTH_SHORT).show()
+                    startActivity(Intent(this, LoginActivity::class.java))
+                    finish()
+                }
+                return@OnNavigationItemSelectedListener true
             }
             R.id.akun -> {
                 Toast.makeText(this, "Kamu Sedang Berada Di Akun", Toast.LENGTH_SHORT).show()
@@ -66,12 +71,22 @@ class AkunsayaActivty : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_akunsaya_activty)
-        val botnav = findViewById<BottomNavigationView>(R.id.navigation)
-        botnav.setOnNavigationItemSelectedListener(bottomNavigasi)
+
         userManager = UserManager(this)
         username = userManager.fetchusername().toString()
         versiapp.text = "versi : "+BuildConfig.VERSION_NAME
         val booleanvalue = userManager.getBooleanValue()
+        if (booleanvalue && userManager.fetchstatus() == "seller") {
+            val botnav = findViewById<BottomNavigationView>(R.id.navigation)
+            val botnav2 = findViewById<BottomNavigationView>(R.id.default_navigation)
+            botnav2.isInvisible = true
+            botnav.setOnNavigationItemSelectedListener(bottomNavigasi)
+        } else {
+            val botnav = findViewById<BottomNavigationView>(R.id.default_navigation)
+            val botnav2 = findViewById<BottomNavigationView>(R.id.navigation)
+            botnav2.isInvisible = true
+            botnav.setOnNavigationItemSelectedListener(bottomNavigasi)
+        }
             if (booleanvalue == true){
                 akunsaya_login.isInvisible = true
                 user_akunsaya.text = "selamat datang $username"
@@ -86,6 +101,7 @@ class AkunsayaActivty : AppCompatActivity() {
                     finish()
                 }
             }
+
         keluar()
         ubahAkun()
         changePassword()

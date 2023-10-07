@@ -54,7 +54,8 @@ class LoginActivity : AppCompatActivity() {
                             )
                             userManager.savedata(
                                 username = loginusername,
-                                password = loginPassword
+                                password = loginPassword,
+                                status =  response.body()!!.payload.status
                             )
                         startActivity(Intent(applicationContext, HomeActivity::class.java))
                         finish()

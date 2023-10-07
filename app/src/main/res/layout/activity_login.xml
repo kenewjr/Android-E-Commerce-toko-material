@@ -39,28 +39,25 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints">
 
-
-
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textInputLayout7"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:layout_editor_absoluteX="20dp">
+            app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/login_email"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:background="@drawable/custom_drawable"
                 android:drawableStart="@drawable/ic_email"
                 android:drawablePadding="6dp"
                 android:drawableTint="#0000ff"
-                android:hint="Email"
+                android:hint="Username"
                 android:inputType="textEmailAddress"
                 tools:ignore="HardcodedText" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -81,7 +78,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/login_pass"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:background="@drawable/custom_drawable"
                 android:drawableStart="@drawable/ic_lock"
                 android:drawablePadding="6dp"

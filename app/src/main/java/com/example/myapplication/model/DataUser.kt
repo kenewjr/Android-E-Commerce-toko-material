@@ -8,5 +8,6 @@ data class DataUser(
     val nohp: String,
     val password: String,
     val user_id: String,
+    val status: String,
     val username: String
 ): Serializable
