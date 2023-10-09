@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.seller.DaftarJualDiminatiSellerActivity"
+    tools:context=".view.seller.DaftarJualHistory"
     android:layout_margin="10sp">
 
     <TextView
@@ -123,76 +123,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Product"
-                        android:textColor="@color/white"
-                        android:textSize="15sp"
-                        android:textStyle="bold"
-                        android:padding="10sp"
-                        tools:ignore="HardcodedText" />
-                </LinearLayout>
-
-            </com.google.android.material.card.MaterialCardView>
-
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/cardView_diminatiSeller"
-                android:layout_width="wrap_content"
-                android:layout_height="60sp"
-                android:layout_marginRight="10dp"
-                android:backgroundTint="#A491AC"
-                app:cardCornerRadius="8sp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    android:layout_margin="10sp"
-                    tools:ignore="UseCompoundDrawables">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_baseline_favorite_border_24"
-                        android:padding="10sp"
-                        tools:ignore="ContentDescription" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Diminati"
-                        android:textColor="@color/white"
-                        android:textSize="15sp"
-                        android:textStyle="bold"
-                        android:padding="10sp"
-                        tools:ignore="HardcodedText" />
-                </LinearLayout>
-
-            </com.google.android.material.card.MaterialCardView>
-
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/daftarTerjual"
-                android:layout_width="wrap_content"
-                android:layout_height="60sp"
-                android:layout_marginRight="10dp"
-                android:backgroundTint="#A491AC"
-                app:cardCornerRadius="8sp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    android:layout_margin="10sp"
-                    tools:ignore="UseCompoundDrawables">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_attach_money_24"
-                        android:padding="10sp"
-                        tools:ignore="ContentDescription" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Terjual"
                         android:textColor="@color/white"
                         android:textSize="15sp"
                         android:textStyle="bold"

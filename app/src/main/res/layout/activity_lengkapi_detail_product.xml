@@ -61,7 +61,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputnamaproduct"
                 android:layout_width="match_parent"
-                android:layout_height="55dp"
+                android:layout_height="60dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginEnd="20dp"
@@ -73,7 +73,7 @@
                 <EditText
                     android:id="@+id/edt_namaprodut"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="50dp"
                     android:background="@drawable/custom_drawable"
                     android:hint="Nama Product"
                     android:inputType="text"
@@ -98,7 +98,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputhargaproduct"
                 android:layout_width="match_parent"
-                android:layout_height="55dp"
+                android:layout_height="60dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginEnd="20dp"
@@ -110,7 +110,7 @@
                 <EditText
                     android:id="@+id/edt_hargaproduct"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="50dp"
                     android:background="@drawable/custom_drawable"
                     android:hint="Harga Product"
                     android:inputType="numberDecimal"
@@ -148,7 +148,10 @@
                     android:id="@+id/select_kategori"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:spinnerMode="dropdown" />
+                    android:contentDescription="@string/select_category"
+                    android:labelFor="@id/textselectkategori"
+                    android:spinnerMode="dropdown"
+                    tools:ignore="SpeakableTextPresentCheck" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -169,7 +172,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/deskripsi"
                 android:layout_width="match_parent"
-                android:layout_height="55dp"
+                android:layout_height="60dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginEnd="20dp"
@@ -181,7 +184,7 @@
                 <EditText
                     android:id="@+id/edt_deskripsi"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="50dp"
                     android:background="@drawable/custom_drawable"
                     android:hint="Deskripsi"
                     android:inputType="text"
@@ -206,7 +209,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/lokasi"
                 android:layout_width="match_parent"
-                android:layout_height="55dp"
+                android:layout_height="60dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginEnd="20dp"
@@ -218,7 +221,7 @@
                 <EditText
                     android:id="@+id/edt_lokasi"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="50dp"
                     android:background="@drawable/custom_drawable"
                     android:hint="Stok"
                     android:inputType="number"

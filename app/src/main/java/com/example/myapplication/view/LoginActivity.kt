@@ -38,6 +38,9 @@ class LoginActivity : AppCompatActivity() {
             startActivity(Intent(this, RegisterActivity::class.java))
             finish()
         }
+        imageBack.setOnClickListener {
+           onBackPressed()
+        }
     }
     private fun loginauth(loginusername : String, loginPassword : String){
         apiClient.getApiService().login(username = loginusername, password = loginPassword)

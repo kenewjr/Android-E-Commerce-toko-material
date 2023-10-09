@@ -55,12 +55,22 @@ class AddProductBuyerActivity : AppCompatActivity() {
             pindah.putExtra("idproduk",dataProduct!!.id)
             startActivity(pindah)
         }
-        imageKomen.setOnClickListener {
-            addKomentar()
-        }
+        val booleanvalue = userManager.getBooleanValue()
         detailData()
         fetchkomentar()
-        disablebutton()
+        if (booleanvalue == true){
+            imageKomen.setOnClickListener {
+                addKomentar()
+            }
+            disablebutton()
+            checkakun()
+        } else {
+            imageKomen.setOnClickListener {
+                Toast.makeText(this, "Silahkan Login Terlebih Dahulu", Toast.LENGTH_SHORT).show()
+            }
+            addProductBuyer_btnTertarik.text = "Silahkan Login Terlebih Dahulu"
+        }
+
     }
 
     private fun disablebutton(){
@@ -77,7 +87,6 @@ class AddProductBuyerActivity : AppCompatActivity() {
             }
         }
     }
-
     private fun addKomentar(){
         userManager = UserManager(this)
         val viewModelKomentar = ViewModelProvider(this)[ViewModelUser::class.java]
@@ -104,12 +113,8 @@ class AddProductBuyerActivity : AppCompatActivity() {
             adapterKomentar.setKomentar(it)
             adapterKomentar.notifyDataSetChanged()
         }
-
     }
-    private fun detailData() {
-        userManager = UserManager(this)
-        val dataProduct = intent.extras!!.getSerializable("detailproduk") as GetAllProdukItem?
-
+    private fun checkakun(){
         val viewModelDataSeller = ViewModelProvider(this)[ViewModelUser::class.java]
         viewModelDataSeller.getProfile(id = userManager.fetchId()!!.toInt())
         viewModelDataSeller.profileData.observe(this) {
@@ -122,6 +127,10 @@ class AddProductBuyerActivity : AppCompatActivity() {
             }
             nama = it.nama
         }
+    }
+    private fun detailData() {
+        userManager = UserManager(this)
+        val dataProduct = intent.extras!!.getSerializable("detailproduk") as GetAllProdukItem?
         if (dataProduct != null) {
             val viewModel = ViewModelProvider(this)[ViewModelHome::class.java]
             viewModel.getProductid(dataProduct.id.toInt())
@@ -129,12 +138,11 @@ class AddProductBuyerActivity : AppCompatActivity() {
                 .load(dataProduct.gambar)
                 .override(400, 350)
                 .into(tv_imgdetailproduct)
-            produkpilih = dataProduct.id.toString()
-            tv_judulproductdetail.text = dataProduct.nama
-            tv_acesorisproductdetail.text = dataProduct.kategori.toString()
-            tv_hargaproductdetail.text = dataProduct.harga.toString()
+            produkpilih = dataProduct.id
+            tv_judulproductdetail.text = "Nama Produk : "+dataProduct.nama
+            tv_acesorisproductdetail.text ="Kategori : "+ dataProduct.kategori
+            tv_hargaproductdetail.text = "Harga Produk : "+dataProduct.harga
             tv_deskripsidetail.text = dataProduct.deskripsi
-            tv_acesorisproductdetail.text = ""
         }
     }
 }

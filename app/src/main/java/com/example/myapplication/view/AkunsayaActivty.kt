@@ -33,12 +33,19 @@ class AkunsayaActivty : AppCompatActivity() {
     private val bottomNavigasi = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when(item.itemId){
             R.id.notifikasi -> {
-                Toast.makeText(this, "Kamu Sedang Berada Di Notifikasi", Toast.LENGTH_SHORT).show()
-                return@OnNavigationItemSelectedListener false
+                startActivity(Intent(this, NotifikasiBuyerActivity::class.java))
+                return@OnNavigationItemSelectedListener true
             }
             R.id.history -> {
-                Toast.makeText(this, "Kamu Sedang Berada Di History", Toast.LENGTH_SHORT).show()
-                return@OnNavigationItemSelectedListener false
+                val booleanvalue = userManager.getBooleanValue()
+                if (booleanvalue == true) {
+                    startActivity(Intent(this, NotifikasiBuyerActivity::class.java))
+                } else {
+                    Toast.makeText(applicationContext, "Anda Belum Login", Toast.LENGTH_SHORT).show()
+                    startActivity(Intent(this, LoginActivity::class.java))
+                    finish()
+                }
+                return@OnNavigationItemSelectedListener true
             }
             R.id.dashboard -> {
                 startActivity(Intent(this, HomeActivity::class.java))

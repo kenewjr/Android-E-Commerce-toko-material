@@ -95,8 +95,8 @@ class ViewModelProductSeller @Inject constructor(private var productRepository: 
     fun tambahHistory(
         idUser : Int,
         idProduk : Int,
-        namaUser : String,
         order_id : String,
+        namaUser : String,
         tglTransaksi : String,
         namaProduk : String,
         hargaProduk : String,

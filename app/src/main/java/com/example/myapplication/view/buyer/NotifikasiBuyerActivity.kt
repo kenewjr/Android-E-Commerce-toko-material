@@ -80,18 +80,8 @@ class NotifikasiBuyerActivity : AppCompatActivity() {
         setContentView(R.layout.activity_notifikasi_buyer)
         apiClient = ApiClient()
         userManager = UserManager(this)
-        val booleanvalue = userManager.getBooleanValue()
-        if (booleanvalue && userManager.fetchstatus() == "seller") {
-            val botnav = findViewById<BottomNavigationView>(R.id.navigation)
-            val botnav2 = findViewById<BottomNavigationView>(R.id.default_navigation)
-            botnav2.isInvisible = true
-            botnav.setOnNavigationItemSelectedListener(bottomNavigasi)
-        } else {
-            val botnav = findViewById<BottomNavigationView>(R.id.default_navigation)
-            val botnav2 = findViewById<BottomNavigationView>(R.id.navigation)
-            botnav2.isInvisible = true
-            botnav.setOnNavigationItemSelectedListener(bottomNavigasi)
-        }
+        val botnav = findViewById<BottomNavigationView>(R.id.navigation)
+        botnav.setOnNavigationItemSelectedListener(bottomNavigasi)
         fetchnotif()
     }
 

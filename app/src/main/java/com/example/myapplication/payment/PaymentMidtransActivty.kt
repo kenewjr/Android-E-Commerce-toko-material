@@ -13,6 +13,7 @@ import com.example.myapplication.model.GetHistoryItem
 import com.example.myapplication.viewmodel.ViewModelHome
 import com.example.myapplication.viewmodel.ViewModelMidtrans
 import com.example.myapplication.viewmodel.ViewModelProductSeller
+import com.example.myapplication.viewmodel.ViewModelUser
 import com.midtrans.sdk.corekit.callback.TransactionFinishedCallback
 import com.midtrans.sdk.corekit.core.MidtransSDK
 import com.midtrans.sdk.corekit.core.TransactionRequest
@@ -59,7 +60,7 @@ class PaymentMidtransActivty : AppCompatActivity(), TransactionFinishedCallback 
                 .setClientKey("SB-Mid-client-UyV8fwVUJHmHywYZ")
                 .setContext(this)
                 .setTransactionFinishedCallback(this)
-                .setMerchantBaseUrl("http://192.168.1.150/skripsi/midtrans.php/")
+                .setMerchantBaseUrl("https://dev.vzcyberd.cloud/abrar/API/midtrans.php/")
                 .enableLog(true)
                 .setColorTheme(CustomColorTheme("#FFE51255", "#B61548", "#FFE51255"))
                 .setLanguage("id")
@@ -74,7 +75,6 @@ class PaymentMidtransActivty : AppCompatActivity(), TransactionFinishedCallback 
     fun pesan(){
         pesan.setOnClickListener {
             val Jumlah = etJumlah.text.toString()
-            val catatan = etCatatan.text.toString()
             val convert = hargabarang*Jumlah.toDouble()
             val transactionRequest = TransactionRequest("material-"+System.currentTimeMillis().toShort()+"",convert)
             val detail = ItemDetails("NamaItem",hargabarang.toDouble(),Jumlah.toInt(),"testi")
@@ -89,21 +89,20 @@ class PaymentMidtransActivty : AppCompatActivity(), TransactionFinishedCallback 
         }
     }
     fun uiKitsDetails(transactionRequest: TransactionRequest){
-        val customersDetails = CustomerDetails()
-        customersDetails.customerIdentifier = "abrar"
-        customersDetails.phone = "08897776"
-        customersDetails.email = "sukijah@gmail.com"
-        val shippingAddress = ShippingAddress()
-        shippingAddress.address = "cilegon,banten"
-        shippingAddress.city = "tanggerang"
-        shippingAddress.postalCode = "42415"
-        customersDetails.shippingAddress = shippingAddress
-        val billingAddress = BillingAddress()
-        billingAddress.address = "cilegon,banten"
-        billingAddress.city = "tanggerang"
-        billingAddress.postalCode = "42415"
-        customersDetails.billingAddress = billingAddress
-        transactionRequest.customerDetails = customersDetails
+        val viewModelDataSeller = ViewModelProvider(this)[ViewModelUser::class.java]
+        viewModelDataSeller.getProfile(id = userManager.fetchId()!!.toInt())
+        viewModelDataSeller.profileData.observe(this) {
+            val customersDetails = CustomerDetails()
+            customersDetails.customerIdentifier = it.nama
+            customersDetails.phone = it.nohp
+            val shippingAddress = ShippingAddress()
+            shippingAddress.address = it.alamat
+            customersDetails.shippingAddress = shippingAddress
+            val billingAddress = BillingAddress()
+            billingAddress.address = it.alamat
+            customersDetails.billingAddress = billingAddress
+            transactionRequest.customerDetails = customersDetails
+        }
     }
 
     fun addHistory(){
@@ -142,8 +141,8 @@ class PaymentMidtransActivty : AppCompatActivity(), TransactionFinishedCallback 
                     .load(it.gambar)
                     .override(400, 350)
                     .into(produk_image)
-                nama_produk.text = it.nama_produk
-                harga_produk.text = it.harga
+                nama_produk.text = "Nama Produk : "+it.nama_produk
+                harga_produk.text = "Harga Produk : "+it.harga
             }else {
                 Log.e("midtranssss","kosong")
             }

@@ -67,7 +67,7 @@ class HomeActivity : AppCompatActivity() {
             }
             R.id.akun -> {
                 startActivity(Intent(this, AkunsayaActivty::class.java))
-                return@OnNavigationItemSelectedListener false
+                return@OnNavigationItemSelectedListener true
             }
             R.id.daftar_jual -> {
                 startActivity(Intent(this, DaftarJualActivity::class.java))
@@ -99,7 +99,6 @@ class HomeActivity : AppCompatActivity() {
         } else {
             Toast.makeText(applicationContext, "Tidak Ada Koneksi Internet", Toast.LENGTH_SHORT)
                 .show()
-
         }
     }
 

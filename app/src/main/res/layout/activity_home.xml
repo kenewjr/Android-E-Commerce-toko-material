@@ -21,92 +21,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <HorizontalScrollView
-                android:id="@+id/horizontalScrollView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                tools:ignore="MissingConstraints">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/button_semua"
-                        android:layout_width="wrap_content"
-                        android:layout_height="50dp"
-                        android:layout_marginStart="15dp"
-                        android:background="@drawable/custom_drawable"
-                        android:drawableLeft="@drawable/ic_baseline_search_24"
-                        android:padding="15dp"
-                        android:text="Semua"
-                        android:textSize="16sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/button_Fashion"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:ignore="HardcodedText,RtlHardcoded" />
-
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/button_Fashion"
-                        android:layout_width="wrap_content"
-                        android:layout_height="50dp"
-                        android:layout_marginStart="15dp"
-                        android:background="@drawable/custom_drawable"
-                        android:drawableLeft="@drawable/ic_baseline_search_24"
-                        android:padding="15dp"
-                        android:text="FASHION"
-                        android:textSize="16sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/button_Electronic"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toEndOf="@+id/button_semua"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:ignore="HardcodedText,RtlHardcoded" />
-
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/button_Electronic"
-                        android:layout_width="wrap_content"
-                        android:layout_height="50dp"
-                        android:layout_marginStart="15dp"
-                        android:background="@drawable/custom_drawable"
-                        android:drawableLeft="@drawable/ic_baseline_search_24"
-                        android:padding="15dp"
-                        android:text="Electronic"
-                        android:textSize="16sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/button_Fashion"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toEndOf="@+id/button_Fashion"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:ignore="HardcodedText,RtlHardcoded" />
-
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/button_Other"
-                        android:layout_width="wrap_content"
-                        android:layout_height="50dp"
-                        android:layout_marginStart="15dp"
-                        android:layout_marginEnd="15dp"
-                        android:background="@drawable/custom_drawable"
-                        android:drawableLeft="@drawable/ic_baseline_search_24"
-                        android:padding="15dp"
-                        android:text="Other"
-                        android:textSize="16sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toEndOf="@+id/button_Electronic"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:ignore="HardcodedText,RtlHardcoded" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </HorizontalScrollView>
-
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_homeProduk"
                 android:layout_width="0dp"
@@ -115,7 +29,6 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView"
                 tools:ignore="MissingConstraints" />
 
             <ProgressBar
@@ -127,8 +40,7 @@
                 android:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="@+id/rv_homeProduk"
                 app:layout_constraintEnd_toEndOf="@+id/rv_homeProduk"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView" />
+                app:layout_constraintStart_toStartOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -145,26 +57,11 @@
         android:background="@drawable/custom_drawable"
         app:iconifiedByDefault="false"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/orderbuyerlist"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:queryHint="Cari Product di SecondHand"
         tools:ignore="MissingConstraints"/>
-
-    <ImageView
-        android:id="@+id/orderbuyerlist"
-        android:layout_width="30dp"
-        android:layout_height="40dp"
-        android:src="@drawable/ic_baseline_shopping_cart_24"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="15dp"
-        android:layout_marginStart="5dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/searchView"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="ContentDescription,MissingConstraints" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/navigation"

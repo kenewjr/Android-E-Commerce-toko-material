@@ -71,17 +71,9 @@ class DaftarJualActivity : AppCompatActivity() {
         userManager = UserManager(this)
         val botnav = findViewById<BottomNavigationView>(R.id.navigation)
         botnav.setOnNavigationItemSelectedListener(bottomNavigasi)
-//        val viewModelSeller = ViewModelProvider(this)[ViewModelProductSeller::class.java]
-//        viewModelSeller.getSeller(userManager.fetchAuthToken().toString())
         initView()
         editSeller()
         addProduct()
-//        cardView_diminatiSeller.setOnClickListener {
-//            startActivity(Intent(this, DaftarJualDiminatiSellerActivity::class.java))
-//        }
-//        daftarTerjuall.setOnClickListener {
-//            startActivity(Intent(this,DaftarJualTerjual::class.java))
-//        }
         daftarHistory.setOnClickListener {
             startActivity(Intent(this,DaftarJualHistory::class.java))
         }
