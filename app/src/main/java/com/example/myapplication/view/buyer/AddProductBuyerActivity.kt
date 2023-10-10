@@ -19,6 +19,7 @@ import com.example.myapplication.datastore.UserManager
 import com.example.myapplication.model.GetAllProdukItem
 import com.example.myapplication.network.ApiClient
 import com.example.myapplication.payment.PaymentMidtransActivty
+import com.example.myapplication.view.HomeActivity
 import com.example.myapplication.view.adapter.AdapterKomentar
 import com.example.myapplication.viewmodel.ViewModelHome
 import com.example.myapplication.viewmodel.ViewModelProductSeller
@@ -47,7 +48,7 @@ class AddProductBuyerActivity : AppCompatActivity() {
         userManager = UserManager(this)
         apiClient = ApiClient()
         back.setOnClickListener {
-            onBackPressed()
+            startActivity(Intent(this,HomeActivity::class.java))
         }
         addProductBuyer_btnTertarik.setOnClickListener {
             val dataProduct = intent.extras!!.getSerializable("detailproduk") as GetAllProdukItem?

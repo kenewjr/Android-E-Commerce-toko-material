@@ -1,17 +1,13 @@
 package com.example.myapplication.payment
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.bumptech.glide.Glide
 import com.example.myapplication.R
 import com.example.myapplication.datastore.UserManager
-import com.example.myapplication.model.GetHistoryItem
-import com.example.myapplication.view.HomeActivity
 import com.example.myapplication.viewmodel.ViewModelHome
 import com.example.myapplication.viewmodel.ViewModelMidtrans
 import com.example.myapplication.viewmodel.ViewModelProductSeller
@@ -36,12 +32,9 @@ import kotlinx.coroutines.DelicateCoroutinesApi
 class PaymentMidtransActivty : AppCompatActivity(), TransactionFinishedCallback {
     var hargabarang:Int = 0
     var orderId : String = ""
+    var produkid : Int = 0
     var gambar : String = ""
-    var namaProduk : String = ""
-    var tgltransaksi : String = ""
-    var namauser : String = ""
-    var totalharga : String = ""
-    var id_riwayat =0
+    private var idriwayat =0
     private lateinit var userManager: UserManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,13 +44,12 @@ class PaymentMidtransActivty : AppCompatActivity(), TransactionFinishedCallback 
         viewModel()
         val viewModelProductSeller = ViewModelProvider(this)[ViewModelProductSeller::class.java]
         viewModelProductSeller.getHistory()
-        getdataProfile()
         viewModelProductSeller.datahistory.observe(this){
              val lastHistoryItem = it[it.size-1]
-            id_riwayat = lastHistoryItem.id.toInt()+1
-            Log.e("idriwayat",id_riwayat.toString())
+            idriwayat = lastHistoryItem.id.toInt()+1
+            Log.e("idriwayat",idriwayat.toString())
         }
-
+        getdataProfile()
         runOnUiThread {
             SdkUIFlowBuilder.init()
                 .setClientKey("SB-Mid-client-UyV8fwVUJHmHywYZ")
@@ -84,8 +76,10 @@ class PaymentMidtransActivty : AppCompatActivity(), TransactionFinishedCallback 
             val itemDetails = ArrayList<ItemDetails>()
             itemDetails.add(detail)
             uiKitsDetails(transactionRequest)
-            transactionRequest.customField1 = id_riwayat.toString()
-            transactionRequest.itemDetails =itemDetails
+            transactionRequest.customField1 = idriwayat.toString()
+            transactionRequest.customField2 = Jumlah
+            transactionRequest.customField3 = produkid.toString()
+            transactionRequest.itemDetails = itemDetails
             MidtransSDK.getInstance().transactionRequest = transactionRequest
             MidtransSDK.getInstance().startPaymentUiFlow(this)
             orderId = transactionRequest.orderId
@@ -153,7 +147,8 @@ class PaymentMidtransActivty : AppCompatActivity(), TransactionFinishedCallback 
     private fun viewModel(){
         val viewModel = ViewModelProvider(this)[ViewModelHome::class.java]
         val idbarang = intent.getStringExtra("idproduk")
-        viewModel.getProductid(idbarang!!.toInt())
+        produkid = idbarang!!.toInt()
+        viewModel.getProductid(idbarang.toInt())
         viewModel.productid.observe(this@PaymentMidtransActivty) { it ->
             if (it != null) {
                 hargabarang = it.harga.toInt()
@@ -176,12 +171,10 @@ class PaymentMidtransActivty : AppCompatActivity(), TransactionFinishedCallback 
                 when (transactionResult.status) {
                     TransactionResult.STATUS_SUCCESS -> {
                         Toast.makeText(this, "Success transaction", Toast.LENGTH_LONG).show()
-                        startActivity(Intent(this, HomeActivity::class.java))
                     }
                     TransactionResult.STATUS_PENDING -> {
                         addHistory()
                         Toast.makeText(this, "Pending transaction", Toast.LENGTH_LONG).show()
-                        startActivity(Intent(this, HomeActivity::class.java))
                     }
                     TransactionResult.STATUS_FAILED -> {
                         Toast.makeText(this, "Failed ${transactionResult.response.statusMessage}", Toast.LENGTH_LONG).show()

@@ -299,5 +299,20 @@
         android:textStyle="bold"
         android:layout_below="@id/textInputjumlahproduk"
         tools:ignore="HardcodedText" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/home"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/login_btn_bg"
+        android:text="kembali ke home"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_toEndOf="@id/pesan"
+        android:layout_below="@id/textInputjumlahproduk"
+        tools:ignore="HardcodedText" />
     </RelativeLayout>
 </ScrollView>

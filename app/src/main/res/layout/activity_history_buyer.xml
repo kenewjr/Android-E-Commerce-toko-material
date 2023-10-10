@@ -50,14 +50,26 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
+    <TextView
+        android:id="@+id/tv_detail_produk"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:text="Detail Produk"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="30dp"
+        android:layout_below="@id/tv_tanggal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
     <androidx.cardview.widget.CardView
         android:id="@+id/cardHistory"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="3dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="5dp"
         app:cardCornerRadius="15dp"
-        android:layout_below="@id/tv_tanggal"
+        android:layout_below="@id/tv_detail_produk"
         app:cardElevation="5dp"
         xmlns:app="http://schemas.android.com/apk/res-auto">
 
@@ -101,6 +113,124 @@
                 android:textStyle="normal"
                 tools:ignore="HardcodedText,RtlHardcoded" />
         </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/tv_info_pengiriman"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:text="Info Pengiriman"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="30dp"
+        android:layout_below="@id/cardHistory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardinfoPengiriman"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="3dp"
+        android:layout_marginTop="5dp"
+        app:cardCornerRadius="15dp"
+        android:layout_below="@id/tv_info_pengiriman"
+        app:cardElevation="5dp"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/historyBuyer_order"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:text="Order ID"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="normal"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:id="@+id/historyBuyer_alamat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="alamat"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="normal"
+                tools:ignore="HardcodedText,RtlHardcoded" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/tv_rincian_pembayaran"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:text="Info Pengiriman"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="30dp"
+        android:layout_below="@id/cardinfoPengiriman"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardrincian"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="3dp"
+        android:layout_marginTop="5dp"
+        app:cardCornerRadius="15dp"
+        android:layout_below="@id/tv_rincian_pembayaran"
+        app:cardElevation="5dp"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/historyBuyer_jumlahbrg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:text="jumlah barang"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="normal"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:id="@+id/historyBuyer_totalongkos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="ongkos"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="normal"
+                tools:ignore="HardcodedText,RtlHardcoded" />
+
+            <TextView
+                android:id="@+id/historyBuyer_ttlbelanja"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="total belanja"
+                android:textColor="@color/black"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                tools:ignore="HardcodedText,RtlHardcoded" />
+        </LinearLayout>
     </androidx.cardview.widget.CardView>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView

@@ -20,6 +20,7 @@ import com.example.myapplication.R
 import com.example.myapplication.datastore.UserManager
 import com.example.myapplication.view.adapter.AdapterHome
 import com.example.myapplication.view.buyer.AddProductBuyerActivity
+import com.example.myapplication.view.buyer.HistoryBuyerActivity
 import com.example.myapplication.view.buyer.NotifikasiBuyerActivity
 import com.example.myapplication.view.seller.DaftarJualActivity
 import com.example.myapplication.view.seller.LengkapiDetailProductActivity
@@ -42,7 +43,7 @@ class HomeActivity : AppCompatActivity() {
             R.id.history -> {
                 val booleanvalue = userManager.getBooleanValue()
                 if (booleanvalue == true) {
-                    startActivity(Intent(this, NotifikasiBuyerActivity::class.java))
+                    startActivity(Intent(this, HistoryBuyerActivity::class.java))
                 } else {
                     Toast.makeText(applicationContext, "Anda Belum Login", Toast.LENGTH_SHORT).show()
                     startActivity(Intent(this, LoginActivity::class.java))
@@ -50,7 +51,7 @@ class HomeActivity : AppCompatActivity() {
                 }
                 return@OnNavigationItemSelectedListener true
             }
-            R.id.dashboard -> {
+            R.id.home -> {
                 Toast.makeText(this, "Kamu Sedang Berada Di Home", Toast.LENGTH_SHORT).show()
                 return@OnNavigationItemSelectedListener false
             }

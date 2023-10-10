@@ -48,7 +48,7 @@ class NotifikasiBuyerActivity : AppCompatActivity() {
                 Toast.makeText(this, "Kamu Sedang Berada Di History", Toast.LENGTH_SHORT).show()
                 return@OnNavigationItemSelectedListener false
             }
-            R.id.dashboard -> {
+            R.id.home -> {
                 startActivity(Intent(this, HomeActivity::class.java))
                 return@OnNavigationItemSelectedListener true
             }

@@ -15,6 +15,7 @@ import androidx.lifecycle.asLiveData
 import com.example.myapplication.BuildConfig
 import com.example.myapplication.R
 import com.example.myapplication.datastore.UserManager
+import com.example.myapplication.view.buyer.HistoryBuyerActivity
 import com.example.myapplication.view.buyer.NotifikasiBuyerActivity
 import com.example.myapplication.view.seller.DaftarJualActivity
 import com.example.myapplication.view.seller.LengkapiDetailProductActivity
@@ -29,7 +30,6 @@ class AkunsayaActivty : AppCompatActivity() {
     private lateinit var  userManager: UserManager
     private var username : String = ""
 
-
     private val bottomNavigasi = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when(item.itemId){
             R.id.notifikasi -> {
@@ -39,7 +39,7 @@ class AkunsayaActivty : AppCompatActivity() {
             R.id.history -> {
                 val booleanvalue = userManager.getBooleanValue()
                 if (booleanvalue == true) {
-                    startActivity(Intent(this, NotifikasiBuyerActivity::class.java))
+                    startActivity(Intent(this, HistoryBuyerActivity::class.java))
                 } else {
                     Toast.makeText(applicationContext, "Anda Belum Login", Toast.LENGTH_SHORT).show()
                     startActivity(Intent(this, LoginActivity::class.java))
@@ -47,7 +47,7 @@ class AkunsayaActivty : AppCompatActivity() {
                 }
                 return@OnNavigationItemSelectedListener true
             }
-            R.id.dashboard -> {
+            R.id.home -> {
                 startActivity(Intent(this, HomeActivity::class.java))
                 return@OnNavigationItemSelectedListener true
             }

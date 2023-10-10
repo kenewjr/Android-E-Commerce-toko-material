@@ -28,6 +28,7 @@ class ViewModelProductSeller @Inject constructor(private var productRepository: 
 
     private val livedatahistory = MutableLiveData<List<GetHistoryItem>>()
     val datahistory : LiveData<List<GetHistoryItem>> = livedatahistory
+
     val historyList: List<GetHistoryItem>? = datahistory.value
 
     private val deleteProduct = MutableLiveData<com.example.myapplication.model.Response>()
@@ -112,11 +113,13 @@ class ViewModelProductSeller @Inject constructor(private var productRepository: 
             ) {
                 if (response.isSuccessful){
                     livedatabuyerorder.value = response.body()
+                }else {
+                    Log.e("respone",response.message())
                 }
             }
 
             override fun onFailure(call: Call<GetHistoryItem>, t: Throwable) {
-                //
+                Log.e("respone",t.message.toString())
             }
         })
 

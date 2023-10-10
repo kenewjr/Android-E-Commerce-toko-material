@@ -39,7 +39,7 @@ class DaftarJualActivity : AppCompatActivity() {
                 startActivity(Intent(this, NotifikasiBuyerActivity::class.java))
                 return@OnNavigationItemSelectedListener true
             }
-            R.id.dashboard -> {
+            R.id.home -> {
                 startActivity(Intent(this, HomeActivity::class.java))
                 return@OnNavigationItemSelectedListener true
             }
