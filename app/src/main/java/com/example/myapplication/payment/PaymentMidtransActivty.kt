@@ -1,5 +1,6 @@
 package com.example.myapplication.payment
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -10,6 +11,7 @@ import com.bumptech.glide.Glide
 import com.example.myapplication.R
 import com.example.myapplication.datastore.UserManager
 import com.example.myapplication.model.GetHistoryItem
+import com.example.myapplication.view.HomeActivity
 import com.example.myapplication.viewmodel.ViewModelHome
 import com.example.myapplication.viewmodel.ViewModelMidtrans
 import com.example.myapplication.viewmodel.ViewModelProductSeller
@@ -49,6 +51,7 @@ class PaymentMidtransActivty : AppCompatActivity(), TransactionFinishedCallback 
         viewModel()
         val viewModelProductSeller = ViewModelProvider(this)[ViewModelProductSeller::class.java]
         viewModelProductSeller.getHistory()
+        getdataProfile()
         viewModelProductSeller.datahistory.observe(this){
              val lastHistoryItem = it[it.size-1]
             id_riwayat = lastHistoryItem.id.toInt()+1
@@ -88,21 +91,38 @@ class PaymentMidtransActivty : AppCompatActivity(), TransactionFinishedCallback 
             orderId = transactionRequest.orderId
         }
     }
-    fun uiKitsDetails(transactionRequest: TransactionRequest){
+
+    fun getdataProfile(){
         val viewModelDataSeller = ViewModelProvider(this)[ViewModelUser::class.java]
         viewModelDataSeller.getProfile(id = userManager.fetchId()!!.toInt())
         viewModelDataSeller.profileData.observe(this) {
-            val customersDetails = CustomerDetails()
-            customersDetails.customerIdentifier = it.nama
-            customersDetails.phone = it.nohp
-            val shippingAddress = ShippingAddress()
-            shippingAddress.address = it.alamat
-            customersDetails.shippingAddress = shippingAddress
-            val billingAddress = BillingAddress()
-            billingAddress.address = it.alamat
-            customersDetails.billingAddress = billingAddress
-            transactionRequest.customerDetails = customersDetails
+         etnamaBuyer.setText(it.nama)
+            etphonenumber.setText(it.nohp)
+            etadress.setText(it.alamat)
         }
+    }
+    fun uiKitsDetails(transactionRequest: TransactionRequest){
+        val customerIdenty = etnamaBuyer.text.toString()
+        val phone = etphonenumber.text.toString()
+        val email = etemail.text.toString()
+        val address = etadress.text.toString()
+        val kodepos = etpostal.text.toString()
+        val kota =  etcity.text.toString()
+        val customersDetails = CustomerDetails()
+        customersDetails.customerIdentifier = customerIdenty
+        customersDetails.phone = phone
+        customersDetails.email = email
+        val shippingAddress = ShippingAddress()
+        shippingAddress.address = address
+        shippingAddress.city = kota
+        shippingAddress.postalCode = kodepos
+        customersDetails.shippingAddress = shippingAddress
+        val billingAddress = BillingAddress()
+        billingAddress.address = address
+        billingAddress.city = kota
+        billingAddress.postalCode = kodepos
+        customersDetails.billingAddress = billingAddress
+        transactionRequest.customerDetails = customersDetails
     }
 
     fun addHistory(){
@@ -156,10 +176,12 @@ class PaymentMidtransActivty : AppCompatActivity(), TransactionFinishedCallback 
                 when (transactionResult.status) {
                     TransactionResult.STATUS_SUCCESS -> {
                         Toast.makeText(this, "Success transaction", Toast.LENGTH_LONG).show()
+                        startActivity(Intent(this, HomeActivity::class.java))
                     }
                     TransactionResult.STATUS_PENDING -> {
                         addHistory()
                         Toast.makeText(this, "Pending transaction", Toast.LENGTH_LONG).show()
+                        startActivity(Intent(this, HomeActivity::class.java))
                     }
                     TransactionResult.STATUS_FAILED -> {
                         Toast.makeText(this, "Failed ${transactionResult.response.statusMessage}", Toast.LENGTH_LONG).show()

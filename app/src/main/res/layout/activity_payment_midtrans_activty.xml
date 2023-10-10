@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -7,7 +7,9 @@
     android:layout_height="match_parent"
     tools:context=".payment.PaymentMidtransActivty">
 
-
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
     <TextView
         android:id="@+id/nama_toko"
@@ -23,7 +25,7 @@
         android:layout_below="@id/nama_toko"
         android:id="@+id/produk_image"
         android:layout_width="match_parent"
-        android:layout_height="343dp"/>
+        android:layout_height="250dp"/>
 
     <TextView
         android:layout_below="@id/produk_image"
@@ -47,6 +49,210 @@
         android:text="toko material"/>
 
     <TextView
+        android:id="@+id/tv_namabuyer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:text="Nama Buyer"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        android:textStyle="normal"
+        android:layout_below="@id/harga_produk"
+        tools:ignore="HardcodedText,MissingConstraints" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputnamabuyer"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="20dp"
+        android:layout_below="@id/tv_namabuyer"
+        tools:ignore="MissingConstraints">
+
+        <EditText
+            android:id="@+id/etnamaBuyer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/custom_drawable"
+            android:hint="Contoh : Agus Wicaksono"
+            android:inputType="text"
+            tools:ignore="HardcodedText,Autofill,LabelFor,TextFields,SpeakableTextPresentCheck" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/tv_Phone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:text="Nomor HP"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        android:textStyle="normal"
+        android:layout_below="@id/textInputnamabuyer"
+        tools:ignore="HardcodedText,MissingConstraints" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputphonebuyer"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="20dp"
+        android:layout_below="@id/tv_Phone"
+        tools:ignore="MissingConstraints">
+
+        <EditText
+            android:id="@+id/etphonenumber"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/custom_drawable"
+            android:hint="Contoh : 08975324235"
+            android:inputType="phone"
+            tools:ignore="HardcodedText,Autofill,LabelFor,TextFields,SpeakableTextPresentCheck" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/tv_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:text="Email"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        android:textStyle="normal"
+        android:layout_below="@id/textInputphonebuyer"
+        tools:ignore="HardcodedText,MissingConstraints" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputemailbuyer"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="20dp"
+        android:layout_below="@id/tv_email"
+        tools:ignore="MissingConstraints">
+
+        <EditText
+            android:id="@+id/etemail"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/custom_drawable"
+            android:hint="Contoh : agus21@gmail.com"
+            android:inputType="text"
+            tools:ignore="HardcodedText,Autofill,LabelFor,TextFields,SpeakableTextPresentCheck" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/tv_adress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:text="Alamat pengiriman"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        android:textStyle="normal"
+        android:layout_below="@id/textInputemailbuyer"
+        tools:ignore="HardcodedText,MissingConstraints" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputadress"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="20dp"
+        android:layout_below="@id/tv_adress"
+        tools:ignore="MissingConstraints">
+
+        <EditText
+            android:id="@+id/etadress"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/custom_drawable"
+            android:hint="Contoh : jalan perkasa no 52 rt 01/03"
+            android:inputType="text"
+            tools:ignore="HardcodedText,Autofill,LabelFor,TextFields,SpeakableTextPresentCheck" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/tv_city"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:text="Kota"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        android:textStyle="normal"
+        android:layout_below="@id/textInputadress"
+        tools:ignore="HardcodedText,MissingConstraints" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputcity"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="20dp"
+        android:layout_below="@id/tv_city"
+        tools:ignore="MissingConstraints">
+
+        <EditText
+            android:id="@+id/etcity"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/custom_drawable"
+            android:hint="Contoh : Jakarta"
+            android:inputType="text"
+            tools:ignore="HardcodedText,Autofill,LabelFor,TextFields,SpeakableTextPresentCheck" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/tv_postal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:text="Kode Pos"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        android:textStyle="normal"
+        android:layout_below="@id/textInputcity"
+        tools:ignore="HardcodedText,MissingConstraints" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputpostal"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="20dp"
+        android:layout_below="@id/tv_postal"
+        tools:ignore="MissingConstraints">
+
+        <EditText
+            android:id="@+id/etpostal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/custom_drawable"
+            android:hint="Contoh : 10130"
+            android:inputType="number"
+            tools:ignore="HardcodedText,Autofill,LabelFor,TextFields,SpeakableTextPresentCheck" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
         android:id="@+id/tv_jumlahProduk"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -56,7 +262,7 @@
         android:textColor="@color/black"
         android:textSize="15sp"
         android:textStyle="normal"
-        android:layout_below="@id/harga_produk"
+        android:layout_below="@id/textInputpostal"
         tools:ignore="HardcodedText,MissingConstraints" />
 
     <com.google.android.material.textfield.TextInputLayout
@@ -75,7 +281,7 @@
             android:layout_height="match_parent"
             android:background="@drawable/custom_drawable"
             android:hint="Contoh : 10"
-            android:inputType="text"
+            android:inputType="numberDecimal"
             tools:ignore="HardcodedText,Autofill,LabelFor,TextFields,SpeakableTextPresentCheck" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -93,5 +299,5 @@
         android:textStyle="bold"
         android:layout_below="@id/textInputjumlahproduk"
         tools:ignore="HardcodedText" />
-
-</RelativeLayout>
+    </RelativeLayout>
+</ScrollView>
