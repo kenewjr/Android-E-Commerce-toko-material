@@ -174,7 +174,7 @@
         android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:text="Info Pengiriman"
+        android:text="Rincian Pembayaran"
         android:layout_marginStart="20dp"
         android:layout_marginTop="30dp"
         android:layout_below="@id/cardinfoPengiriman"
@@ -247,5 +247,21 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/default_menu"
+        tools:ignore="MissingConstraints,VisualLintBottomNav" />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="10dp"
+        android:background="@drawable/login_btn_bg"
+        app:itemIconTint="#E91E63"
+        app:itemTextColor="@color/white"
+        app:labelVisibilityMode="labeled"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/menu"
         tools:ignore="MissingConstraints,VisualLintBottomNav" />
 </RelativeLayout>

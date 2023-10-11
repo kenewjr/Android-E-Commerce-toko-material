@@ -43,7 +43,7 @@ class HomeActivity : AppCompatActivity() {
             R.id.history -> {
                 val booleanvalue = userManager.getBooleanValue()
                 if (booleanvalue == true) {
-                    startActivity(Intent(this, HistoryBuyerActivity::class.java))
+                    startActivity(Intent(this, NotifikasiBuyerActivity::class.java))
                 } else {
                     Toast.makeText(applicationContext, "Anda Belum Login", Toast.LENGTH_SHORT).show()
                     startActivity(Intent(this, LoginActivity::class.java))
@@ -52,8 +52,8 @@ class HomeActivity : AppCompatActivity() {
                 return@OnNavigationItemSelectedListener true
             }
             R.id.home -> {
-                Toast.makeText(this, "Kamu Sedang Berada Di Home", Toast.LENGTH_SHORT).show()
-                return@OnNavigationItemSelectedListener false
+                startActivity(Intent(this, HomeActivity::class.java))
+                return@OnNavigationItemSelectedListener true
             }
             R.id.jual -> {
                 val booleanvalue = userManager.getBooleanValue()

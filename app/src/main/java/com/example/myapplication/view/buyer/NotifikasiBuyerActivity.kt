@@ -21,6 +21,7 @@ import com.example.myapplication.view.HomeActivity
 import com.example.myapplication.view.LoginActivity
 import com.example.myapplication.view.adapter.AdapterNotifikasiBuyer
 import com.example.myapplication.view.seller.DaftarJualActivity
+import com.example.myapplication.view.seller.EditProduct
 import com.example.myapplication.view.seller.LengkapiDetailProductActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
@@ -80,11 +81,22 @@ class NotifikasiBuyerActivity : AppCompatActivity() {
         setContentView(R.layout.activity_notifikasi_buyer)
         apiClient = ApiClient()
         userManager = UserManager(this)
-        val botnav = findViewById<BottomNavigationView>(R.id.navigation)
-        botnav.setOnNavigationItemSelectedListener(bottomNavigasi)
-        fetchnotif()
-    }
+        val booleanvalue = userManager.getBooleanValue()
+        if (booleanvalue && userManager.fetchstatus() == "seller") {
+            val botnav = findViewById<BottomNavigationView>(R.id.navigation)
+            val botnav2 = findViewById<BottomNavigationView>(R.id.default_navigation)
+            botnav2.isInvisible = true
+            botnav.setOnNavigationItemSelectedListener(bottomNavigasi)
+            fetchnotifseller()
+        } else {
+            fetchnotif()
+            val botnav = findViewById<BottomNavigationView>(R.id.default_navigation)
+            val botnav2 = findViewById<BottomNavigationView>(R.id.navigation)
+            botnav2.isInvisible = true
+            botnav.setOnNavigationItemSelectedListener(bottomNavigasi)
+        }
 
+    }
     private fun fetchnotif(){
         apiClient.getApiService().getHistoryUserID(userManager.fetchId()!!.toInt())
             .enqueue(object : Callback<List<GetHistoryItem>>{
@@ -93,7 +105,13 @@ class NotifikasiBuyerActivity : AppCompatActivity() {
                 response: Response<List<GetHistoryItem>>
             ) {
                 if (response.isSuccessful) {
-                    adapterNotifikasiBuyer = AdapterNotifikasiBuyer(response.body()!!) {}
+                    adapterNotifikasiBuyer = AdapterNotifikasiBuyer(response.body()!!) {
+                        val clickedproduct = Bundle()
+                        clickedproduct.putSerializable("detailorder",it)
+                        val pindah = Intent(this@NotifikasiBuyerActivity, HistoryBuyerActivity::class.java)
+                        pindah.putExtras(clickedproduct)
+                        startActivity(pindah)
+                    }
                     rv_notifikasiBuyer.layoutManager = LinearLayoutManager(applicationContext)
                     rv_notifikasiBuyer.adapter = adapterNotifikasiBuyer
                 }
@@ -104,6 +122,30 @@ class NotifikasiBuyerActivity : AppCompatActivity() {
     })
     }
 
+    private fun fetchnotifseller(){
+        apiClient.getApiService().getHistory()
+            .enqueue(object : Callback<List<GetHistoryItem>>{
+                override fun onResponse(
+                    call: Call<List<GetHistoryItem>>,
+                    response: Response<List<GetHistoryItem>>
+                ) {
+                    if (response.isSuccessful) {
+                        adapterNotifikasiBuyer = AdapterNotifikasiBuyer(response.body()!!) {
+                            val clickedproduct = Bundle()
+                            clickedproduct.putSerializable("detailorder",it)
+                            val pindah = Intent(this@NotifikasiBuyerActivity, HistoryBuyerActivity::class.java)
+                            pindah.putExtras(clickedproduct)
+                            startActivity(pindah)
+                        }
+                        rv_notifikasiBuyer.layoutManager = LinearLayoutManager(applicationContext)
+                        rv_notifikasiBuyer.adapter = adapterNotifikasiBuyer
+                    }
+                }
+                override fun onFailure(call: Call<List<GetHistoryItem>>, t: Throwable) {
+                    Log.e("error",t.message.toString())
+                }
+            })
+    }
     override fun onResume() {
         super.onResume()
         fetchnotif()

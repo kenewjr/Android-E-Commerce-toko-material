@@ -29,8 +29,6 @@ class ViewModelProductSeller @Inject constructor(private var productRepository: 
     private val livedatahistory = MutableLiveData<List<GetHistoryItem>>()
     val datahistory : LiveData<List<GetHistoryItem>> = livedatahistory
 
-    val historyList: List<GetHistoryItem>? = datahistory.value
-
     private val deleteProduct = MutableLiveData<com.example.myapplication.model.Response>()
 
     private val updateproduct = MutableLiveData<com.example.myapplication.model.Response>()
@@ -50,9 +48,10 @@ class ViewModelProductSeller @Inject constructor(private var productRepository: 
        deskripsi : String,
        stok : String,
         harga : String,
+       berat : String,
         gambar : String
     ){
-        apiServices.editProduk(id, namaProduk, kategoriProduk, deskripsi, stok, harga, gambar)
+        apiServices.editProduk(id, namaProduk, kategoriProduk, deskripsi, stok, harga, berat, gambar)
             .enqueue(object : Callback<com.example.myapplication.model.Response>{
                 override fun onResponse(
                     call: Call<com.example.myapplication.model.Response>,
@@ -98,6 +97,7 @@ class ViewModelProductSeller @Inject constructor(private var productRepository: 
         idProduk : Int,
         order_id : String,
         namaUser : String,
+        alamat : String,
         tglTransaksi : String,
         namaProduk : String,
         hargaProduk : String,
@@ -105,7 +105,7 @@ class ViewModelProductSeller @Inject constructor(private var productRepository: 
         jumlahProduk : String,
         gambar : String
     ){
-    apiServices.tambahHistory(idUser,idProduk,order_id,namaUser,tglTransaksi,namaProduk,hargaProduk,totalHarga,jumlahProduk,gambar)
+    apiServices.tambahHistory(idUser,idProduk,order_id,namaUser,alamat,tglTransaksi,namaProduk,hargaProduk,totalHarga,jumlahProduk,gambar)
         .enqueue(object : Callback<GetHistoryItem>{
             override fun onResponse(
                 call: Call<GetHistoryItem>,
@@ -140,18 +140,17 @@ class ViewModelProductSeller @Inject constructor(private var productRepository: 
             override fun onFailure(call: Call<List<GetHistoryItem>>, t: Throwable) {
                 //
             }
-
-
         })
     }
     fun jualproduct(
         nama : String,
         desc : String,
         harga : String,
+        berat : String,
         category : String,
         stok : String,
         image: String){
-        apiServices.tambahbarang(nama,category,desc,stok,harga,image)
+        apiServices.tambahbarang(nama,category,desc,berat,stok,harga,image)
             .enqueue(object : Callback<PostSellerProduct> {
                 override fun onResponse(
                     call: Call<PostSellerProduct>,

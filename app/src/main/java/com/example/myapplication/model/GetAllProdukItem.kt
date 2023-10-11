@@ -14,6 +14,8 @@ data class GetAllProdukItem(
     val deskripsi: String,
     @SerializedName("gambar")
     val gambar: String,
+    @SerializedName("berat")
+    val berat: String,
     @SerializedName("harga")
     val harga: String,
     @SerializedName("id")

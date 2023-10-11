@@ -99,14 +99,20 @@ class DaftarJualHistory : AppCompatActivity() {
         }
         rv_history.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         rv_history.adapter = adapter
-        viewModelProductSeller.datahistory.observe(this){
-            if (it.isNotEmpty()){
-                adapter.setDataOrder(it)
-                adapter.notifyDataSetChanged()
-                kalaukosongHistory.isInvisible = true
+        viewModelProductSeller.datahistory.observe(this) { it ->
+            if (it.isNotEmpty()) {
+                val statusLunasItems = it.filter { item -> item.status == "Lunas" }
+                if (statusLunasItems.isNotEmpty()) {
+                    adapter.setDataOrder(statusLunasItems)
+                    adapter.notifyDataSetChanged()
+                    kalaukosongHistory.isInvisible = true
+                } else {
+                    kalaukosongHistory.isVisible = true
+                }
             } else {
                 kalaukosongHistory.isVisible = true
             }
         }
+
     }
 }

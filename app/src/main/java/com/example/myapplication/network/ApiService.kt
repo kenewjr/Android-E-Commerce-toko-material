@@ -52,6 +52,7 @@ interface ApiService {
         @Field("nama_produk")namaProduk : String,
         @Field("kategori_produk")kategoriProduk : String,
         @Field("deskripsi")deskripsi : String,
+        @Field("berat")berat : String,
         @Field("stok")stok : String,
         @Field("harga")harga : String,
         @Field("gambar")gambar : String
@@ -87,6 +88,7 @@ interface ApiService {
         @Field("id_produk")id_produk: Int,
         @Field("order_id")order_id: String,
         @Field("nama_pembeli")nama_pembeli: String,
+        @Field("alamat")alamat: String,
         @Field("tgl_transaksi")tgl_transaksi: String,
         @Field("nama_produk")nama_produk: String,
         @Field("harga_produk")harga_produk: String,
@@ -130,6 +132,7 @@ interface ApiService {
         @Field("deskripsi")deskripsi : String,
         @Field("stok")stok : String,
         @Field("harga")harga : String,
+        @Field("berat")berat : String,
         @Field("gambar")gambar : String
     ):Call<Response>
 

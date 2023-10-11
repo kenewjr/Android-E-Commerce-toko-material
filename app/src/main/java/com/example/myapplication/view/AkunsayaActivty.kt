@@ -39,7 +39,7 @@ class AkunsayaActivty : AppCompatActivity() {
             R.id.history -> {
                 val booleanvalue = userManager.getBooleanValue()
                 if (booleanvalue == true) {
-                    startActivity(Intent(this, HistoryBuyerActivity::class.java))
+                    startActivity(Intent(this, NotifikasiBuyerActivity::class.java))
                 } else {
                     Toast.makeText(applicationContext, "Anda Belum Login", Toast.LENGTH_SHORT).show()
                     startActivity(Intent(this, LoginActivity::class.java))
