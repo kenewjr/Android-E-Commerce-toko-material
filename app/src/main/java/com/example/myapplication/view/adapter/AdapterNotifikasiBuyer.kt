@@ -9,6 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 import com.example.myapplication.R
 import com.example.myapplication.model.GetAllProdukItem
 import com.example.myapplication.model.GetHistoryItem
@@ -34,10 +36,12 @@ class AdapterNotifikasiBuyer(private var dataNotif : List<GetHistoryItem>,
                     cardNotifikasiBuyer.setOnClickListener {
                         onClick(dataNotif[position])
                     }
+                val requestOptions = RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true)
                     Glide.with(holder.itemView.context)
                         .load(dataNotif[position].gambar)
                         .error(R.drawable.ic_launcher_background)
                         .override(75,75)
+                        .apply(requestOptions)
                         .into(holder.itemView.gambarProdukBuyer)
                     if (status == "pending"){
                         notikasiBuyer_alert.setImageResource(R.drawable.ic_baseline_circle_24)

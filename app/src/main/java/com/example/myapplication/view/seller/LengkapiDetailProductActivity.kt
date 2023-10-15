@@ -102,10 +102,11 @@ class LengkapiDetailProductActivity : AppCompatActivity() {
         var categoryProduct : String = selectedCategory.id.toString()
         val namaProdcut : String = edt_namaprodut.text.toString()
         val hargaProduct : String = edt_hargaproduct.text.toString()
+        val beratProduk : String = edt_beratproduk.text.toString()
         val stok: String = edt_lokasi.text.toString()
         val desc : String = edt_deskripsi.text.toString()
         val viewModelDataSeller = ViewModelProvider(this)[ViewModelProductSeller::class.java]
-        viewModelDataSeller.jualproduct(namaProdcut,desc,hargaProduct,categoryProduct,stok,encodeImageString)
+        viewModelDataSeller.jualproduct(namaProdcut,desc,beratProduk,hargaProduct,categoryProduct,stok,encodeImageString)
         startActivity(Intent(applicationContext, HomeActivity::class.java))
     }
 
@@ -168,17 +169,24 @@ class LengkapiDetailProductActivity : AppCompatActivity() {
 
     fun encodeBitmapImage(bitmap: Bitmap) {
         Log.d(TAG, "encodeBitmapImage called")
+        val maxFileSize = 1024 * 1024
         if (bitmap != null && !bitmap.isRecycled) {
             val byteArrayOutputStream = ByteArrayOutputStream()
-            bitmap.compress(Bitmap.CompressFormat.PNG, 70, byteArrayOutputStream)
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 70, byteArrayOutputStream)
             val bytesOfImage = byteArrayOutputStream.toByteArray()
-            encodeImageString = Base64.encodeToString(bytesOfImage, Base64.DEFAULT)
+            if (bytesOfImage.size > maxFileSize) {
+                // Gambar terlalu besar, tampilkan pesan kesalahan kepada pengguna
+                Toast.makeText(this, "Ukuran gambar terlalu besar", Toast.LENGTH_SHORT).show()
+                tv_warningn.text = "Ukurang Makismal Gambar Adalah 1024 x 1024"
+            } else {
+                // Gambar dalam batas ukuran yang diizinkan, lanjutkan mengunggahnya ke server
+                encodeImageString = Base64.encodeToString(bytesOfImage, Base64.DEFAULT)
+            }
+
         } else {
             Log.e(TAG, "Bitmap is null or recycled")
         }
     }
-
-
 
     private fun showPermissionContextPopup() {
         AlertDialog.Builder(this)
@@ -211,9 +219,5 @@ class LengkapiDetailProductActivity : AppCompatActivity() {
             }
         }
         viewModelSellerCategory.getSellerCategory()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
     }
 }

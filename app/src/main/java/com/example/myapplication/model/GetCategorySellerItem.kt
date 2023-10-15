@@ -5,7 +5,6 @@ import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
-@Parcelize
 data class GetCategorySellerItem(
     @SerializedName("createdAt")
     val createdAt: String,
@@ -13,4 +12,4 @@ data class GetCategorySellerItem(
     var id: Int,
     @SerializedName("name")
     val name: String,
-):Parcelable
+):java.io.Serializable

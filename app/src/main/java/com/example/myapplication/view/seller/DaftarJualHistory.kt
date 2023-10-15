@@ -25,7 +25,12 @@ import com.example.myapplication.viewmodel.ViewModelUser
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_daftar_jual_history.*
+import kotlinx.android.synthetic.main.activity_daftar_jual_history.TV_nama
+import kotlinx.android.synthetic.main.activity_daftar_jual_history.cardView_productSeller
+import kotlinx.android.synthetic.main.activity_daftar_jual_history.daftarCtgy
 import kotlinx.android.synthetic.main.activity_daftar_jual_history.daftar_jualEdit
+import kotlinx.android.synthetic.main.activity_daftar_jual_history.diminati_profileKota
+import kotlinx.android.synthetic.main.activity_daftar_jual_history.kalaukosongHistory
 import kotlinx.coroutines.DelicateCoroutinesApi
 
 @DelicateCoroutinesApi
@@ -71,11 +76,14 @@ class DaftarJualHistory : AppCompatActivity() {
         val botnav = findViewById<BottomNavigationView>(R.id.navigation)
         botnav.setOnNavigationItemSelectedListener(bottomNavigasi)
 
-        daftar_jual_product.setOnClickListener {
-            startActivity(Intent(this, DaftarJualActivity::class.java))
+        daftarCtgy.setOnClickListener {
+            startActivity(Intent(this, DaftarJualCategory::class.java))
         }
         daftar_jualEdit.setOnClickListener {
             startActivity(Intent(this,AkunsayaActivty::class.java))
+        }
+        cardView_productSeller.setOnClickListener {
+            startActivity(Intent(this,DaftarJualActivity::class.java))
         }
        initView()
     }

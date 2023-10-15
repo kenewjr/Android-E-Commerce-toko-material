@@ -15,7 +15,6 @@ import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.http.Field
 import javax.inject.Inject
 
 @HiltViewModel
@@ -31,6 +30,12 @@ class ViewModelProductSeller @Inject constructor(private var productRepository: 
 
     private val deleteProduct = MutableLiveData<com.example.myapplication.model.Response>()
 
+    private val deleteCategory = MutableLiveData<com.example.myapplication.model.Response>()
+
+    private val editCategory = MutableLiveData<com.example.myapplication.model.Response>()
+
+    private val tambahCategory = MutableLiveData<com.example.myapplication.model.Response>()
+
     private val updateproduct = MutableLiveData<com.example.myapplication.model.Response>()
 
     private val apiServices = api
@@ -41,15 +46,83 @@ class ViewModelProductSeller @Inject constructor(private var productRepository: 
         }
     }
 
+    fun tambahCtgy(name: String){
+        apiServices.tambahCtgy(name).enqueue(object : Callback<com.example.myapplication.model.Response>{
+            override fun onResponse(
+                call: Call<com.example.myapplication.model.Response>,
+                response: Response<com.example.myapplication.model.Response>
+            ) {
+                if(response.isSuccessful){
+                    tambahCategory.value = response.body()
+                }else {
+                    //
+                }
+            }
+
+            override fun onFailure(
+                call: Call<com.example.myapplication.model.Response>,
+                t: Throwable
+            ) {
+                //
+            }
+
+        })
+    }
+    fun editCtgy(id: Int,name:String){
+        apiServices.editCtgy(id, name)
+            .enqueue(object : Callback<com.example.myapplication.model.Response>{
+                override fun onResponse(
+                    call: Call<com.example.myapplication.model.Response>,
+                    response: Response<com.example.myapplication.model.Response>
+                ) {
+                    if(response.isSuccessful){
+                        editCategory.value = response.body()
+                    }else {
+                        //
+                    }
+                }
+
+                override fun onFailure(
+                    call: Call<com.example.myapplication.model.Response>,
+                    t: Throwable
+                ) {
+                  //
+                }
+
+            })    }
+    fun deleteCtgy(id: Int){
+        apiServices.deleteCtgy(id).enqueue(object : Callback<com.example.myapplication.model.Response>{
+            override fun onResponse(
+                call: Call<com.example.myapplication.model.Response>,
+                response: Response<com.example.myapplication.model.Response>
+            ) {
+                if(response.isSuccessful){
+                    deleteCategory.value = response.body()
+
+                }else {
+                  //
+                }
+            }
+
+            override fun onFailure(
+                call: Call<com.example.myapplication.model.Response>,
+                t: Throwable
+            ) {
+                //
+            }
+
+        })
+    }
+
     fun editProduct(
-       id : Int,
-        namaProduk : String,
-        kategoriProduk : String,
-       deskripsi : String,
-       stok : String,
-        harga : String,
-       berat : String,
-        gambar : String
+        id : RequestBody,
+        namaProduk : RequestBody,
+        kategoriProduk : RequestBody,
+        deskripsi : RequestBody,
+        stok : RequestBody,
+        harga : RequestBody,
+        berat : RequestBody,
+        gambar : MultipartBody.Part
     ){
         apiServices.editProduk(id, namaProduk, kategoriProduk, deskripsi, stok, harga, berat, gambar)
             .enqueue(object : Callback<com.example.myapplication.model.Response>{
@@ -57,16 +130,21 @@ class ViewModelProductSeller @Inject constructor(private var productRepository: 
                     call: Call<com.example.myapplication.model.Response>,
                     response: Response<com.example.myapplication.model.Response>
                 ) {
-                    updateproduct.value = response.body()
+                    if(response.isSuccessful){
+                        updateproduct.value = response.body()
+                        Log.e("error1",response.body().toString())
+                    }else {
+                        Log.e("error2",response.message())
+                        Log.e("error2",response.errorBody().toString())
+                        Log.e("error2",response.body().toString())
+                    }
                 }
-
                 override fun onFailure(
                     call: Call<com.example.myapplication.model.Response>,
                     t: Throwable
                 ) {
-                   //
+                    Log.e("error3",t.toString())
                 }
-
             })
     }
     fun deleteProduct(
@@ -89,7 +167,6 @@ class ViewModelProductSeller @Inject constructor(private var productRepository: 
             override fun onFailure(call: Call<com.example.myapplication.model.Response>, t: Throwable) {
                 //
             }
-
         })
     }
     fun tambahHistory(

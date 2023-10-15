@@ -24,10 +24,10 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".view.buyer.HistoryBuyerActivity"
+            android:name=".view.seller.DaftarJualCategory"
             android:exported="false" />
         <activity
-            android:name=".view.buyer.AddKomentarActivity"
+            android:name=".view.buyer.HistoryBuyerActivity"
             android:exported="false" />
         <activity
             android:name=".payment.PaymentMidtransActivty"

@@ -12,6 +12,8 @@ import androidx.core.view.isInvisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 import com.example.myapplication.R
 import com.example.myapplication.model.GetAllProdukItem
 import com.example.myapplication.view.seller.DaftarJualActivity
@@ -28,7 +30,6 @@ class AdapterProductSeller(private  var onClick : (GetAllProdukItem)->Unit) : Re
         this.dataProductSeller = list
     }
 
-
     class ViewHolder (itemView : View) : RecyclerView.ViewHolder(itemView)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -39,15 +40,13 @@ class AdapterProductSeller(private  var onClick : (GetAllProdukItem)->Unit) : Re
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.itemView.tvJudul_product_seller.text = "Nama Produk : ${dataProductSeller!![position].nama}"
-
         holder.itemView.tvKategori_product_seller.text = "Kategori : ${dataProductSeller!![position].kategori}"
-
-
         holder.itemView.tvHarga_product_seller.text = "Harga : Rp. ${dataProductSeller!![position].harga}"
         holder.itemView.tvStatus_product_seller.text = "Stok : ${dataProductSeller!![position].stok}"
-
+        val requestOptions = RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE).override(150,150).skipMemoryCache(true)
         Glide.with(holder.itemView.context)
             .load(dataProductSeller!![position].gambar)
+            .apply(requestOptions)
             .into(holder.itemView.imageProductSeller)
 
         holder.itemView.tvStatus_product_seller.isInvisible = true

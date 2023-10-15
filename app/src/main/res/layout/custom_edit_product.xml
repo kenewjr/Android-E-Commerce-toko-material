@@ -120,6 +120,42 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
+                android:id="@+id/tv_beratProduk"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="15dp"
+                android:text="Berat Product"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="normal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textInputhargaproduct"
+                tools:ignore="HardcodedText,MissingConstraints" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputberatproduk"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_beratProduk"
+                tools:ignore="MissingConstraints">
+
+                <EditText
+                    android:id="@+id/edt_beratproduk"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@drawable/custom_drawable"
+                    android:hint="Berat Product"
+                    android:inputType="numberDecimal"
+                    tools:ignore="HardcodedText,Autofill,LabelFor,TextFields,SpeakableTextPresentCheck" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
                 android:id="@+id/tv_kategori"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -130,7 +166,7 @@
                 android:textSize="16sp"
                 android:textStyle="normal"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textInputhargaproduct"
+                app:layout_constraintTop_toBottomOf="@+id/textInputberatproduk"
                 tools:ignore="HardcodedText,MissingConstraints" />
 
             <com.google.android.material.textfield.TextInputLayout
@@ -233,7 +269,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="15dp"
-                android:text="Foto Product"
+                android:text="Foto Product : "
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="normal"
@@ -241,6 +277,19 @@
                 app:layout_constraintTop_toBottomOf="@+id/lokasi"
                 tools:ignore="HardcodedText,MissingConstraints" />
 
+            <TextView
+                android:id="@+id/tv_warningn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="15dp"
+                android:text="*"
+                android:textColor="#F40808"
+                android:textSize="16sp"
+                android:textStyle="normal"
+                app:layout_constraintStart_toEndOf="@id/tv_fotoprodact"
+                app:layout_constraintTop_toBottomOf="@+id/lokasi"
+                tools:ignore="HardcodedText,MissingConstraints"/>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/inputfoto"

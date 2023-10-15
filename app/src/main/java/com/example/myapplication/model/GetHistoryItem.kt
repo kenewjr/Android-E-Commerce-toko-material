@@ -8,6 +8,7 @@ data class GetHistoryItem(
     val id_user: String,
     val order_id: String,
     val alamat: String,
+    val ongkos: String,
     val jumlah_produk: String,
     val nama_pembeli: String,
     val nama_produk: String,

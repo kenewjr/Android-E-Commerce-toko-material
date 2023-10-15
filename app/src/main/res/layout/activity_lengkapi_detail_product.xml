@@ -188,7 +188,6 @@
                     android:labelFor="@id/textselectkategori"
                     android:spinnerMode="dropdown"
                     tools:ignore="SpeakableTextPresentCheck" />
-
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
@@ -265,13 +264,14 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
+
             <TextView
                 android:id="@+id/tv_fotoprodact"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="15dp"
-                android:text="Foto Product"
+                android:text="Foto Product : "
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="normal"
@@ -279,6 +279,19 @@
                 app:layout_constraintTop_toBottomOf="@+id/lokasi"
                 tools:ignore="HardcodedText,MissingConstraints" />
 
+            <TextView
+                android:id="@+id/tv_warningn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="15dp"
+                android:text="*"
+                android:textColor="#F40808"
+                android:textSize="16sp"
+                android:textStyle="normal"
+                app:layout_constraintStart_toEndOf="@id/tv_fotoprodact"
+                app:layout_constraintTop_toBottomOf="@+id/lokasi"
+                tools:ignore="HardcodedText,MissingConstraints"/>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/inputfoto"

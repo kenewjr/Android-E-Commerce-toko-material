@@ -49,6 +49,15 @@
         android:text="toko material"/>
 
     <TextView
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/harga_produk"
+        android:id="@+id/berat_produk"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="berat"/>
+
+    <TextView
         android:id="@+id/tv_namabuyer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -58,7 +67,7 @@
         android:textColor="@color/black"
         android:textSize="15sp"
         android:textStyle="normal"
-        android:layout_below="@id/harga_produk"
+        android:layout_below="@id/berat_produk"
         tools:ignore="HardcodedText,MissingConstraints" />
 
     <com.google.android.material.textfield.TextInputLayout
@@ -283,6 +292,40 @@
             android:hint="Contoh : 10"
             android:inputType="numberDecimal"
             tools:ignore="HardcodedText,Autofill,LabelFor,TextFields,SpeakableTextPresentCheck" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/tv_ongkos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="15dp"
+        android:text="Pengiriman"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="normal"
+        android:layout_below="@id/textInputjumlahproduk"
+        tools:ignore="HardcodedText,MissingConstraints" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textselectongkos"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_below="@id/tv_ongkos"
+        tools:ignore="MissingConstraints">
+
+        <Spinner
+            android:id="@+id/select_ongkos"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/select_category"
+            android:labelFor="@id/textselectongkos"
+            android:spinnerMode="dropdown"
+            tools:ignore="SpeakableTextPresentCheck" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -297,7 +340,7 @@
         android:textColor="@android:color/white"
         android:textSize="18sp"
         android:textStyle="bold"
-        android:layout_below="@id/textInputjumlahproduk"
+        android:layout_below="@id/textselectongkos"
         tools:ignore="HardcodedText" />
 
     <androidx.appcompat.widget.AppCompatButton
@@ -312,7 +355,7 @@
         android:textSize="18sp"
         android:textStyle="bold"
         android:layout_toEndOf="@id/pesan"
-        android:layout_below="@id/textInputjumlahproduk"
+        android:layout_below="@id/textselectongkos"
         tools:ignore="HardcodedText" />
     </RelativeLayout>
 </ScrollView>

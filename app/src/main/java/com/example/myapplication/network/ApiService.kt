@@ -1,10 +1,10 @@
 package com.example.myapplication.network
 
 import com.example.myapplication.model.*
+import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.http.*
-import javax.inject.Singleton
 
 
 interface ApiService {
@@ -123,18 +123,35 @@ interface ApiService {
         @Query("id_produk")id_produk : Int
     ):Call<List<GetKomentarItem>>
 
-    @FormUrlEncoded
     @POST("edit_produk")
+    @Multipart
     fun editProduk(
-        @Field("id")id : Int,
-        @Field("nama_produk")namaProduk : String,
-        @Field("kategori_produk")kategoriProduk : String,
-        @Field("deskripsi")deskripsi : String,
-        @Field("stok")stok : String,
-        @Field("harga")harga : String,
-        @Field("berat")berat : String,
-        @Field("gambar")gambar : String
+        @Part("id")id : RequestBody,
+        @Part("nama_produk")namaProduk : RequestBody,
+        @Part("kategori_produk")kategoriProduk : RequestBody,
+        @Part("deskripsi")deskripsi : RequestBody,
+        @Part("stok")stok : RequestBody,
+        @Part("harga")harga : RequestBody,
+        @Part("berat")berat : RequestBody,
+        @Part gambar : MultipartBody.Part
     ):Call<Response>
 
+    @FormUrlEncoded
+    @POST("delete_category")
+    fun deleteCtgy(
+        @Field("id")id:Int
+    ):Call<Response>
 
+    @FormUrlEncoded
+    @POST("edit_category")
+    fun editCtgy(
+        @Field("id")id:Int,
+        @Field("name")name:String
+    ):Call<Response>
+
+    @FormUrlEncoded
+    @POST("tambah_category")
+    fun tambahCtgy(
+        @Field("name")name:String
+    ):Call<Response>
 }

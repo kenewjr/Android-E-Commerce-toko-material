@@ -24,6 +24,8 @@ import com.example.myapplication.viewmodel.ViewModelUser
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_daftar_jual_seller.*
+import kotlinx.android.synthetic.main.activity_daftar_jual_seller.daftarHistory
+import kotlinx.android.synthetic.main.activity_daftar_jual_seller.daftar_jualEdit
 import kotlinx.coroutines.DelicateCoroutinesApi
 
 @DelicateCoroutinesApi
@@ -46,8 +48,8 @@ class DaftarJualActivity : AppCompatActivity() {
             R.id.jual -> {
                 val booleanvalue = userManager.getBooleanValue()
                     if (booleanvalue == true){
-                        Toast.makeText(this, "Kamu Sedang Berada Di Akun", Toast.LENGTH_SHORT).show()
-                        return@OnNavigationItemSelectedListener false
+                        startActivity(Intent(this, LengkapiDetailProductActivity::class.java))
+                        return@OnNavigationItemSelectedListener true
                     } else {
                         Toast.makeText(applicationContext, "Anda Belum Login", Toast.LENGTH_SHORT).show()
                         startActivity(Intent(this, LoginActivity::class.java))
@@ -74,9 +76,16 @@ class DaftarJualActivity : AppCompatActivity() {
         initView()
         editSeller()
         addProduct()
+        daftarCtgy.setOnClickListener{
+            startActivity(Intent(this,DaftarJualCategory::class.java))
+        }
         daftarHistory.setOnClickListener {
             startActivity(Intent(this,DaftarJualHistory::class.java))
         }
+        daftar_jualEdit.setOnClickListener {
+            startActivity(Intent(this,AkunsayaActivty::class.java))
+        }
+
     }
 
      fun initView(){

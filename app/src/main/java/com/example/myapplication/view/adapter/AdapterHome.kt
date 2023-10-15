@@ -37,40 +37,24 @@ class AdapterHome(private var onClick : (GetAllProdukItem)->Unit):RecyclerView.A
         holder.itemView.cardProduct.setOnClickListener {
             onClick(dataProduk!![position])
         }
-        val requestOptions = RequestOptions().diskCacheStrategy(DiskCacheStrategy.ALL).override(150,150)
+        val requestOptions = RequestOptions()
+            .diskCacheStrategy(DiskCacheStrategy.NONE)
+            .override(150,150)
+            .skipMemoryCache(true)
 
         holder.itemView.tvJudul_product.text = dataProduk!![position].nama
         if (dataProduk!![position].gambar.isNullOrEmpty()){
             Glide.with(holder.itemView.context)
                 .load(R.drawable.ic_launcher_background)
-                .thumbnail(0.25f)
                 .apply(requestOptions)
                 .into(holder.itemView.imageProduct)
         }else {
             Glide.with(holder.itemView.context)
                 .load(dataProduk!![position].gambar)
-                .thumbnail(0.25f)
                 .apply(requestOptions)
                 .into(holder.itemView.imageProduct)
         }
-        val category = dataProduk!![position].kategori
-        holder.itemView.tvKategori_product.text = "masih kosong"
         holder.itemView.tvKategori_product.text = dataProduk!![position].kategori
-//        if(category.isNotEmpty()){
-//            for (i in category.indices){
-//                if(category.lastIndex == 0){
-//                    holder.itemView.tvKategori_product.text = category[i].toString()
-//                    break
-//                }
-//                if (i==0){
-//                    holder.itemView.tvKategori_product.text = category[i].toString() + ", "
-//                }else if (i != category.lastIndex && i>0){
-//                    holder.itemView.tvKategori_product.text.toString() + category[i].toString() + ", "
-//                }else {
-//                    holder.itemView.tvKategori_product.text.toString() + category[i].toString()
-//                }
-//            }
-//        }
         holder.itemView.tvHarga_product.text = dataProduk!![position].harga.toString()
     }
 

@@ -16,6 +16,7 @@ import androidx.core.view.isInvisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
 import androidx.recyclerview.widget.GridLayoutManager
+import com.bumptech.glide.Glide
 import com.example.myapplication.R
 import com.example.myapplication.datastore.UserManager
 import com.example.myapplication.view.adapter.AdapterHome
@@ -59,12 +60,12 @@ class HomeActivity : AppCompatActivity() {
                 val booleanvalue = userManager.getBooleanValue()
                     if (booleanvalue == true){
                         startActivity(Intent(this, LengkapiDetailProductActivity::class.java))
+                        return@OnNavigationItemSelectedListener true
                     } else {
                         Toast.makeText(applicationContext, "Anda Belum Login", Toast.LENGTH_SHORT).show()
                         startActivity(Intent(this, LoginActivity::class.java))
                         finish()
                     }
-                return@OnNavigationItemSelectedListener true
             }
             R.id.akun -> {
                 startActivity(Intent(this, AkunsayaActivty::class.java))

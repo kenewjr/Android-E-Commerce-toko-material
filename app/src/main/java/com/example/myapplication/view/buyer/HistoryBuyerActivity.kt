@@ -83,11 +83,10 @@ class HistoryBuyerActivity : AppCompatActivity() {
             botnav2.isInvisible = true
             botnav.setOnNavigationItemSelectedListener(bottomNavigasi)
         }
-
+        fetchnotif()
     }
 
     private fun fetchnotif(){
-        val viewModelProductSeller = ViewModelProvider(this)[ViewModelProductSeller::class.java]
         val dataProduct = intent.extras!!.getSerializable("detailoder") as GetHistoryItem?
         with(dataProduct!!){
             tv_status.text = status
@@ -100,7 +99,8 @@ class HistoryBuyerActivity : AppCompatActivity() {
             historyBuyer_harga.text = harga_produk
             historyBuyer_namaProduk.text = nama_produk
             historyBuyer_order.text = order_id
-            historyBuyer_alamat.text = ""
+            historyBuyer_alamat.text = alamat
+            historyBuyer_totalongkos.text = ongkos
             historyBuyer_jumlahbrg.text = jumlah_produk
             historyBuyer_ttlbelanja.text = total_harga
 

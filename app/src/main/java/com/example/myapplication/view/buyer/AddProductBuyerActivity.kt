@@ -14,6 +14,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 import com.example.myapplication.R
 import com.example.myapplication.datastore.UserManager
 import com.example.myapplication.model.GetAllProdukItem
@@ -70,10 +72,12 @@ class AddProductBuyerActivity : AppCompatActivity() {
                 Toast.makeText(this, "Silahkan Login Terlebih Dahulu", Toast.LENGTH_SHORT).show()
             }
             addProductBuyer_btnTertarik.text = "Silahkan Login Terlebih Dahulu"
+            addProductBuyer_btnTertarik.setOnClickListener {
+                Toast.makeText(this, "Silahkan Login Terlebih Dahulu", Toast.LENGTH_SHORT).show()
+            }
         }
 
     }
-
     private fun disablebutton(){
         userManager = UserManager(this)
         val viewModel = ViewModelProvider(this)[ViewModelUser::class.java]
@@ -135,14 +139,17 @@ class AddProductBuyerActivity : AppCompatActivity() {
         if (dataProduct != null) {
             val viewModel = ViewModelProvider(this)[ViewModelHome::class.java]
             viewModel.getProductid(dataProduct.id.toInt())
+            val requestOptions = RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true)
             Glide.with(this)
                 .load(dataProduct.gambar)
                 .override(400, 350)
+                .apply(requestOptions)
                 .into(tv_imgdetailproduct)
             produkpilih = dataProduct.id
             tv_judulproductdetail.text = "Nama Produk : "+dataProduct.nama
             tv_acesorisproductdetail.text ="Kategori : "+ dataProduct.kategori
             tv_hargaproductdetail.text = "Harga Produk : "+dataProduct.harga
+            tv_beratproduk.text = "Berat Produk : "+dataProduct.berat +"kg"
             tv_deskripsidetail.text = dataProduct.deskripsi
         }
     }

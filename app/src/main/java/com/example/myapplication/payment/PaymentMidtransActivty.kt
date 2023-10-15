@@ -134,6 +134,7 @@ class PaymentMidtransActivty : AppCompatActivity(), TransactionFinishedCallback 
                     idbarang.toInt(),
                     t.order_id,
                     t.metadata.extra_info.user_id,
+                    etadress.text.toString(),
                     t.transaction_time,
                     it.nama_produk,
                     hargabarang.toString(),

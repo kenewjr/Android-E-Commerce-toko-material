@@ -38,12 +38,14 @@ import com.example.myapplication.viewmodel.ViewModelProductSeller
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_lengkapi_detail_product.*
 import kotlinx.android.synthetic.main.custom_edit_product.*
+import kotlinx.android.synthetic.main.custom_edit_product.edt_beratproduk
 import kotlinx.android.synthetic.main.custom_edit_product.edt_deskripsi
 import kotlinx.android.synthetic.main.custom_edit_product.edt_hargaproduct
 import kotlinx.android.synthetic.main.custom_edit_product.edt_lokasi
 import kotlinx.android.synthetic.main.custom_edit_product.edt_namaprodut
 import kotlinx.android.synthetic.main.custom_edit_product.icon_foto
 import kotlinx.android.synthetic.main.custom_edit_product.select_kategori
+import kotlinx.android.synthetic.main.custom_edit_product.tv_warningn
 import kotlinx.android.synthetic.main.custom_edit_product.view.*
 import kotlinx.coroutines.DelicateCoroutinesApi
 import okhttp3.MediaType.Companion.toMediaType
@@ -64,6 +66,12 @@ class EditProduct : AppCompatActivity() {
     private var kategoriproduk = ""
     private var idproduk : Int = 0
     private var selectedUri: Uri? = null
+    private val galleryResult =
+        registerForActivityResult(ActivityResultContracts.GetContent()) { result ->
+            icon_foto.setImageURI(result)
+            selectedUri = result
+            image = result!!
+        }
     private lateinit var image : Uri
     private var ngambil : Boolean = false
     private var categorystatus : Boolean = false
@@ -89,12 +97,31 @@ class EditProduct : AppCompatActivity() {
             getdata()
             getCategory()
         }
+//        icon_foto.setOnClickListener {
+//            if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+//                createImageBrowsingRequest()
+//            } else {
+//                // Jika izin belum diberikan, tampilkan dialog permintaan izin
+//                showPermissionContextPopup()
+//            }
+//        }
         icon_foto.setOnClickListener {
-            if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                createImageBrowsingRequest()
-            } else {
-                // Jika izin belum diberikan, tampilkan dialog permintaan izin
-                showPermissionContextPopup()
+            when {
+                ContextCompat.checkSelfPermission(
+                    this,
+                    android.Manifest.permission.READ_EXTERNAL_STORAGE
+                ) == PackageManager.PERMISSION_GRANTED -> {
+                    galleryResult.launch("image/*")
+                }
+                shouldShowRequestPermissionRationale(android.Manifest.permission.READ_EXTERNAL_STORAGE) -> {
+                    showPermissionContextPopup()
+                }
+                else -> {
+                    requestPermissions(
+                        arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),
+                        1010
+                    )
+                }
             }
         }
         updateproduk()
@@ -102,20 +129,43 @@ class EditProduct : AppCompatActivity() {
 
      fun updateproduk() {
          btn_updatedataproduct.setOnClickListener {
-             var categoryProduct : String = selectedCategory.id.toString()
-             val namaProdcut : String = edt_namaprodut.text.toString()
-             val hargaProduct : String = edt_hargaproduct.text.toString()
-             val stok: String = edt_lokasi.text.toString()
-             val desc : String = edt_deskripsi.text.toString()
-             val viewModelSeller = ViewModelProvider(this)[ViewModelProductSeller::class.java]
+//             var categoryProduct : String = selectedCategory.id.toString()
+//             val namaProdcut : String = edt_namaprodut.text.toString()
+//             val hargaProduct : String = edt_hargaproduct.text.toString()
+//             val stok: String = edt_lokasi.text.toString()
+//             val desc : String = edt_deskripsi.text.toString()
+//             val berat : String = edt_beratproduk.text.toString()
 
+             var categoryProduct : RequestBody =
+                 selectedCategory.id.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+             val namaProdcut : RequestBody =
+                 edt_namaprodut.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+             val hargaProduct : RequestBody =
+                 edt_hargaproduct.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+             val stok: RequestBody =
+                 edt_lokasi.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+             val desc : RequestBody =
+                 edt_deskripsi.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+             val berat : RequestBody =
+                 edt_beratproduk.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
+
+             val viewModelSeller = ViewModelProvider(this)[ViewModelProductSeller::class.java]
+             val contentResolver = this.applicationContext.contentResolver
+             val type = contentResolver.getType(image)
+             val tempFile = File.createTempFile("temp-", null, null)
+             val inputstream = contentResolver.openInputStream(image)
+             tempFile.outputStream().use {
+                 inputstream?.copyTo(it)
+             }
+             val requestBody: RequestBody = tempFile.asRequestBody(type?.toMediaType())
+             val body = MultipartBody.Part.createFormData("gambar", tempFile.name, requestBody)
              AlertDialog.Builder(this)
                  .setTitle("KONFIRMASI UPDATE")
                  .setMessage("Anda Yakin Ingin Mengupdate Data Produk Ini ?")
 
                  .setPositiveButton("YA") { _: DialogInterface, _: Int ->
                      Toast.makeText(this, "Berhasil Diupdate", Toast.LENGTH_SHORT).show()
-                     viewModelSeller.editProduct(idproduk,namaProdcut,categoryProduct,desc,stok,hargaProduct,encodeImageString)
+                     viewModelSeller.editProduct(idproduk.toString().toRequestBody("text/plain".toMediaTypeOrNull()),namaProdcut,categoryProduct,desc,stok,hargaProduct,berat,body)
                      startActivity(Intent(this, DaftarJualActivity::class.java))
                      finish()
                  }
@@ -124,7 +174,6 @@ class EditProduct : AppCompatActivity() {
                      dialogInterface.dismiss()
                  }
                  .show()
-
          }
      }
 
@@ -150,24 +199,41 @@ class EditProduct : AppCompatActivity() {
             .show()
     }
 
+//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+//        if (requestCode == REQUEST_BROWSE_PICTURE && resultCode == Activity.RESULT_OK) {
+//            val filepath: Uri? = data?.data
+//            try {
+//                val inputStream: InputStream? = contentResolver.openInputStream(filepath!!)
+//                val localBitmap = BitmapFactory.decodeStream(inputStream)
+//                localBitmap?.let {
+//                    documentImage = it
+//                    encodeBitmapImage(documentImage)
+//                    icon_foto.setImageBitmap(documentImage)
+//                }
+//            } catch (ex: Exception) {
+//                Log.e(ContentValues.TAG, "Error compressing bitmap: ${ex.message}")
+//            }
+//        }
+//        super.onActivityResult(requestCode, resultCode, data)
+//    }
+
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == REQUEST_BROWSE_PICTURE && resultCode == Activity.RESULT_OK) {
-            val filepath: Uri? = data?.data
-            try {
-                val inputStream: InputStream? = contentResolver.openInputStream(filepath!!)
-                val localBitmap = BitmapFactory.decodeStream(inputStream)
-                localBitmap?.let {
-                    documentImage = it
-                    encodeBitmapImage(documentImage)
-                    icon_foto.setImageBitmap(documentImage)
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (resultCode != Activity.RESULT_OK) {
+            return
+        }
+
+        when (requestCode) {
+            2020 -> {
+                val uri = data?.data
+                if (uri != null) {
+                    selectedUri = uri
                 }
-            } catch (ex: Exception) {
-                Log.e(ContentValues.TAG, "Error compressing bitmap: ${ex.message}")
             }
         }
-        super.onActivityResult(requestCode, resultCode, data)
     }
-
 
     override fun onRequestPermissionsResult(
         requestCode: Int,
@@ -234,18 +300,27 @@ class EditProduct : AppCompatActivity() {
             edt_hargaproduct.setText(it.harga)
             edt_deskripsi.setText(it.deskripsi)
             edt_lokasi.setText(it.stok)
+            edt_beratproduk.setText(it.berat)
             kategoriproduk = it.kategori
-            Glide.with(this).load(it.gambar)
+            Glide.with(this).load(it.gambar).override(300,300)
                 .into(icon_foto)
                 }
             }
     fun encodeBitmapImage(bitmap: Bitmap) {
         Log.d(ContentValues.TAG, "encodeBitmapImage called")
+        val maxFileSize = 1024 * 1024 // Contoh: 1 MB
         if (bitmap != null && !bitmap.isRecycled) {
             val byteArrayOutputStream = ByteArrayOutputStream()
-            bitmap.compress(Bitmap.CompressFormat.PNG, 70, byteArrayOutputStream)
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 70, byteArrayOutputStream)
             val bytesOfImage = byteArrayOutputStream.toByteArray()
-            encodeImageString = Base64.encodeToString(bytesOfImage, Base64.DEFAULT)
+            if (bytesOfImage.size > maxFileSize) {
+                // Gambar terlalu besar, tampilkan pesan kesalahan kepada pengguna
+                tv_warningn.text = "Ukurang Makismal Gambar Adalah 1024 x 1024"
+                Toast.makeText(this, "Ukuran gambar terlalu besar", Toast.LENGTH_SHORT).show()
+            } else {
+                // Gambar dalam batas ukuran yang diizinkan, lanjutkan mengunggahnya ke server
+                encodeImageString = Base64.encodeToString(bytesOfImage, Base64.DEFAULT)
+            }
         } else {
             Log.e(ContentValues.TAG, "Bitmap is null or recycled")
         }
