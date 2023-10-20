@@ -1,4 +1,4 @@
-package and5.abrar.e_commerce.repository
+package com.example.myapplication.repository
 
 import com.example.myapplication.model.GetCategorySellerItem
 import com.example.myapplication.model.GetDataProductSellerItemItem

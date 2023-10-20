@@ -1,13 +1,19 @@
 package com.example.myapplication.payment
 
+import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 import com.example.myapplication.R
 import com.example.myapplication.datastore.UserManager
+import com.example.myapplication.view.HomeActivity
 import com.example.myapplication.viewmodel.ViewModelHome
 import com.example.myapplication.viewmodel.ViewModelMidtrans
 import com.example.myapplication.viewmodel.ViewModelProductSeller
@@ -65,8 +71,34 @@ class PaymentMidtransActivty : AppCompatActivity(), TransactionFinishedCallback 
         TransactionFinishedCallback {
             addHistory()
         }
-    }
+        btn_home.setOnClickListener {
+            startActivity(Intent(this, HomeActivity::class.java))
+        }
+        etJumlah.addTextChangedListener(object : TextWatcher{
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                //
+            }
 
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                //
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+                calculateResult(p0.toString())
+            }
+
+        })
+    }
+    private fun calculateResult(input: String) {
+        // Melakukan perhitungan (misalnya, mengubah input menjadi integer)
+        try {
+            val number = input.toInt()
+            val result = number * hargabarang
+            tv_jmlHarga.text = "Total Harga: $result"
+        } catch (e: NumberFormatException) {
+            tv_jmlHarga.text = "Total Harga : $hargabarang"
+        }
+    }
     fun pesan(){
         pesan.setOnClickListener {
             val Jumlah = etJumlah.text.toString()
@@ -153,12 +185,17 @@ class PaymentMidtransActivty : AppCompatActivity(), TransactionFinishedCallback 
         viewModel.productid.observe(this@PaymentMidtransActivty) { it ->
             if (it != null) {
                 hargabarang = it.harga.toInt()
+                val requestOptions = RequestOptions()
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .override(400,350)
+                    .skipMemoryCache(true)
                 Glide.with(this)
                     .load(it.gambar)
-                    .override(400, 350)
+                    .apply(requestOptions)
                     .into(produk_image)
                 nama_produk.text = "Nama Produk : "+it.nama_produk
                 harga_produk.text = "Harga Produk : "+it.harga
+                berat_produk.text = "Berat Produk :"+it.berat
             }else {
                 Log.e("midtranssss","kosong")
             }

@@ -17,7 +17,7 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
-    private const val BASE_URL = "https://dev.vzcyberd.cloud/abrar/API/"
+    private const val BASE_URL = "https://abrar.vzcyberd.my.id/API/"
     private  val logging : HttpLoggingInterceptor
         get(){
             val httpLoggingInterceptor = HttpLoggingInterceptor()

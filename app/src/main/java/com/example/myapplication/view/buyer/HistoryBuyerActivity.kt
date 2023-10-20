@@ -87,22 +87,22 @@ class HistoryBuyerActivity : AppCompatActivity() {
     }
 
     private fun fetchnotif(){
-        val dataProduct = intent.extras!!.getSerializable("detailoder") as GetHistoryItem?
+        val dataProduct = intent.extras!!.getSerializable("detailorder") as GetHistoryItem?
         with(dataProduct!!){
-            tv_status.text = status
-            tv_orderid.text = order_id
-            tv_tanggal.text = tgl_transaksi
+            tv_status.text = "Status : "+status
+            tv_orderid.text = "Order Id : "+order_id
+            tv_tanggal.text = "Tanggal Transaksi : "+tgl_transaksi
             Glide.with(this@HistoryBuyerActivity)
                 .load(gambar)
                 .override(80, 80)
                 .into(gambarProdukBuyer)
-            historyBuyer_harga.text = harga_produk
-            historyBuyer_namaProduk.text = nama_produk
-            historyBuyer_order.text = order_id
-            historyBuyer_alamat.text = alamat
-            historyBuyer_totalongkos.text = ongkos
-            historyBuyer_jumlahbrg.text = jumlah_produk
-            historyBuyer_ttlbelanja.text = total_harga
+            historyBuyer_harga.text = "Harga Produk : "+harga_produk
+            historyBuyer_namaProduk.text = "Nama Produk : "+nama_produk
+            historyBuyer_order.text = "Order Id : "+order_id
+            historyBuyer_alamat.text = "Alamat Pengiriman : "+alamat
+            historyBuyer_totalongkos.text = "Harga Ongkir : "+ongkos
+            historyBuyer_jumlahbrg.text = "Jumlah Produk : "+jumlah_produk
+            historyBuyer_ttlbelanja.text = "Total Harga :"+total_harga
 
         }
 

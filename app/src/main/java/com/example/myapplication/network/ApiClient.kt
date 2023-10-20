@@ -10,7 +10,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 class ApiClient {
     private lateinit var apiService: ApiService
 
-    val BASE = "https://dev.vzcyberd.cloud/abrar/API/"
+    val BASE = "https://abrar.vzcyberd.my.id/API/"
 
     private  val logging : HttpLoggingInterceptor
         get() {

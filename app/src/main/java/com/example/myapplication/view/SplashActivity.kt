@@ -2,6 +2,8 @@ package com.example.myapplication.view
 
 import android.annotation.SuppressLint
 import android.app.DownloadManager
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -15,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.app.NotificationCompat
 import androidx.core.content.FileProvider
 import androidx.core.view.isVisible
 import com.example.myapplication.BuildConfig
@@ -77,6 +80,7 @@ class SplashActivity : AppCompatActivity() {
         if (isConnected){
             runOnUiThread {
                 checkForUpdate()
+                sendNotification(this,"ada kiriman","test")
         }
         }else{
             Toast.makeText(applicationContext, "Tidak Ada Koneksi Internet", Toast.LENGTH_SHORT)
@@ -126,6 +130,29 @@ class SplashActivity : AppCompatActivity() {
         installIntent.data = contentUri
         startActivity(installIntent)
     }
+    fun sendNotification(context: Context, title: String, content: String) {
+        val notificationManager =
+            context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel = NotificationChannel(
+                "your_channel_id",
+                "Your Channel Name",
+                NotificationManager.IMPORTANCE_DEFAULT
+            )
+            notificationManager.createNotificationChannel(channel)
+        }
+
+        val notificationBuilder = NotificationCompat.Builder(context, "your_channel_id")
+            .setSmallIcon(R.drawable.ic_notifications)
+            .setContentTitle(title)
+            .setContentText(content)
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+
+        val notificationId = 1 // You can use a unique ID for each notification
+        notificationManager.notify(notificationId, notificationBuilder.build())
+    }
+
     fun checkForUpdate() {
         val client = OkHttpClient()
         val request = Request.Builder()

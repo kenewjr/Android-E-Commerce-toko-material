@@ -329,6 +329,19 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
+    <TextView
+        android:id="@+id/tv_jmlHarga"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="15dp"
+        android:text="Total Harga"
+        android:textColor="@color/black"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:layout_below="@id/textselectongkos"
+        tools:ignore="HardcodedText,MissingConstraints" />
+
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/pesan"
         android:layout_width="180dp"
@@ -340,11 +353,11 @@
         android:textColor="@android:color/white"
         android:textSize="18sp"
         android:textStyle="bold"
-        android:layout_below="@id/textselectongkos"
+        android:layout_below="@id/tv_jmlHarga"
         tools:ignore="HardcodedText" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/home"
+        android:id="@+id/btn_home"
         android:layout_width="180dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -355,7 +368,7 @@
         android:textSize="18sp"
         android:textStyle="bold"
         android:layout_toEndOf="@id/pesan"
-        android:layout_below="@id/textselectongkos"
+        android:layout_below="@id/tv_jmlHarga"
         tools:ignore="HardcodedText" />
     </RelativeLayout>
 </ScrollView>

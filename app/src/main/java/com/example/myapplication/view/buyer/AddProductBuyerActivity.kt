@@ -103,6 +103,8 @@ class AddProductBuyerActivity : AppCompatActivity() {
             val komentar = dialogView.edt_komentar.text.toString()
             viewModelKomentar.addKomentar(komentar,dataProduct!!.id.toInt(),userManager.fetchId()!!.toInt(),nama)
             dialogbuilder.dismiss()
+            fetchkomentar()
+            Toast.makeText(this, "Berhasil Menambahkan Pesan", Toast.LENGTH_SHORT).show()
         }
         dialogbuilder.setCancelable(true)
         dialogbuilder.show()

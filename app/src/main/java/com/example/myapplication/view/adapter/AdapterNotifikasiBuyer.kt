@@ -31,12 +31,15 @@ class AdapterNotifikasiBuyer(private var dataNotif : List<GetHistoryItem>,
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val requestOptions = RequestOptions()
+            .diskCacheStrategy(DiskCacheStrategy.NONE)
+            .override(150,150)
+            .skipMemoryCache(true)
         with(holder.itemView){
             with(dataNotif[position]){
                     cardNotifikasiBuyer.setOnClickListener {
                         onClick(dataNotif[position])
                     }
-                val requestOptions = RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true)
                     Glide.with(holder.itemView.context)
                         .load(dataNotif[position].gambar)
                         .error(R.drawable.ic_launcher_background)
