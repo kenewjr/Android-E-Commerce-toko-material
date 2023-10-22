@@ -15,8 +15,6 @@ class UserManager(context : Context) {
     companion object {
         const val ID = "ID"
         const val STATUS = "STATUS"
-        const val IMAGEUSER = "IMAGEUSER"
-        const val KOTA = "KOTA"
         const val BOOLEAN_KEY = "my_boolean_key"
         const val USERNAME = "USERNAME"
         const val PASSWORD = "PASSWORD"

@@ -85,6 +85,9 @@ class DaftarJualActivity : AppCompatActivity() {
         daftar_jualEdit.setOnClickListener {
             startActivity(Intent(this,AkunsayaActivty::class.java))
         }
+        daftarPengiriman.setOnClickListener {
+            startActivity(Intent(this,DaftarJualPengiriman::class.java))
+        }
 
     }
 

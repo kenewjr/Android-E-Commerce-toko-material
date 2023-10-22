@@ -27,7 +27,8 @@ class RegisterActivity : AppCompatActivity() {
 
     private fun register(){
         btn_daftar.setOnClickListener {
-            val username : String = etEmail_register.text.toString()
+            val username : String = etUsername_register.text.toString()
+            val email : String = etEmail_register.text.toString()
             val nama : String = etNama_register.text.toString()
             val password : String = etPassword_register.text.toString()
             val phone : String = etPhone_register.text.toString()
@@ -51,16 +52,19 @@ class RegisterActivity : AppCompatActivity() {
             }else if (etAddress_register.text.isEmpty()){
                 Toast.makeText(this@RegisterActivity, "Address Tidak Boleh Kosong", Toast.LENGTH_SHORT).show()
                 tv_error_address_register.text = "Address Harus di isi "
+            }else if (etUsername_register.text.isEmpty()){
+                Toast.makeText(this@RegisterActivity, "Username Tidak Boleh Kosong", Toast.LENGTH_SHORT).show()
+                tv_error_username_register.text = "Username Harus di isi "
             }
             else {
-                doRegister(username,nama,password,alamat,phone)
+                doRegister(username,nama,password,alamat,phone,email)
             }
         }
         }
 
-    private fun doRegister(username: String, nama: String, password: String, alamat : String, phone : String){
+    private fun doRegister(username: String, nama: String, password: String, alamat : String, phone : String,email :String){
         apiClient = ApiClient()
-        apiClient.getApiService().register(username,password,nama, phone,alamat)
+        apiClient.getApiService().register(username,password,nama, phone,alamat,email)
             .enqueue(object : retrofit2.Callback<PostRegisterUser> {
                 override fun onResponse(
                     call: Call<PostRegisterUser>,

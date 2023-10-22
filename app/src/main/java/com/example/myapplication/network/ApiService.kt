@@ -22,7 +22,8 @@ interface ApiService {
         @Field("password")password : String,
         @Field("nama")nama : String,
         @Field("nohp")nohp : String,
-        @Field("alamat")alamat : String
+        @Field("alamat")alamat : String,
+        @Field("email")email: String
     ): Call<PostRegisterUser>
 
     @FormUrlEncoded
@@ -153,5 +154,31 @@ interface ApiService {
     @POST("tambah_category")
     fun tambahCtgy(
         @Field("name")name:String
+    ):Call<Response>
+
+    @GET("get_all_pengiriman")
+    suspend fun getPengiriman():List<GetAllPengirimanItem>
+
+    @FormUrlEncoded
+    @POST("tambah_pengiriman")
+    fun tambahPengiriman(
+        @Field("kendaraan")kendaraan:String,
+        @Field("harga")harga:String,
+        @Field("max_berat")max_berat:String
+    ):Call<Response>
+
+    @FormUrlEncoded
+    @POST("edit_pengiriman")
+    fun editPengiriman(
+        @Field("id")id:Int,
+        @Field("kendaraan")kendaraan:String,
+        @Field("harga")harga:String,
+        @Field("max_berat")max_berat:String
+    ):Call<Response>
+
+    @FormUrlEncoded
+    @POST("delete_pengiriman")
+    fun deletePengiriman(
+        @Field("id")id:Int
     ):Call<Response>
 }

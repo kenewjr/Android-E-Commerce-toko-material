@@ -5,19 +5,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.seller.DaftarJualActivity"
+    tools:context=".view.seller.DaftarJualPengiriman"
     android:layout_margin="10sp">
 
     <TextView
-        android:id="@+id/seller_daftar_product"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10sp"
-        android:layout_marginBottom="16dp"
-        android:text="Daftar Jual saya"
+        android:text="Daftar jual saya"
+        android:textStyle="bold"
         android:textColor="@color/black"
+        android:layout_marginTop="10sp"
         android:textSize="25sp"
-        android:textStyle="bold" />
+        android:layout_marginBottom="16dp"
+        android:id="@+id/seller_daftar"/>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/card_seller"
@@ -27,7 +27,7 @@
         app:cardCornerRadius="10sp"
         android:orientation="vertical"
         android:paddingLeft="30sp"
-        android:layout_below="@+id/seller_daftar_product"
+        android:layout_below="@+id/seller_daftar"
         tools:ignore="RtlHardcoded,RtlSymmetry">
 
         <RelativeLayout
@@ -36,18 +36,18 @@
             android:padding="16dp">
 
             <ImageView
-                android:id="@+id/IV_penjual_product"
+                android:id="@+id/IV_penjual"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:src="@drawable/penjual"
                 tools:ignore="ContentDescription" />
 
             <TextView
-                android:id="@+id/TV_nama_product"
+                android:id="@+id/TV_nama"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
-                android:layout_toRightOf="@id/IV_penjual_product"
+                android:layout_toRightOf="@id/IV_penjual"
                 android:text="Nama Penjual"
                 android:textColor="@color/black"
                 android:textSize="14sp"
@@ -55,12 +55,12 @@
                 tools:ignore="HardcodedText" />
 
             <TextView
-                android:id="@+id/TV_kota_product"
+                android:id="@+id/profileKota"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/TV_nama_product"
+                android:layout_below="@id/TV_nama"
                 android:layout_marginLeft="16dp"
-                android:layout_toRightOf="@id/IV_penjual_product"
+                android:layout_toRightOf="@id/IV_penjual"
                 android:text="Kota"
                 android:textColor="@color/black"
                 android:textSize="14sp"
@@ -102,7 +102,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="60sp"
                 android:layout_marginRight="10dp"
-                android:backgroundTint="@color/design_default_color_primary"
+                android:backgroundTint="#A491AC"
                 app:cardCornerRadius="8sp">
 
                 <LinearLayout
@@ -208,7 +208,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="60sp"
                 android:layout_marginRight="10dp"
-                android:backgroundTint="#A491AC"
+                android:backgroundTint="@color/design_default_color_primary"
                 app:cardCornerRadius="8sp">
 
                 <LinearLayout
@@ -242,30 +242,68 @@
         </LinearLayout>
     </HorizontalScrollView>
 
-    <ImageView
-        android:id="@+id/image_tambah_produk"
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_tambah_pengiriman"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="50dp"
         android:layout_below="@+id/scroolviewe"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_marginStart="18dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="18dp"
-        android:src="@drawable/tambahkanprosuctmu"
+        android:background="@drawable/login_btn_bg"
+        android:text="Tambahkan Pengiriman"
         tools:ignore="ContentDescription" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvProductSeller"
+        android:id="@+id/rv_pengiriman"
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/navigation"
+        android:layout_below="@+id/btn_tambah_pengiriman"
+        android:layout_marginStart="10sp"
+        android:layout_marginTop="10sp"
+        android:layout_marginEnd="10sp"
+        android:layout_marginBottom="10dp" />
+
+    <RelativeLayout
+        android:id="@+id/kalaukosongHistory"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_above="@+id/navigation"
-        android:layout_below="@+id/image_tambah_produk"
-        android:layout_marginStart="10sp"
-        android:layout_marginTop="5sp"
-        android:layout_marginEnd="10sp">
+        android:layout_below="@+id/btn_tambah_pengiriman"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="30dp"
+        android:visibility="visible">
 
-    </androidx.recyclerview.widget.RecyclerView>
+        <ImageView
+            android:id="@+id/imagekl"
+            android:layout_width="0dp"
+            android:layout_height="250dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/jika_product_kosong"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/imagekl"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:gravity="center"
+            android:text="Belum ada Kategori"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            tools:ignore="HardcodedText" />
+    </RelativeLayout>
+
+
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/navigation"

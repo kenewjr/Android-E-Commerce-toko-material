@@ -21,7 +21,6 @@ import kotlinx.android.synthetic.main.item_product_category.view.button_edit_car
 
 class AdapterCategorty(): RecyclerView.Adapter<AdapterCategorty.ViewHolder> () {
     class ViewHolder (itemView : View) : RecyclerView.ViewHolder(itemView)
-
     fun setDataCategory(list: List<GetCategorySellerItem>){
         this.dataCategory = list
     }

@@ -85,6 +85,9 @@ class DaftarJualHistory : AppCompatActivity() {
         cardView_productSeller.setOnClickListener {
             startActivity(Intent(this,DaftarJualActivity::class.java))
         }
+        daftarPengiriman.setOnClickListener {
+            startActivity(Intent(this,DaftarJualPengiriman::class.java))
+        }
        initView()
     }
 

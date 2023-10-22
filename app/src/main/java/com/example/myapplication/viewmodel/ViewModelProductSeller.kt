@@ -21,6 +21,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ViewModelProductSeller @Inject constructor(private var productRepository: ProductRepository, api: ApiService) : ViewModel() {
     var sellerCategory = MutableLiveData<List<GetCategorySellerItem>>()
+    var sellerPengiriman = MutableLiveData<List<GetAllPengirimanItem>>()
 
     private val livedataJualProduct = MutableLiveData<PostSellerProduct>()
 
@@ -37,6 +38,8 @@ class ViewModelProductSeller @Inject constructor(private var productRepository: 
 
     private val tambahCategory = MutableLiveData<com.example.myapplication.model.Response>()
 
+    private val pengiriman = MutableLiveData<com.example.myapplication.model.Response>()
+
     private val updateproduct = MutableLiveData<com.example.myapplication.model.Response>()
 
     private val apiServices = api
@@ -45,6 +48,79 @@ class ViewModelProductSeller @Inject constructor(private var productRepository: 
             val category = productRepository.getSellerCategory()
             sellerCategory.value = category
         }
+    }
+
+    fun getSellerPengiriman(){
+        viewModelScope.launch {
+            val pengiriman = productRepository.getPengiriman()
+            sellerPengiriman.value=pengiriman
+        }
+    }
+
+    fun tambahPengiriman(kendaraan:String,harga: String,berat: String){
+        apiServices.tambahPengiriman(kendaraan,harga,berat).enqueue(object : Callback<com.example.myapplication.model.Response>{
+            override fun onResponse(
+                call: Call<com.example.myapplication.model.Response>,
+                response: Response<com.example.myapplication.model.Response>
+            ) {
+                if(response.isSuccessful){
+                    pengiriman.value = response.body()
+                }else {
+                    //
+                }
+            }
+
+            override fun onFailure(
+                call: Call<com.example.myapplication.model.Response>,
+                t: Throwable
+            ) {
+                //
+            }
+        })
+    }
+
+    fun editPengiriman(id: Int,kendaraan:String,harga: String,berat: String){
+        apiServices.editPengiriman(id,kendaraan,harga,berat).enqueue(object : Callback<com.example.myapplication.model.Response>{
+            override fun onResponse(
+                call: Call<com.example.myapplication.model.Response>,
+                response: Response<com.example.myapplication.model.Response>
+            ) {
+                if(response.isSuccessful){
+                    pengiriman.value = response.body()
+                }else {
+                    //
+                }
+            }
+
+            override fun onFailure(
+                call: Call<com.example.myapplication.model.Response>,
+                t: Throwable
+            ) {
+                //
+            }
+        })
+    }
+
+    fun deletePengiriman(id: Int){
+        apiServices.deletePengiriman(id).enqueue(object : Callback<com.example.myapplication.model.Response>{
+            override fun onResponse(
+                call: Call<com.example.myapplication.model.Response>,
+                response: Response<com.example.myapplication.model.Response>
+            ) {
+                if(response.isSuccessful){
+                    pengiriman.value = response.body()
+                }else {
+                    //
+                }
+            }
+
+            override fun onFailure(
+                call: Call<com.example.myapplication.model.Response>,
+                t: Throwable
+            ) {
+                //
+            }
+        })
     }
 
     fun tambahCtgy(name: String){

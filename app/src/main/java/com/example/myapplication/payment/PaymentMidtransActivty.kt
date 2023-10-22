@@ -5,6 +5,9 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
@@ -13,6 +16,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.example.myapplication.R
 import com.example.myapplication.datastore.UserManager
+import com.example.myapplication.model.GetAllPengirimanItem
 import com.example.myapplication.view.HomeActivity
 import com.example.myapplication.viewmodel.ViewModelHome
 import com.example.myapplication.viewmodel.ViewModelMidtrans
@@ -42,12 +46,14 @@ class PaymentMidtransActivty : AppCompatActivity(), TransactionFinishedCallback 
     var gambar : String = ""
     private var idriwayat =0
     private lateinit var userManager: UserManager
+    private lateinit var selectedCategory: GetAllPengirimanItem
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_payment_midtrans_activty)
         userManager = UserManager(this)
         viewModel()
+        getPengiriman()
         val viewModelProductSeller = ViewModelProvider(this)[ViewModelProductSeller::class.java]
         viewModelProductSeller.getHistory()
         viewModelProductSeller.datahistory.observe(this){
@@ -89,6 +95,28 @@ class PaymentMidtransActivty : AppCompatActivity(), TransactionFinishedCallback 
 
         })
     }
+
+
+    private fun getPengiriman(){
+        val viewModelSeller= ViewModelProvider(this)[ViewModelProductSeller::class.java]
+        viewModelSeller.sellerPengiriman.observe(this){ it ->
+            val categoryNames = it.map { it.kendaraan }.toMutableList()
+            val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, categoryNames)
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            select_ongkos.adapter = adapter
+
+            select_ongkos.onItemSelectedListener  = object  : AdapterView.OnItemSelectedListener{
+                override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                    selectedCategory = it[p2]
+                }
+
+                override fun onNothingSelected(p0: AdapterView<*>?) {
+                    //
+                }
+            }
+        }
+        viewModelSeller.getSellerPengiriman()
+    }
     private fun calculateResult(input: String) {
         // Melakukan perhitungan (misalnya, mengubah input menjadi integer)
         try {
@@ -125,6 +153,7 @@ class PaymentMidtransActivty : AppCompatActivity(), TransactionFinishedCallback 
          etnamaBuyer.setText(it.nama)
             etphonenumber.setText(it.nohp)
             etadress.setText(it.alamat)
+            etemail.setText(it.email)
         }
     }
     fun uiKitsDetails(transactionRequest: TransactionRequest){

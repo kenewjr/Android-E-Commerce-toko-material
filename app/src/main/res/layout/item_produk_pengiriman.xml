@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    android:id="@+id/cardProductPengiriman"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginStart="8dp"
+    android:layout_marginEnd="8dp"
+    android:layout_marginBottom="10dp"
+    android:layout_marginTop="10dp"
+    app:cardCornerRadius="15dp"
+    app:cardElevation="5dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tvPengirimanKendaraan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:gravity="start"
+            android:text="nama kendaraan"
+            android:textColor="@color/black"
+            android:layout_toStartOf="@id/button_edit_card"
+            android:textSize="20sp"
+            tools:ignore="HardcodedText,MissingConstraints" />
+
+        <TextView
+            android:id="@+id/tvPengirimanHarga"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:gravity="start"
+            android:text="harga"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            android:layout_below="@id/tvPengirimanKendaraan"
+            android:layout_toStartOf="@id/button_edit_card"
+            tools:ignore="HardcodedText,MissingConstraints,SmallSp" />
+
+        <TextView
+            android:id="@+id/tvTgl_product_MaxBerat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:gravity="start"
+            android:text="berat"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            android:layout_below="@id/tvPengirimanHarga"
+            android:layout_toStartOf="@id/button_edit_card"
+            tools:ignore="HardcodedText,MissingConstraints,SmallSp" />
+
+        <ImageView
+            android:id="@+id/button_edit_card"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/ic_edit_"
+            android:tint="#47B89D"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="8dp"
+            android:layout_alignParentRight="true"
+            tools:ignore="ContentDescription,MissingConstraints,UseAppTint" />
+
+        <ImageView
+            android:id="@+id/button_delete_card"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/ic_hapus"
+            android:tint="#CA2424"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginEnd="8dp"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/button_edit_card"
+            tools:ignore="ContentDescription,MissingConstraints,UseAppTint" />
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

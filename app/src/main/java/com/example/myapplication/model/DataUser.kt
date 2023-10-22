@@ -9,5 +9,6 @@ data class DataUser(
     val password: String,
     val user_id: String,
     val status: String,
-    val username: String
+    val username: String,
+    val email : String
 ): Serializable

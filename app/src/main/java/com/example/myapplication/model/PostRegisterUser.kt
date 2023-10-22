@@ -15,5 +15,7 @@ data class PostRegisterUser(
     @SerializedName("nohp")
     val nohp: String,
     @SerializedName("alamat")
-    val alamat: String
+    val alamat: String,
+    @SerializedName("email")
+    val email: String
 ):Parcelable
