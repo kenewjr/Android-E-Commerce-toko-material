@@ -24,7 +24,10 @@ class RegisterActivity : AppCompatActivity() {
         setContentView(R.layout.activity_register)
         register()
     }
-
+    private fun isValidEmail(email: String): Boolean {
+        val emailRegex = "^[A-Za-z](.*)([@]{1})(.{1,})(\\.)(.{1,})"
+        return email.matches(emailRegex.toRegex())
+    }
     private fun register(){
         btn_daftar.setOnClickListener {
             val username : String = etUsername_register.text.toString()
@@ -37,9 +40,9 @@ class RegisterActivity : AppCompatActivity() {
                 Toast.makeText(this@RegisterActivity, "Nama lengkap harus di isi", Toast.LENGTH_SHORT).show()
                 tv_error_nama_register.text = "Nama lengkap harus di isi"
             }
-            else if (etEmail_register.text.isEmpty()){
-                Toast.makeText(this@RegisterActivity, "Email harus diisi", Toast.LENGTH_SHORT).show()
-                tv_error_email_register.text = "Email harus diisi"
+            else if (!isValidEmail(email)){
+                Toast.makeText(this@RegisterActivity, "Email harus diisi dengan benar", Toast.LENGTH_SHORT).show()
+                tv_error_email_register.text = "Email harus diisi dengan benar"
             } else if ( etPassword_register.text.isEmpty()){
                 Toast.makeText(this@RegisterActivity, "Password harus di isi", Toast.LENGTH_SHORT).show()
                 tv_error_password_register.text = "Password harus di isi"

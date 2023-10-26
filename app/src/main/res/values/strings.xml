@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">E-Commerce</string>
+    <string name="app_name">TB Cibeber Kencana 2</string>
     <string name="title_activity_akun_saya">AkunSayaActivity</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
@@ -13,27 +13,12 @@
     <string name="todo">TODO</string>
     <string name="keluar">Keluar</string>
     <string name="penganturan_akun">Penganturan akun</string>
-    <array name="kota">
-        <item>Kota Karawang</item>
-        <item>Kota Jakarta</item>
-        <item>Kota Subang</item>
-        <item>Kota Bandung</item>
-        <item>Kota Cirebon</item>
-        <item>Kota Tasikmalaya</item>
-    </array>
     <string name="title_activity_notifikasi_buyer">NotifikasiBuyerActivity</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
-    <string-array name="kategori">
-        <item>- Pilih Kategori -</item>
-        <item>Baju</item>
-        <item>Celana</item>
-        <item>Sepatu</item>
-    </string-array>
-
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="daftar_jual_saya">Daftar Jual Saya</string>

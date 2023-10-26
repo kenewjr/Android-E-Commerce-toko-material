@@ -62,14 +62,6 @@ class LengkapiDetailProductActivity : AppCompatActivity() {
         lateinit var numberDoccument : String
     }
     private lateinit var userManager: UserManager
-    private lateinit var image: Uri
-
-    private lateinit var arrayAdapter: ArrayAdapter<String>
-    private lateinit var postCategory: String
-    var categoryID = mutableListOf<Int>()
-    var categoryName = mutableListOf<String>()
-    var selectedName: MutableList<String?> = mutableListOf()
-    var selectedID: MutableList<Int> = mutableListOf()
     private lateinit var selectedCategory: GetCategorySellerItem
 
     @RequiresApi(Build.VERSION_CODES.M)
@@ -86,7 +78,6 @@ class LengkapiDetailProductActivity : AppCompatActivity() {
             jualbarang()
         }
 
-
         icon_foto.setOnClickListener {
             if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                 createImageBrowsingRequest()
@@ -97,8 +88,30 @@ class LengkapiDetailProductActivity : AppCompatActivity() {
         }
 
     }
+    fun doubleCheck(){
+        val namaProduk = edt_namaprodut.text.toString()
+        val harga = edt_hargaproduct.text.toString()
+        val berat = edt_beratproduk.text.toString()
+        val deskripsi = edt_deskripsi.text.toString()
+        val stok = edt_lokasi.text.toString()
+
+        if (namaProduk.isEmpty()){
+            Toast.makeText(this, "NamaProduk harus diisi", Toast.LENGTH_SHORT).show()
+        }else if(harga.isEmpty()){
+            Toast.makeText(this, "Harga harus diisi", Toast.LENGTH_SHORT).show()
+        }else if(berat.isEmpty()){
+            Toast.makeText(this, "Berat harus diisi", Toast.LENGTH_SHORT).show()
+        }else if(deskripsi.isEmpty()){
+            Toast.makeText(this, "Deskripsi harus diisi", Toast.LENGTH_SHORT).show()
+        }else if(stok.isEmpty()){
+            Toast.makeText(this, "Stok harus diisi", Toast.LENGTH_SHORT).show()
+        }else if(encodeImageString.isEmpty()){
+            Toast.makeText(this, "Gambar harus diisi", Toast.LENGTH_SHORT).show()
+        }
+    }
 
     fun jualbarang(){
+        doubleCheck()
         var categoryProduct : String = selectedCategory.id.toString()
         val namaProdcut : String = edt_namaprodut.text.toString()
         val hargaProduct : String = edt_hargaproduct.text.toString()

@@ -236,11 +236,31 @@
         tools:ignore="MissingConstraints">
 
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/addProductBuyer_btnWA"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/login_btn_bg"
+            android:text="Chat Seller"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/addProductBuyer_btnTertarik"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="HardcodedText" />
+
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/addProductBuyer_btnTertarik"
             android:layout_width="0dp"
             android:layout_height="50dp"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="10dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
             android:layout_marginBottom="20dp"
             android:background="@drawable/login_btn_bg"
             android:text="Beli Sekarang"
@@ -251,9 +271,10 @@
             app:layout_constraintEnd_toStartOf="@+id/imageKomen"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/addProductBuyer_btnWA"
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="HardcodedText" />
+
 
         <ImageView
             android:id="@+id/imageKomen"
@@ -261,7 +282,7 @@
             android:layout_height="45dp"
             android:layout_marginEnd="15dp"
             android:layout_marginBottom="20dp"
-            android:src="@drawable/favorite_border"
+            android:src="@drawable/baseline_chat_24"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"

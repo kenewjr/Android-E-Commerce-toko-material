@@ -5,6 +5,7 @@ package com.example.myapplication.view.buyer
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -65,6 +66,7 @@ class AddProductBuyerActivity : AppCompatActivity() {
             imageKomen.setOnClickListener {
                 addKomentar()
             }
+            chatWA()
             disablebutton()
             checkakun()
         } else {
@@ -77,6 +79,23 @@ class AddProductBuyerActivity : AppCompatActivity() {
             }
         }
 
+    }
+    private fun chatWA(){
+        addProductBuyer_btnWA.setOnClickListener {
+            val dataProduct = intent.extras!!.getSerializable("detailproduk") as GetAllProdukItem?
+            val message = "Haloo Mas Saya ${userManager.fetchusername()}Apakah Produk ini masih Ada? \n"+
+                    "Nama Produk : ${dataProduct!!.nama} \n"+
+                    "Berat Produk : ${dataProduct!!.berat} \n"+
+                    "Harga Produk : ${dataProduct!!.harga} \n"
+
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(
+                String.format(
+                    "https://api.whatsapp.com/send?phone=%s&text=%s",
+                   " 08977715400",
+                    message
+                )
+            )))
+        }
     }
     private fun disablebutton(){
         userManager = UserManager(this)

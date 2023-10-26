@@ -10,6 +10,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isEmpty
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -46,7 +47,7 @@ class PaymentMidtransActivty : AppCompatActivity(), TransactionFinishedCallback 
     var gambar : String = ""
     private var idriwayat =0
     private lateinit var userManager: UserManager
-    private lateinit var selectedCategory: GetAllPengirimanItem
+    private lateinit var selectedOngkos: GetAllPengirimanItem
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,7 +68,7 @@ class PaymentMidtransActivty : AppCompatActivity(), TransactionFinishedCallback 
                 .setClientKey("SB-Mid-client-UyV8fwVUJHmHywYZ")
                 .setContext(this)
                 .setTransactionFinishedCallback(this)
-                .setMerchantBaseUrl("https://dev.vzcyberd.cloud/abrar/API/midtrans.php/")
+                .setMerchantBaseUrl("https://abrar.vzcyberd.my.id/API/midtrans.php/")
                 .enableLog(true)
                 .setColorTheme(CustomColorTheme("#FFE51255", "#B61548", "#FFE51255"))
                 .setLanguage("id")
@@ -96,6 +97,48 @@ class PaymentMidtransActivty : AppCompatActivity(), TransactionFinishedCallback 
         })
     }
 
+    private fun doubleCheck(): Boolean {
+        val nama = etnamaBuyer.text.toString()
+        val phone = etphonenumber.text.toString()
+        val email = etemail.text.toString()
+        val adress = etadress.text.toString()
+        val postal = etpostal.text.toString()
+        val kota = etcity.text.toString()
+        val jumlah = etJumlah.text.toString()
+
+        if (nama.isEmpty()) {
+            Toast.makeText(this, "Username harus diisi", Toast.LENGTH_SHORT).show()
+            return false
+        } else if (phone.isEmpty()) {
+            Toast.makeText(this, "Nomor HP harus diisi", Toast.LENGTH_SHORT).show()
+            return false
+        } else if (!isValidEmail(email)) {
+            Toast.makeText(this, "Email harus diisi dengan benar", Toast.LENGTH_SHORT).show()
+            return false
+        } else if (adress.isEmpty()) {
+            Toast.makeText(this, "Alamat harus diisi", Toast.LENGTH_SHORT).show()
+            return false
+        } else if (postal.isEmpty()) {
+            Toast.makeText(this, "KodePos harus diisi", Toast.LENGTH_SHORT).show()
+            return false
+        } else if (kota.isEmpty()) {
+            Toast.makeText(this, "Kota harus diisi", Toast.LENGTH_SHORT).show()
+            return false
+        } else if (jumlah.isEmpty()) {
+            Toast.makeText(this, "Jumlah Produk harus diisi", Toast.LENGTH_SHORT).show()
+            return false
+        } else if (select_ongkos.isEmpty()) {
+            Toast.makeText(this, "Ongkos harus diisi", Toast.LENGTH_SHORT).show()
+            return false
+        }
+        return true
+    }
+
+
+    private fun isValidEmail(email: String): Boolean {
+        val emailRegex = "^[A-Za-z](.*)([@]{1})(.{1,})(\\.)(.{1,})"
+        return email.matches(emailRegex.toRegex())
+    }
 
     private fun getPengiriman(){
         val viewModelSeller= ViewModelProvider(this)[ViewModelProductSeller::class.java]
@@ -104,10 +147,9 @@ class PaymentMidtransActivty : AppCompatActivity(), TransactionFinishedCallback 
             val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, categoryNames)
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             select_ongkos.adapter = adapter
-
             select_ongkos.onItemSelectedListener  = object  : AdapterView.OnItemSelectedListener{
                 override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                    selectedCategory = it[p2]
+                    selectedOngkos = it[p2]
                 }
 
                 override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -121,7 +163,7 @@ class PaymentMidtransActivty : AppCompatActivity(), TransactionFinishedCallback 
         // Melakukan perhitungan (misalnya, mengubah input menjadi integer)
         try {
             val number = input.toInt()
-            val result = number * hargabarang
+            val result = number * hargabarang + selectedOngkos.harga.toInt()
             tv_jmlHarga.text = "Total Harga: $result"
         } catch (e: NumberFormatException) {
             tv_jmlHarga.text = "Total Harga : $hargabarang"
@@ -129,20 +171,28 @@ class PaymentMidtransActivty : AppCompatActivity(), TransactionFinishedCallback 
     }
     fun pesan(){
         pesan.setOnClickListener {
-            val Jumlah = etJumlah.text.toString()
-            val convert = hargabarang*Jumlah.toDouble()
-            val transactionRequest = TransactionRequest("material-"+System.currentTimeMillis().toShort()+"",convert)
-            val detail = ItemDetails("NamaItem",hargabarang.toDouble(),Jumlah.toInt(),"testi")
-            val itemDetails = ArrayList<ItemDetails>()
-            itemDetails.add(detail)
-            uiKitsDetails(transactionRequest)
-            transactionRequest.customField1 = idriwayat.toString()
-            transactionRequest.customField2 = Jumlah
-            transactionRequest.customField3 = produkid.toString()
-            transactionRequest.itemDetails = itemDetails
-            MidtransSDK.getInstance().transactionRequest = transactionRequest
-            MidtransSDK.getInstance().startPaymentUiFlow(this)
-            orderId = transactionRequest.orderId
+            if (doubleCheck()) {
+                val Jumlah = etJumlah.text.toString()
+                val convert = hargabarang * Jumlah.toDouble()
+                val transactionRequest = TransactionRequest(
+                    "material-" + System.currentTimeMillis().toShort() + "",
+                    convert + selectedOngkos.harga.toInt()
+                )
+                val detail =
+                    ItemDetails("NamaItem", hargabarang.toDouble(), Jumlah.toInt(), "testi")
+                val detail2 = ItemDetails("ongkos", selectedOngkos.harga.toDouble(), 1, "ongkos")
+                val itemDetails = ArrayList<ItemDetails>()
+                itemDetails.add(detail)
+                itemDetails.add(detail2)
+                uiKitsDetails(transactionRequest)
+                transactionRequest.customField1 = idriwayat.toString()
+                transactionRequest.customField2 = Jumlah
+                transactionRequest.customField3 = produkid.toString()
+                transactionRequest.itemDetails = itemDetails
+                MidtransSDK.getInstance().transactionRequest = transactionRequest
+                MidtransSDK.getInstance().startPaymentUiFlow(this)
+                orderId = transactionRequest.orderId
+            }
         }
     }
 
@@ -201,7 +251,8 @@ class PaymentMidtransActivty : AppCompatActivity(), TransactionFinishedCallback 
                     hargabarang.toString(),
                     t.gross_amount,
                     etJumlah.text.toString(),
-                    it.gambar
+                    it.gambar,
+                    selectedOngkos.harga
                 )
             }
         }

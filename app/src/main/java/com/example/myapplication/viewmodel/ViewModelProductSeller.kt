@@ -257,9 +257,10 @@ class ViewModelProductSeller @Inject constructor(private var productRepository: 
         hargaProduk : String,
         totalHarga : String,
         jumlahProduk : String,
-        gambar : String
+        gambar : String,
+        ongkos : String
     ){
-    apiServices.tambahHistory(idUser,idProduk,order_id,namaUser,alamat,tglTransaksi,namaProduk,hargaProduk,totalHarga,jumlahProduk,gambar)
+    apiServices.tambahHistory(idUser,idProduk,order_id,namaUser,alamat,tglTransaksi,namaProduk,hargaProduk,totalHarga,jumlahProduk,gambar,ongkos)
         .enqueue(object : Callback<GetHistoryItem>{
             override fun onResponse(
                 call: Call<GetHistoryItem>,

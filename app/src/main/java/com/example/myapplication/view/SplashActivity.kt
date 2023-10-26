@@ -80,7 +80,6 @@ class SplashActivity : AppCompatActivity() {
         if (isConnected){
             runOnUiThread {
                 checkForUpdate()
-                sendNotification(this,"ada kiriman","test")
         }
         }else{
             Toast.makeText(applicationContext, "Tidak Ada Koneksi Internet", Toast.LENGTH_SHORT)
@@ -92,7 +91,6 @@ class SplashActivity : AppCompatActivity() {
         textView5.isVisible = true
         progressBarSplash.isVisible = true
     }
-
     private fun startAppUpdate(link : String) {
         val downloadManager = getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
 
@@ -130,29 +128,6 @@ class SplashActivity : AppCompatActivity() {
         installIntent.data = contentUri
         startActivity(installIntent)
     }
-    fun sendNotification(context: Context, title: String, content: String) {
-        val notificationManager =
-            context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel = NotificationChannel(
-                "your_channel_id",
-                "Your Channel Name",
-                NotificationManager.IMPORTANCE_DEFAULT
-            )
-            notificationManager.createNotificationChannel(channel)
-        }
-
-        val notificationBuilder = NotificationCompat.Builder(context, "your_channel_id")
-            .setSmallIcon(R.drawable.ic_notifications)
-            .setContentTitle(title)
-            .setContentText(content)
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-
-        val notificationId = 1 // You can use a unique ID for each notification
-        notificationManager.notify(notificationId, notificationBuilder.build())
-    }
-
     fun checkForUpdate() {
         val client = OkHttpClient()
         val request = Request.Builder()

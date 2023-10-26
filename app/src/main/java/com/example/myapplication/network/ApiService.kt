@@ -95,7 +95,8 @@ interface ApiService {
         @Field("harga_produk")harga_produk: String,
         @Field("total_harga")total_harga: String,
         @Field("jumlah_produk")jumlah_produk: String,
-        @Field("gambar")gambar: String
+        @Field("gambar")gambar: String,
+        @Field("ongkos")ongkos : String
     ):Call<GetHistoryItem>
 
     @GET("get_history.php")
@@ -181,4 +182,7 @@ interface ApiService {
     fun deletePengiriman(
         @Field("id")id:Int
     ):Call<Response>
+
+    @GET("midtrans_notification.php")
+    fun getmidtransNotif():Call<Response>
 }
