@@ -94,8 +94,8 @@ class NotifikasiBuyerActivity : AppCompatActivity() {
             notifikasiBuyer_welcome.text = "History"
             botnav.setOnNavigationItemSelectedListener(bottomNavigasi)
         }
-
     }
+
     private fun fetchnotif(){
         apiClient.getApiService().getHistoryUserID(userManager.fetchId()!!.toInt())
             .enqueue(object : Callback<List<GetHistoryItem>>{

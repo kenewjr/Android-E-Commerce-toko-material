@@ -299,7 +299,6 @@ class PaymentMidtransActivty : AppCompatActivity(), TransactionFinishedCallback 
     }
 
     override fun onTransactionFinished(transactionResult: TransactionResult) {
-
         when {
             transactionResult.response != null -> {
                 when (transactionResult.status) {
@@ -307,13 +306,13 @@ class PaymentMidtransActivty : AppCompatActivity(), TransactionFinishedCallback 
                         Toast.makeText(this, "Success transaction", Toast.LENGTH_LONG).show()
                     }
                     TransactionResult.STATUS_PENDING -> {
-                        addHistory()
                         Toast.makeText(this, "Pending transaction", Toast.LENGTH_LONG).show()
                     }
                     TransactionResult.STATUS_FAILED -> {
                         Toast.makeText(this, "Failed ${transactionResult.response.statusMessage}", Toast.LENGTH_LONG).show()
                     }
                 }
+                addHistory()
             }
             transactionResult.isTransactionCanceled -> {
                 Toast.makeText(this, "Canceled transaction", Toast.LENGTH_LONG).show()
