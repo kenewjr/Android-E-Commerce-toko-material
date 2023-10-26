@@ -23,11 +23,13 @@
         tools:ignore="HardcodedText" />
 
     <ImageView
-        android:layout_below="@id/nama_toko"
         android:id="@+id/produk_image"
         android:layout_width="match_parent"
         android:layout_height="250dp"
-        android:contentDescription="gambar produk" />
+        android:layout_below="@id/nama_toko"
+        android:backgroundTint="#FAFAFA"
+        android:contentDescription="@string/gambar_produk"
+        tools:ignore="ImageContrastCheck" />
 
     <TextView
         android:layout_below="@id/produk_image"
@@ -78,7 +80,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputnamabuyer"
         android:layout_width="match_parent"
-        android:layout_height="55dp"
+        android:layout_height="60dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="20dp"
@@ -92,7 +94,7 @@
             android:background="@drawable/custom_drawable"
             android:hint="Contoh : Agus Wicaksono"
             android:inputType="text"
-            tools:ignore="HardcodedText,Autofill,LabelFor,TextFields,SpeakableTextPresentCheck" />
+            tools:ignore="HardcodedText,Autofill,LabelFor,TextFields,SpeakableTextPresentCheck,VisualLintTextFieldSize" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -112,7 +114,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputphonebuyer"
         android:layout_width="match_parent"
-        android:layout_height="55dp"
+        android:layout_height="60dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="20dp"
@@ -126,7 +128,7 @@
             android:background="@drawable/custom_drawable"
             android:hint="Contoh : 08975324235"
             android:inputType="phone"
-            tools:ignore="HardcodedText,Autofill,LabelFor,TextFields,SpeakableTextPresentCheck" />
+            tools:ignore="HardcodedText,Autofill,LabelFor,TextFields,SpeakableTextPresentCheck,VisualLintTextFieldSize" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -146,7 +148,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputemailbuyer"
         android:layout_width="match_parent"
-        android:layout_height="55dp"
+        android:layout_height="60dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="20dp"
@@ -160,7 +162,7 @@
             android:background="@drawable/custom_drawable"
             android:hint="Contoh : agus21@gmail.com"
             android:inputType="text"
-            tools:ignore="HardcodedText,Autofill,LabelFor,TextFields,SpeakableTextPresentCheck" />
+            tools:ignore="HardcodedText,Autofill,LabelFor,TextFields,SpeakableTextPresentCheck,VisualLintTextFieldSize" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -180,7 +182,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputadress"
         android:layout_width="match_parent"
-        android:layout_height="55dp"
+        android:layout_height="60dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="20dp"
@@ -194,7 +196,7 @@
             android:background="@drawable/custom_drawable"
             android:hint="Contoh : jalan perkasa no 52 rt 01/03"
             android:inputType="text"
-            tools:ignore="HardcodedText,Autofill,LabelFor,TextFields,SpeakableTextPresentCheck" />
+            tools:ignore="HardcodedText,Autofill,LabelFor,TextFields,SpeakableTextPresentCheck,VisualLintTextFieldSize" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -214,7 +216,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputcity"
         android:layout_width="match_parent"
-        android:layout_height="55dp"
+        android:layout_height="60dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="20dp"
@@ -228,7 +230,7 @@
             android:background="@drawable/custom_drawable"
             android:hint="Contoh : Jakarta"
             android:inputType="text"
-            tools:ignore="HardcodedText,Autofill,LabelFor,TextFields,SpeakableTextPresentCheck" />
+            tools:ignore="HardcodedText,Autofill,LabelFor,TextFields,SpeakableTextPresentCheck,VisualLintTextFieldSize" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -248,7 +250,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputpostal"
         android:layout_width="match_parent"
-        android:layout_height="55dp"
+        android:layout_height="60dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="20dp"
@@ -262,7 +264,7 @@
             android:background="@drawable/custom_drawable"
             android:hint="Contoh : 10130"
             android:inputType="number"
-            tools:ignore="HardcodedText,Autofill,LabelFor,TextFields,SpeakableTextPresentCheck" />
+            tools:ignore="HardcodedText,Autofill,LabelFor,TextFields,SpeakableTextPresentCheck,VisualLintTextFieldSize" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -296,7 +298,7 @@
             android:background="@drawable/custom_drawable"
             android:hint="Contoh : 10"
             android:inputType="numberDecimal"
-            tools:ignore="HardcodedText,Autofill,LabelFor,TextFields,SpeakableTextPresentCheck" />
+            tools:ignore="HardcodedText,Autofill,LabelFor,TextFields,SpeakableTextPresentCheck,VisualLintTextFieldSize" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
@@ -329,10 +331,24 @@
             android:layout_height="match_parent"
             android:contentDescription="@string/select_category"
             android:labelFor="@id/textselectongkos"
+            android:background="@drawable/custom_drawable"
             android:spinnerMode="dropdown"
             tools:ignore="SpeakableTextPresentCheck" />
 
     </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/tv_beratpengiriman"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="15dp"
+        android:text="berat"
+        android:textColor="@color/red"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:layout_below="@id/textselectongkos"
+        tools:ignore="HardcodedText,MissingConstraints" />
 
     <TextView
         android:id="@+id/tv_jmlHarga"
@@ -344,7 +360,7 @@
         android:textColor="@color/black"
         android:textSize="25sp"
         android:textStyle="bold"
-        android:layout_below="@id/textselectongkos"
+        android:layout_below="@id/tv_beratpengiriman"
         tools:ignore="HardcodedText,MissingConstraints" />
 
     <androidx.appcompat.widget.AppCompatButton

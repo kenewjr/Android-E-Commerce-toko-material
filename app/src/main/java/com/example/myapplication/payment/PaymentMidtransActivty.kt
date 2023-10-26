@@ -48,6 +48,8 @@ class PaymentMidtransActivty : AppCompatActivity(), TransactionFinishedCallback 
     private var orderId : String = ""
     private var produkid : Int = 0
     var gambar : String = ""
+    var maxberat = 0
+    var beratbarang = 0
     private var idriwayat =0
     private lateinit var userManager: UserManager
     private lateinit var selectedOngkos: GetAllPengirimanItem
@@ -105,6 +107,11 @@ class PaymentMidtransActivty : AppCompatActivity(), TransactionFinishedCallback 
         val postal = etpostal.text.toString()
         val kota = etcity.text.toString()
         val jumlah = etJumlah.text.toString()
+        val ttlberat: Int = try {
+            beratbarang*jumlah.toInt()
+        } catch (e: NumberFormatException) {
+            beratbarang*jumlah.toInt()
+        }
 
         if (nama.isEmpty()) {
             Toast.makeText(this, "Username harus diisi", Toast.LENGTH_SHORT).show()
@@ -130,6 +137,9 @@ class PaymentMidtransActivty : AppCompatActivity(), TransactionFinishedCallback 
         } else if (select_ongkos.isEmpty()) {
             Toast.makeText(this, "Ongkos harus diisi", Toast.LENGTH_SHORT).show()
             return false
+        } else if(ttlberat >= maxberat){
+            Toast.makeText(this, "Barang Terlalu Berat Pilih Ongkir Yang Lain", Toast.LENGTH_SHORT).show()
+            return false
         }
         return true
     }
@@ -148,8 +158,11 @@ class PaymentMidtransActivty : AppCompatActivity(), TransactionFinishedCallback 
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             select_ongkos.adapter = adapter
             select_ongkos.onItemSelectedListener  = object  : AdapterView.OnItemSelectedListener{
+                @SuppressLint("SetTextI18n")
                 override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                     selectedOngkos = it[p2]
+                    maxberat = it[p2].max_berat.toInt()
+                    tv_beratpengiriman.text = "Max Berat Ongkir : "+it[p2].max_berat
                 }
 
                 override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -266,6 +279,7 @@ class PaymentMidtransActivty : AppCompatActivity(), TransactionFinishedCallback 
         viewModel.getProductid(idbarang.toInt())
         viewModel.productid.observe(this@PaymentMidtransActivty) {
             if (it != null) {
+                beratbarang = it.berat.toInt()
                 hargabarang = it.harga.toInt()
                 val requestOptions = RequestOptions()
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
