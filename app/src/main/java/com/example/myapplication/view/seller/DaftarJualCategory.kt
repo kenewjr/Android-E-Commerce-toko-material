@@ -102,8 +102,9 @@ class DaftarJualCategory : AppCompatActivity() {
             buttonUpdate.setOnClickListener {
                 val editTextname = dialogView.findViewById<EditText>(R.id.cd_edt_ctgy)
                 viewModelSellerCategory.tambahCtgy(editTextname.text.toString())
-                initView()
                 dialogbuilder.dismiss()
+                Toast.makeText(applicationContext, "Category Berhasil Di Tambahkan", Toast.LENGTH_SHORT).show()
+                initView()
             }
             // Show the custom dialog
             dialogbuilder.setCancelable(true)

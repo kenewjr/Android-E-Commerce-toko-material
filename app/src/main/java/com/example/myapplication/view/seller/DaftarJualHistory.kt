@@ -68,7 +68,7 @@ class DaftarJualHistory : AppCompatActivity() {
         userManager = UserManager(this)
         val botnav = findViewById<BottomNavigationView>(R.id.navigation)
         botnav.setOnNavigationItemSelectedListener(bottomNavigasi)
-
+        initView()
         daftarCtgy.setOnClickListener {
             startActivity(Intent(this, DaftarJualCategory::class.java))
         }
@@ -81,7 +81,7 @@ class DaftarJualHistory : AppCompatActivity() {
         daftarPengiriman.setOnClickListener {
             startActivity(Intent(this,DaftarJualPengiriman::class.java))
         }
-       initView()
+
     }
 
     private fun initView(){

@@ -97,7 +97,6 @@ class HistoryBuyerActivity : AppCompatActivity() {
             historyBuyer_totalongkos.text = "Harga Ongkir : $ongkos"
             historyBuyer_jumlahbrg.text = "Jumlah Produk : $jumlah_produk"
             historyBuyer_ttlbelanja.text = "Total Harga :$total_harga"
-
         }
 
     }

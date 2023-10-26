@@ -116,6 +116,7 @@ class DaftarJualPengiriman : AppCompatActivity() {
                 val etberat = dialogView.findViewById<EditText>(R.id.cd_berat)
                 viewModelSeller.tambahPengiriman(etKendaraan.text.toString(),etHarga.text.toString(),etberat.text.toString())
                 dialogbuilder.dismiss()
+                Toast.makeText(applicationContext, "Pengiriman Berhasil Ditambahkan", Toast.LENGTH_SHORT).show()
                 initView()
             }
             // Show the custom dialog
