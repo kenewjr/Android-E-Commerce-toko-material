@@ -1,12 +1,13 @@
+@file:Suppress("BooleanMethodIsAlwaysInverted", "BooleanMethodIsAlwaysInverted", "DEPRECATION")
+
 package com.example.myapplication.datastore
 
 import android.content.Context
 import android.preference.PreferenceManager
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 
 
-
+@Suppress("BooleanMethodIsAlwaysInverted")
 class UserManager(context : Context) {
     private val prefs by lazy {
         PreferenceManager.getDefaultSharedPreferences(context)
@@ -56,9 +57,7 @@ class UserManager(context : Context) {
     fun fetchstatus(): String?{
         return prefs.getString(STATUS,null)
     }
-    fun fetchpassword(): String?{
-        return prefs.getString(PASSWORD,null)
-    }
+
     fun fetchId(): String? {
         return prefs.getString(ID, null)
     }

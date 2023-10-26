@@ -163,7 +163,7 @@ class ViewModelProductSeller @Inject constructor(private var productRepository: 
                     call: Call<com.example.myapplication.model.Response>,
                     t: Throwable
                 ) {
-                  //
+                    //
                 }
 
             })    }
@@ -177,7 +177,7 @@ class ViewModelProductSeller @Inject constructor(private var productRepository: 
                     deleteCategory.value = response.body()
 
                 }else {
-                  //
+                    //
                 }
             }
 
@@ -260,23 +260,23 @@ class ViewModelProductSeller @Inject constructor(private var productRepository: 
         gambar : String,
         ongkos : String
     ){
-    apiServices.tambahHistory(idUser,idProduk,order_id,namaUser,alamat,tglTransaksi,namaProduk,hargaProduk,totalHarga,jumlahProduk,gambar,ongkos)
-        .enqueue(object : Callback<GetHistoryItem>{
-            override fun onResponse(
-                call: Call<GetHistoryItem>,
-                response: Response<GetHistoryItem>
-            ) {
-                if (response.isSuccessful){
-                    livedatabuyerorder.value = response.body()
-                }else {
-                    Log.e("respone",response.message())
+        apiServices.tambahHistory(idUser,idProduk,order_id,namaUser,alamat,tglTransaksi,namaProduk,hargaProduk,totalHarga,jumlahProduk,gambar,ongkos)
+            .enqueue(object : Callback<GetHistoryItem>{
+                override fun onResponse(
+                    call: Call<GetHistoryItem>,
+                    response: Response<GetHistoryItem>
+                ) {
+                    if (response.isSuccessful){
+                        livedatabuyerorder.value = response.body()
+                    }else {
+                        Log.e("respone",response.message())
+                    }
                 }
-            }
 
-            override fun onFailure(call: Call<GetHistoryItem>, t: Throwable) {
-                Log.e("respone",t.message.toString())
-            }
-        })
+                override fun onFailure(call: Call<GetHistoryItem>, t: Throwable) {
+                    Log.e("respone",t.message.toString())
+                }
+            })
 
     }
 

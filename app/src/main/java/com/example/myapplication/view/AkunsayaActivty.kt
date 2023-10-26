@@ -1,30 +1,27 @@
 package com.example.myapplication.view
 
 import android.annotation.SuppressLint
-import android.content.ContentValues.TAG
 import android.content.DialogInterface
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
-import androidx.lifecycle.asLiveData
 import com.example.myapplication.BuildConfig
 import com.example.myapplication.R
 import com.example.myapplication.datastore.UserManager
-import com.example.myapplication.view.buyer.HistoryBuyerActivity
 import com.example.myapplication.view.buyer.NotifikasiBuyerActivity
 import com.example.myapplication.view.seller.DaftarJualActivity
 import com.example.myapplication.view.seller.LengkapiDetailProductActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_akunsaya_activty.*
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.DelicateCoroutinesApi
 
+@OptIn(DelicateCoroutinesApi::class)
+@Suppress("DEPRECATION")
 @AndroidEntryPoint
 class AkunsayaActivty : AppCompatActivity() {
     private lateinit var  userManager: UserManager
@@ -38,7 +35,7 @@ class AkunsayaActivty : AppCompatActivity() {
             }
             R.id.history -> {
                 val booleanvalue = userManager.getBooleanValue()
-                if (booleanvalue == true) {
+                if (booleanvalue) {
                     startActivity(Intent(this, NotifikasiBuyerActivity::class.java))
                 } else {
                     Toast.makeText(applicationContext, "Anda Belum Login", Toast.LENGTH_SHORT).show()
@@ -53,7 +50,7 @@ class AkunsayaActivty : AppCompatActivity() {
             }
             R.id.jual -> {
                 val booleanvalue = userManager.getBooleanValue()
-                if (booleanvalue == true){
+                if (booleanvalue){
                     startActivity(Intent(this, LengkapiDetailProductActivity::class.java))
                 } else {
                     Toast.makeText(applicationContext, "Anda Belum Login", Toast.LENGTH_SHORT).show()
@@ -74,7 +71,7 @@ class AkunsayaActivty : AppCompatActivity() {
         false
     }
 
-    @SuppressLint("SuspiciousIndentation")
+    @SuppressLint("SuspiciousIndentation", "SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_akunsaya_activty)
@@ -94,7 +91,7 @@ class AkunsayaActivty : AppCompatActivity() {
             botnav2.isInvisible = true
             botnav.setOnNavigationItemSelectedListener(bottomNavigasi)
         }
-            if (booleanvalue == true){
+            if (booleanvalue){
                 akunsaya_login.isInvisible = true
                 user_akunsaya.text = "selamat datang $username"
                 keluar()

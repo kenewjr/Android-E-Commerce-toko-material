@@ -1,21 +1,20 @@
 package com.example.myapplication.view
 
+import android.annotation.SuppressLint
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplication.R
 import com.example.myapplication.model.PostRegisterUser
 import com.example.myapplication.network.ApiClient
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_register.*
-import okhttp3.Callback
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.RequestBody
-import okhttp3.RequestBody.Companion.toRequestBody
+import kotlinx.coroutines.DelicateCoroutinesApi
 import retrofit2.Call
 import retrofit2.Response
 
+@OptIn(DelicateCoroutinesApi::class)
 @AndroidEntryPoint
 class RegisterActivity : AppCompatActivity() {
     private lateinit var apiClient: ApiClient
@@ -25,9 +24,10 @@ class RegisterActivity : AppCompatActivity() {
         register()
     }
     private fun isValidEmail(email: String): Boolean {
-        val emailRegex = "^[A-Za-z](.*)([@]{1})(.{1,})(\\.)(.{1,})"
+        val emailRegex = "^[A-Za-z](.*)(@)(.+)(\\.)(.+)"
         return email.matches(emailRegex.toRegex())
     }
+    @SuppressLint("SetTextI18n")
     private fun register(){
         btn_daftar.setOnClickListener {
             val username : String = etUsername_register.text.toString()

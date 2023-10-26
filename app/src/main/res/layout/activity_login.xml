@@ -17,7 +17,6 @@
         tools:ignore="ContentDescription,MissingConstraints" />
 
     <TextView
-        android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
@@ -59,7 +58,8 @@
                 android:drawableTint="#0000ff"
                 android:hint="Username"
                 android:inputType="textEmailAddress"
-                tools:ignore="HardcodedText" />
+                tools:ignore="HardcodedText"
+                tools:targetApi="m" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -85,7 +85,8 @@
                 android:drawableTint="#0000ff"
                 android:hint="Password"
                 android:inputType="textPassword"
-                tools:ignore="HardcodedText" />
+                tools:ignore="HardcodedText"
+                tools:targetApi="m" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <androidx.appcompat.widget.AppCompatButton

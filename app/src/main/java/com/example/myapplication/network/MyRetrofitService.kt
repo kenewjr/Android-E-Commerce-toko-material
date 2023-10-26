@@ -10,7 +10,6 @@ import android.os.IBinder
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.example.myapplication.R
-import com.example.myapplication.model.MIdtransResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

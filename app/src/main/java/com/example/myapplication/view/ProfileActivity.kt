@@ -2,24 +2,17 @@
 
 package com.example.myapplication.view
 
-import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.asLiveData
 import com.example.myapplication.R
 import com.example.myapplication.datastore.UserManager
 import com.example.myapplication.viewmodel.ViewModelUser
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_profile.*
 import kotlinx.coroutines.DelicateCoroutinesApi
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.MultipartBody
-import okhttp3.RequestBody
-import okhttp3.RequestBody.Companion.toRequestBody
 
 @DelicateCoroutinesApi
 @AndroidEntryPoint
@@ -32,11 +25,11 @@ class ProfileActivity : AppCompatActivity() {
         setContentView(R.layout.activity_profile)
         userManager = UserManager(this)
         username = userManager.fetchusername().toString()
-        updatedata()
         back.setOnClickListener {
             startActivity(Intent(this,AkunsayaActivty::class.java))
         }
         getprofile()
+        updatedata()
     }
     
     private fun getprofile(){
@@ -45,7 +38,7 @@ class ProfileActivity : AppCompatActivity() {
         viewModelDataSeller.profileData.observe(this) {
             etNama_profile.setText(it.nama)
             etAlamat_profile.setText(it.alamat)
-            etNohp_profile.setText(it.nohp.toString())
+            etNohp_profile.setText(it.nohp)
         }
     }
     private fun viewmodelUpdate(username: String,nama:String,nohp:String,alamat:String){
@@ -59,9 +52,8 @@ class ProfileActivity : AppCompatActivity() {
              val alamat: String = etAlamat_profile.text.toString()
              val nohp: String = etNohp_profile.text.toString()
              viewmodelUpdate(username,nama,nohp,alamat)
-             }
-
              Toast.makeText(this, "Berhasil Update Data", Toast.LENGTH_SHORT).show()
+             }
          }
      }
 

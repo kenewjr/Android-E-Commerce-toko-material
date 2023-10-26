@@ -3,14 +3,13 @@
 package com.example.myapplication.view.seller
 
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.asLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bumptech.glide.Glide
 import com.example.myapplication.R
 import com.example.myapplication.datastore.UserManager
 import com.example.myapplication.view.AkunsayaActivty
@@ -19,13 +18,10 @@ import com.example.myapplication.view.LoginActivity
 import com.example.myapplication.view.adapter.AdapterProductSeller
 import com.example.myapplication.view.buyer.NotifikasiBuyerActivity
 import com.example.myapplication.viewmodel.ViewModelHome
-import com.example.myapplication.viewmodel.ViewModelProductSeller
 import com.example.myapplication.viewmodel.ViewModelUser
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_daftar_jual_seller.*
-import kotlinx.android.synthetic.main.activity_daftar_jual_seller.daftarHistory
-import kotlinx.android.synthetic.main.activity_daftar_jual_seller.daftar_jualEdit
 import kotlinx.coroutines.DelicateCoroutinesApi
 
 @DelicateCoroutinesApi
@@ -47,7 +43,7 @@ class DaftarJualActivity : AppCompatActivity() {
             }
             R.id.jual -> {
                 val booleanvalue = userManager.getBooleanValue()
-                    if (booleanvalue == true){
+                    if (booleanvalue){
                         startActivity(Intent(this, LengkapiDetailProductActivity::class.java))
                         return@OnNavigationItemSelectedListener true
                     } else {
@@ -95,12 +91,13 @@ class DaftarJualActivity : AppCompatActivity() {
          val viewModelDataSeller = ViewModelProvider(this)[ViewModelUser::class.java]
          viewModelDataSeller.getProfile(id = userManager.fetchId()!!.toInt())
          viewModelDataSeller.profileData.observe(this) {
-             TV_nama_product.setText(it.nama)
-             TV_kota_product.setText(it.alamat)
+             TV_nama_product.text = it.nama
+             TV_kota_product.text = it.alamat
          }
         initRecyclerView()
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun initRecyclerView(){
         userManager = UserManager(this)
         val viewModel = ViewModelProvider(this)[ViewModelHome::class.java]

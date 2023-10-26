@@ -1,10 +1,10 @@
 package com.example.myapplication.view
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.asLiveData
 import com.example.myapplication.R
 import com.example.myapplication.datastore.UserManager
 import com.example.myapplication.model.PostRegisterUser
@@ -12,9 +12,6 @@ import com.example.myapplication.network.ApiClient
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_change_password.*
 import kotlinx.coroutines.DelicateCoroutinesApi
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.RequestBody
-import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -37,6 +34,7 @@ class ChangePasswordActivity : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun changePassword(){
         btn_change_pasword.setOnClickListener {
             if (etNewPassword.text.toString().isEmpty()){

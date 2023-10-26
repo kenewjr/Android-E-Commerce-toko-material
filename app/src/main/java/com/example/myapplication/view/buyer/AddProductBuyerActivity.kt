@@ -1,18 +1,16 @@
-@file:Suppress("UselessCallOnNotNull")
+@file:Suppress("UselessCallOnNotNull", "DEPRECATION")
 
 package com.example.myapplication.view.buyer
 
 
-import android.content.Context
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.asLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -25,14 +23,10 @@ import com.example.myapplication.payment.PaymentMidtransActivty
 import com.example.myapplication.view.HomeActivity
 import com.example.myapplication.view.adapter.AdapterKomentar
 import com.example.myapplication.viewmodel.ViewModelHome
-import com.example.myapplication.viewmodel.ViewModelProductSeller
 import com.example.myapplication.viewmodel.ViewModelUser
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_add_product_buyer.*
-import kotlinx.android.synthetic.main.activity_add_product_buyer.back
 import kotlinx.android.synthetic.main.activity_notifikasi_buyer.*
-import kotlinx.android.synthetic.main.custom_dialog_hargatawar_buyer.view.*
 import kotlinx.android.synthetic.main.custom_dialog_komentar.view.*
 import kotlinx.coroutines.DelicateCoroutinesApi
 
@@ -45,6 +39,7 @@ class AddProductBuyerActivity : AppCompatActivity() {
     private var nama: String = ""
     private var produkpilih: String = ""
     private lateinit var  adapterKomentar: AdapterKomentar
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_product_buyer)
@@ -62,7 +57,7 @@ class AddProductBuyerActivity : AppCompatActivity() {
         val booleanvalue = userManager.getBooleanValue()
         detailData()
         fetchkomentar()
-        if (booleanvalue == true){
+        if (booleanvalue){
             imageKomen.setOnClickListener {
                 addKomentar()
             }
@@ -85,24 +80,25 @@ class AddProductBuyerActivity : AppCompatActivity() {
             val dataProduct = intent.extras!!.getSerializable("detailproduk") as GetAllProdukItem?
             val message = "Haloo Mas Saya ${userManager.fetchusername()}Apakah Produk ini masih Ada? \n"+
                     "Nama Produk : ${dataProduct!!.nama} \n"+
-                    "Berat Produk : ${dataProduct!!.berat} \n"+
-                    "Harga Produk : ${dataProduct!!.harga} \n"
+                    "Berat Produk : ${dataProduct.berat} \n"+
+                    "Harga Produk : ${dataProduct.harga} \n"
 
             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(
                 String.format(
                     "https://api.whatsapp.com/send?phone=%s&text=%s",
-                   " 08977715400",
+                   "+6208977715400",
                     message
                 )
             )))
         }
     }
+    @SuppressLint("SetTextI18n")
     private fun disablebutton(){
         userManager = UserManager(this)
         val viewModel = ViewModelProvider(this)[ViewModelUser::class.java]
         viewModel.getOrder(userManager.fetchId()!!.toInt(),produkpilih.toInt())
         runOnUiThread {
-            viewModel.OrderData.observe(this){
+            viewModel.orderData.observe(this){
                 if (it.status == "pending"){
                     addProductBuyer_btnTertarik.text = "Segera Selesaikan Pembayaran"
                 }else {
@@ -122,17 +118,18 @@ class AddProductBuyerActivity : AppCompatActivity() {
             val komentar = dialogView.edt_komentar.text.toString()
             viewModelKomentar.addKomentar(komentar,dataProduct!!.id.toInt(),userManager.fetchId()!!.toInt(),nama)
             dialogbuilder.dismiss()
-            fetchkomentar()
             Toast.makeText(this, "Berhasil Menambahkan Pesan", Toast.LENGTH_SHORT).show()
+            fetchkomentar()
         }
         dialogbuilder.setCancelable(true)
         dialogbuilder.show()
     }
+    @SuppressLint("NotifyDataSetChanged")
     private fun fetchkomentar(){
         val dataProduct = intent.extras!!.getSerializable("detailproduk") as GetAllProdukItem?
         val viewModelKomentar = ViewModelProvider(this)[ViewModelUser::class.java]
         viewModelKomentar.getKomentar(dataProduct!!.id.toInt())
-        adapterKomentar = AdapterKomentar {  }
+        adapterKomentar = AdapterKomentar()
         rv_produkkomen.layoutManager = LinearLayoutManager(this)
         rv_produkkomen.adapter = adapterKomentar
         viewModelKomentar.komentarData.observe(this){
@@ -154,6 +151,7 @@ class AddProductBuyerActivity : AppCompatActivity() {
             nama = it.nama
         }
     }
+    @SuppressLint("SetTextI18n")
     private fun detailData() {
         userManager = UserManager(this)
         val dataProduct = intent.extras!!.getSerializable("detailproduk") as GetAllProdukItem?

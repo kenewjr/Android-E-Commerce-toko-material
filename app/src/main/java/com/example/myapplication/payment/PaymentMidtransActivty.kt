@@ -1,5 +1,8 @@
+@file:Suppress("LocalVariableName")
+
 package com.example.myapplication.payment
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
@@ -41,9 +44,9 @@ import kotlinx.coroutines.DelicateCoroutinesApi
 @DelicateCoroutinesApi
 @AndroidEntryPoint
 class PaymentMidtransActivty : AppCompatActivity(), TransactionFinishedCallback {
-    var hargabarang:Int = 0
-    var orderId : String = ""
-    var produkid : Int = 0
+    private var hargabarang:Int = 0
+    private var orderId : String = ""
+    private var produkid : Int = 0
     var gambar : String = ""
     private var idriwayat =0
     private lateinit var userManager: UserManager
@@ -75,9 +78,6 @@ class PaymentMidtransActivty : AppCompatActivity(), TransactionFinishedCallback 
                 .buildSDK()
         }
         pesan()
-        TransactionFinishedCallback {
-            addHistory()
-        }
         btn_home.setOnClickListener {
             startActivity(Intent(this, HomeActivity::class.java))
         }
@@ -136,7 +136,7 @@ class PaymentMidtransActivty : AppCompatActivity(), TransactionFinishedCallback 
 
 
     private fun isValidEmail(email: String): Boolean {
-        val emailRegex = "^[A-Za-z](.*)([@]{1})(.{1,})(\\.)(.{1,})"
+        val emailRegex = "^[A-Za-z](.*)(@)(.+)(\\.)(.+)"
         return email.matches(emailRegex.toRegex())
     }
 
@@ -159,6 +159,7 @@ class PaymentMidtransActivty : AppCompatActivity(), TransactionFinishedCallback 
         }
         viewModelSeller.getSellerPengiriman()
     }
+    @SuppressLint("SetTextI18n")
     private fun calculateResult(input: String) {
         // Melakukan perhitungan (misalnya, mengubah input menjadi integer)
         try {
@@ -169,7 +170,7 @@ class PaymentMidtransActivty : AppCompatActivity(), TransactionFinishedCallback 
             tv_jmlHarga.text = "Total Harga : $hargabarang"
         }
     }
-    fun pesan(){
+    private fun pesan(){
         pesan.setOnClickListener {
             if (doubleCheck()) {
                 val Jumlah = etJumlah.text.toString()
@@ -196,7 +197,7 @@ class PaymentMidtransActivty : AppCompatActivity(), TransactionFinishedCallback 
         }
     }
 
-    fun getdataProfile(){
+    private fun getdataProfile(){
         val viewModelDataSeller = ViewModelProvider(this)[ViewModelUser::class.java]
         viewModelDataSeller.getProfile(id = userManager.fetchId()!!.toInt())
         viewModelDataSeller.profileData.observe(this) {
@@ -206,7 +207,7 @@ class PaymentMidtransActivty : AppCompatActivity(), TransactionFinishedCallback 
             etemail.setText(it.email)
         }
     }
-    fun uiKitsDetails(transactionRequest: TransactionRequest){
+    private fun uiKitsDetails(transactionRequest: TransactionRequest){
         val customerIdenty = etnamaBuyer.text.toString()
         val phone = etphonenumber.text.toString()
         val email = etemail.text.toString()
@@ -230,7 +231,7 @@ class PaymentMidtransActivty : AppCompatActivity(), TransactionFinishedCallback 
         transactionRequest.customerDetails = customersDetails
     }
 
-    fun addHistory(){
+    private fun addHistory(){
         val viewModelProductSeller = ViewModelProvider(this)[ViewModelProductSeller::class.java]
         val viewModelMidtrans = ViewModelProvider(this)[ViewModelMidtrans::class.java]
         val viewModel = ViewModelProvider(this)[ViewModelHome::class.java]
@@ -238,7 +239,7 @@ class PaymentMidtransActivty : AppCompatActivity(), TransactionFinishedCallback 
         val idbarang = intent.getStringExtra("idproduk")
         viewModelMidtrans.getStatus(orderId)
         viewModel.getProductid(idbarang!!.toInt())
-        viewModel.productid.observe(this) {it ->
+        viewModel.productid.observe(this) {
             viewModelMidtrans.datastatus.observe(this) {t->
                 viewModelProductSeller.tambahHistory(
                     idUser,
@@ -257,12 +258,13 @@ class PaymentMidtransActivty : AppCompatActivity(), TransactionFinishedCallback 
             }
         }
     }
+    @SuppressLint("SetTextI18n")
     private fun viewModel(){
         val viewModel = ViewModelProvider(this)[ViewModelHome::class.java]
         val idbarang = intent.getStringExtra("idproduk")
         produkid = idbarang!!.toInt()
         viewModel.getProductid(idbarang.toInt())
-        viewModel.productid.observe(this@PaymentMidtransActivty) { it ->
+        viewModel.productid.observe(this@PaymentMidtransActivty) {
             if (it != null) {
                 hargabarang = it.harga.toInt()
                 val requestOptions = RequestOptions()

@@ -3,16 +3,15 @@
 package com.example.myapplication.view.seller
 
 
+import android.annotation.SuppressLint
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.asLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bumptech.glide.Glide
 import com.example.myapplication.R
 import com.example.myapplication.datastore.UserManager
 import com.example.myapplication.view.AkunsayaActivty
@@ -25,12 +24,6 @@ import com.example.myapplication.viewmodel.ViewModelUser
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_daftar_jual_history.*
-import kotlinx.android.synthetic.main.activity_daftar_jual_history.TV_nama
-import kotlinx.android.synthetic.main.activity_daftar_jual_history.cardView_productSeller
-import kotlinx.android.synthetic.main.activity_daftar_jual_history.daftarCtgy
-import kotlinx.android.synthetic.main.activity_daftar_jual_history.daftar_jualEdit
-import kotlinx.android.synthetic.main.activity_daftar_jual_history.diminati_profileKota
-import kotlinx.android.synthetic.main.activity_daftar_jual_history.kalaukosongHistory
 import kotlinx.coroutines.DelicateCoroutinesApi
 
 @DelicateCoroutinesApi
@@ -50,7 +43,7 @@ class DaftarJualHistory : AppCompatActivity() {
             }
             R.id.jual -> {
                 val booleanvalue = userManager.getBooleanValue()
-                if (booleanvalue == true){
+                if (booleanvalue){
                     startActivity(Intent(this, LengkapiDetailProductActivity::class.java))
                 } else {
                     Toast.makeText(applicationContext, "Anda Belum Login", Toast.LENGTH_SHORT).show()
@@ -101,6 +94,7 @@ class DaftarJualHistory : AppCompatActivity() {
         initRecyclerView()
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun initRecyclerView(){
         userManager = UserManager(this)
         val viewModelProductSeller = ViewModelProvider(this)[ViewModelProductSeller::class.java]
@@ -110,7 +104,7 @@ class DaftarJualHistory : AppCompatActivity() {
         }
         rv_history.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         rv_history.adapter = adapter
-        viewModelProductSeller.datahistory.observe(this) { it ->
+        viewModelProductSeller.datahistory.observe(this) {
             if (it.isNotEmpty()) {
                 val statusLunasItems = it.filter { item -> item.status == "Lunas" }
                 if (statusLunasItems.isNotEmpty()) {

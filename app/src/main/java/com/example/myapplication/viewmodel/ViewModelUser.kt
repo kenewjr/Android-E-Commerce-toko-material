@@ -22,7 +22,7 @@ class ViewModelUser@Inject constructor(api: ApiService): ViewModel() {
     val profileData: LiveData<DataUser> = liveDataProfile
 
     private val liveDataOrder = MutableLiveData<GetHistoryItem>()
-    val OrderData: LiveData<GetHistoryItem> = liveDataOrder
+    val orderData: LiveData<GetHistoryItem> = liveDataOrder
 
     private val liveDataKomentar = MutableLiveData<List<GetKomentarItem>>()
     val komentarData : LiveData<List<GetKomentarItem>> = liveDataKomentar
@@ -87,7 +87,7 @@ class ViewModelUser@Inject constructor(api: ApiService): ViewModel() {
                 response: Response<GetHistoryItem>
             ) {
                 if(response.isSuccessful){
-                liveDataOrder.value = response.body()
+                    liveDataOrder.value = response.body()
                 }
             }
 
@@ -98,17 +98,17 @@ class ViewModelUser@Inject constructor(api: ApiService): ViewModel() {
         })
     }
     fun updateUser(username: String,nama:String,nohp:String,alamat:String){
-    apiService.updateuser(username,nama, nohp, alamat).enqueue(object : Callback<DataUser>{
-        override fun onResponse(call: Call<DataUser>, response: Response<DataUser>) {
-            if(response.isSuccessful){
-                livedatauser.value = response.body()
+        apiService.updateuser(username,nama, nohp, alamat).enqueue(object : Callback<DataUser>{
+            override fun onResponse(call: Call<DataUser>, response: Response<DataUser>) {
+                if(response.isSuccessful){
+                    livedatauser.value = response.body()
+                }
             }
-        }
 
-        override fun onFailure(call: Call<DataUser>, t: Throwable) {
-            //
-        }
-    })
+            override fun onFailure(call: Call<DataUser>, t: Throwable) {
+                //
+            }
+        })
 
     }
 }

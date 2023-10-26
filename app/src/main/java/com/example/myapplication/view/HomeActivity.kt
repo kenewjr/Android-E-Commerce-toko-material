@@ -1,27 +1,25 @@
 package com.example.myapplication.view
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.View
 import android.widget.SearchView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isInvisible
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.asLiveData
 import androidx.recyclerview.widget.GridLayoutManager
-import com.bumptech.glide.Glide
 import com.example.myapplication.R
 import com.example.myapplication.datastore.UserManager
 import com.example.myapplication.view.adapter.AdapterHome
 import com.example.myapplication.view.buyer.AddProductBuyerActivity
-import com.example.myapplication.view.buyer.HistoryBuyerActivity
 import com.example.myapplication.view.buyer.NotifikasiBuyerActivity
 import com.example.myapplication.view.seller.DaftarJualActivity
 import com.example.myapplication.view.seller.LengkapiDetailProductActivity
@@ -29,7 +27,10 @@ import com.example.myapplication.viewmodel.ViewModelHome
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_home.*
+import kotlinx.coroutines.DelicateCoroutinesApi
 
+@OptIn(DelicateCoroutinesApi::class)
+@Suppress("DEPRECATION")
 @AndroidEntryPoint
 class HomeActivity : AppCompatActivity() {
     private lateinit var  userManager: UserManager
@@ -43,7 +44,7 @@ class HomeActivity : AppCompatActivity() {
             }
             R.id.history -> {
                 val booleanvalue = userManager.getBooleanValue()
-                if (booleanvalue == true) {
+                if (booleanvalue) {
                     startActivity(Intent(this, NotifikasiBuyerActivity::class.java))
                 } else {
                     Toast.makeText(applicationContext, "Anda Belum Login", Toast.LENGTH_SHORT).show()
@@ -58,7 +59,7 @@ class HomeActivity : AppCompatActivity() {
             }
             R.id.jual -> {
                 val booleanvalue = userManager.getBooleanValue()
-                    if (booleanvalue == true){
+                    if (booleanvalue){
                         startActivity(Intent(this, LengkapiDetailProductActivity::class.java))
                         return@OnNavigationItemSelectedListener true
                     } else {
@@ -104,7 +105,8 @@ class HomeActivity : AppCompatActivity() {
         }
     }
 
-    fun iniviewmodel() {
+    @SuppressLint("NotifyDataSetChanged")
+    private fun iniviewmodel() {
         adapterHome = AdapterHome {
             val clickedProduct = Bundle()
             clickedProduct.putSerializable("detailproduk", it)
@@ -126,13 +128,11 @@ class HomeActivity : AppCompatActivity() {
                     adapterHome.setProduk(it)
                     adapterHome.notifyDataSetChanged()
                 }
-            }else {
-
             }
         }
     }
 
-    fun isOnline(context: Context): Boolean {
+    private fun isOnline(context: Context): Boolean {
         val connectivityManager =
             context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val capabilities = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -150,6 +150,7 @@ class HomeActivity : AppCompatActivity() {
         return false
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun search(){
         rv_homeProduk.setHasFixedSize(true)
         rv_homeProduk.setItemViewCacheSize(20)
@@ -169,7 +170,7 @@ class HomeActivity : AppCompatActivity() {
                     }
                 })
             },3000)
-            viewModel.product.observe(this@HomeActivity) {
+            viewModel.product.observe(this@HomeActivity) { it ->
                 if (it != null) {
                     adapterHome.setProduk(it)
                     adapterHome.notifyDataSetChanged()
@@ -185,10 +186,5 @@ class HomeActivity : AppCompatActivity() {
                 rv_homeProduk.adapter=adapterHome
             }
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        finish()
     }
 }

@@ -1,12 +1,12 @@
 package com.example.myapplication.view.seller
 
+import android.annotation.SuppressLint
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
@@ -17,25 +17,21 @@ import com.example.myapplication.view.AkunsayaActivty
 import com.example.myapplication.view.HomeActivity
 import com.example.myapplication.view.LoginActivity
 import com.example.myapplication.view.adapter.AdapterCategorty
-import com.example.myapplication.view.adapter.AdapterProductSeller
 import com.example.myapplication.view.buyer.NotifikasiBuyerActivity
 import com.example.myapplication.viewmodel.ViewModelProductSeller
 import com.example.myapplication.viewmodel.ViewModelUser
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_daftar_jual_category.*
-import kotlinx.android.synthetic.main.activity_daftar_jual_category.TV_nama
-import kotlinx.android.synthetic.main.activity_daftar_jual_category.cardView_productSeller
-import kotlinx.android.synthetic.main.activity_daftar_jual_category.daftarHistory
-import kotlinx.android.synthetic.main.activity_daftar_jual_category.daftar_jualEdit
-import kotlinx.android.synthetic.main.activity_daftar_jual_category.diminati_profileKota
-import kotlinx.android.synthetic.main.activity_daftar_jual_category.kalaukosongHistory
+import kotlinx.coroutines.DelicateCoroutinesApi
 
+@Suppress("DEPRECATION")
 @AndroidEntryPoint
 class DaftarJualCategory : AppCompatActivity() {
     private lateinit var adapter : AdapterCategorty
     private lateinit var  userManager: UserManager
 
+    @DelicateCoroutinesApi
     private val bottomNavigasi = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when(item.itemId){
             R.id.notifikasi -> {
@@ -48,7 +44,7 @@ class DaftarJualCategory : AppCompatActivity() {
             }
             R.id.jual -> {
                 val booleanvalue = userManager.getBooleanValue()
-                if (booleanvalue == true){
+                if (booleanvalue){
                     startActivity(Intent(this, LengkapiDetailProductActivity::class.java))
                     return@OnNavigationItemSelectedListener true
                 } else {
@@ -68,6 +64,7 @@ class DaftarJualCategory : AppCompatActivity() {
         }
         false
     }
+    @DelicateCoroutinesApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_daftar_jual_category)
@@ -90,7 +87,8 @@ class DaftarJualCategory : AppCompatActivity() {
         addCtgy()
     }
 
-    fun addCtgy(){
+    @SuppressLint("SetTextI18n")
+    private fun addCtgy(){
         btn_tambah_ctgy.setOnClickListener{
             val viewModelSellerCategory = ViewModelProvider(this)[ViewModelProductSeller::class.java]
             val dialogView = LayoutInflater.from(this).inflate(R.layout.customdialog_editctgy, null)
@@ -100,7 +98,7 @@ class DaftarJualCategory : AppCompatActivity() {
 
             // Get references to views in the custom dialog
             val buttonUpdate = dialogView.findViewById<Button>(R.id.btn_editCtgy)
-            buttonUpdate.setText("Tambahkan Category")
+            buttonUpdate.text = "Tambahkan Category"
             buttonUpdate.setOnClickListener {
                 val editTextname = dialogView.findViewById<EditText>(R.id.cd_edt_ctgy)
                 viewModelSellerCategory.tambahCtgy(editTextname.text.toString())
@@ -116,12 +114,13 @@ class DaftarJualCategory : AppCompatActivity() {
         val viewModelDataSeller = ViewModelProvider(this)[ViewModelUser::class.java]
         viewModelDataSeller.getProfile(id = userManager.fetchId()!!.toInt())
         viewModelDataSeller.profileData.observe(this) {
-            TV_nama.setText(it.nama)
-            diminati_profileKota.setText(it.alamat)
+            TV_nama.text = it.nama
+            diminati_profileKota.text = it.alamat
         }
         getCategory()
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun getCategory(){
         val viewModelSellerCategory = ViewModelProvider(this)[ViewModelProductSeller::class.java]
 

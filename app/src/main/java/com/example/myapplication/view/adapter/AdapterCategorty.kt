@@ -11,15 +11,12 @@ import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
-import com.example.myapplication.model.GetAllProdukItem
 import com.example.myapplication.model.GetCategorySellerItem
-import com.example.myapplication.view.seller.DaftarJualActivity
 import com.example.myapplication.view.seller.DaftarJualCategory
 import com.example.myapplication.viewmodel.ViewModelProductSeller
 import kotlinx.android.synthetic.main.item_product_category.view.*
-import kotlinx.android.synthetic.main.item_product_category.view.button_edit_card
 
-class AdapterCategorty(): RecyclerView.Adapter<AdapterCategorty.ViewHolder> () {
+class AdapterCategorty : RecyclerView.Adapter<AdapterCategorty.ViewHolder> () {
     class ViewHolder (itemView : View) : RecyclerView.ViewHolder(itemView)
     fun setDataCategory(list: List<GetCategorySellerItem>){
         this.dataCategory = list

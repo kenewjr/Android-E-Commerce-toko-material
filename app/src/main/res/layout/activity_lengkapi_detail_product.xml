@@ -314,7 +314,8 @@
                     android:layout_marginTop="5sp"
                     android:background="@drawable/custom_drawable"
                     android:contentDescription="gambar produk"
-                    android:src="@drawable/ic_camera" />
+                    android:src="@drawable/ic_camera"
+                    tools:ignore="HardcodedText" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <androidx.appcompat.widget.AppCompatButton

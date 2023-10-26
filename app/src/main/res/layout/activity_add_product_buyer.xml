@@ -69,7 +69,6 @@
                             android:orientation="vertical">
 
                             <TextView
-                                android:id="@+id/tv_produk"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Produk"
@@ -119,7 +118,6 @@
 
 
                     <androidx.cardview.widget.CardView
-                        android:id="@+id/carduntukdeskripsi"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="16dp"
@@ -167,7 +165,7 @@
                                         app:layout_constraintEnd_toEndOf="parent"
                                         app:layout_constraintStart_toStartOf="parent"
                                         app:layout_constraintTop_toTopOf="parent"
-                                        tools:ignore="TooDeepLayout" />
+                                        tools:ignore="HardcodedText,TooDeepLayout" />
 
                                 </androidx.constraintlayout.widget.ConstraintLayout>
                             </androidx.core.widget.NestedScrollView>

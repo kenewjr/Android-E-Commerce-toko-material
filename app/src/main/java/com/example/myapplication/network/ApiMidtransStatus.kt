@@ -7,7 +7,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class ApiMidtransStatus {
     companion object {
-        val SANDBOX = "https://api.sandbox.midtrans.com/v2/"
+        private const val SANDBOX = "https://api.sandbox.midtrans.com/v2/"
         fun getRetrofitInstance(): Retrofit {
             val logging = HttpLoggingInterceptor()
             logging.level = (HttpLoggingInterceptor.Level.BODY)

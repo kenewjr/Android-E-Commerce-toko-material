@@ -2,7 +2,6 @@ package com.example.myapplication.repository
 
 import com.example.myapplication.model.GetAllPengirimanItem
 import com.example.myapplication.model.GetCategorySellerItem
-import com.example.myapplication.model.GetDataProductSellerItemItem
 import com.example.myapplication.network.ApiService
 import javax.inject.Inject
 

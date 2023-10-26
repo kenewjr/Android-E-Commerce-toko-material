@@ -1,6 +1,5 @@
 package com.example.myapplication.di
 
-import com.example.myapplication.network.ApiMidtrans
 import com.example.myapplication.network.ApiService
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -28,7 +27,7 @@ object AppModule {
 
     private val client = OkHttpClient.Builder().addInterceptor(logging).build()
 
-    var gson: Gson = GsonBuilder()
+    private var gson: Gson = GsonBuilder()
         .setLenient()
         .create()
 

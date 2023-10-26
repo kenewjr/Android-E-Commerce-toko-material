@@ -1,3 +1,5 @@
+@file:Suppress("FunctionName")
+
 package com.example.myapplication.network
 
 import com.example.myapplication.model.*

@@ -1,9 +1,9 @@
+@file:Suppress("DEPRECATION")
+
 package com.example.myapplication.view
 
 import android.annotation.SuppressLint
 import android.app.DownloadManager
-import android.app.NotificationChannel
-import android.app.NotificationManager
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -12,22 +12,14 @@ import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.net.Uri
 import android.os.*
-import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
-import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.core.app.NotificationCompat
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import androidx.core.view.isVisible
 import com.example.myapplication.BuildConfig
 import com.example.myapplication.R
 import com.example.myapplication.datastore.UserManager
-import com.google.android.play.core.appupdate.AppUpdateInfo
-import com.google.android.play.core.appupdate.AppUpdateManagerFactory
-import com.google.android.play.core.install.model.AppUpdateType
-import com.google.android.play.core.install.model.UpdateAvailability
-import com.google.android.play.core.tasks.Task
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_splash.*
 import okhttp3.*
@@ -35,13 +27,14 @@ import org.json.JSONArray
 import org.json.JSONObject
 import java.io.File
 import java.io.IOException
+import kotlin.system.exitProcess
 
 
-
+@SuppressLint("CustomSplashScreen")
 @AndroidEntryPoint
 class SplashActivity : AppCompatActivity() {
     private lateinit var userManager: UserManager
-    private val MY_REQUEST_CODE = 1234
+    var latest :String = ""
     // Mendefinisikan broadcast receiver untuk menangani penyelesaian unduhan
     private val downloadReceiver = object : BroadcastReceiver() {
         @SuppressLint("Range")
@@ -102,11 +95,11 @@ class SplashActivity : AppCompatActivity() {
         request.setDestinationInExternalFilesDir(
             this,
             Environment.DIRECTORY_DOWNLOADS,
-            "update.apk"
+            "TBCibeberKencanaV${latest}.apk"
         )
 
         // Memulai pengunduhan
-        val downloadId = downloadManager.enqueue(request)
+        downloadManager.enqueue(request)
     }
     private fun installApp(uriString: String) {
         val uri = Uri.parse(uriString)
@@ -128,7 +121,7 @@ class SplashActivity : AppCompatActivity() {
         installIntent.data = contentUri
         startActivity(installIntent)
     }
-    fun checkForUpdate() {
+    private fun checkForUpdate() {
         val client = OkHttpClient()
         val request = Request.Builder()
             .url("https://api.github.com/repos/kenewjr/Android-E-Commerce-toko-material/releases/latest")
@@ -139,15 +132,17 @@ class SplashActivity : AppCompatActivity() {
                 // Tangani kesalahan permintaan
             }
 
+            @SuppressLint("SetTextI18n")
             override fun onResponse(call: Call, response: Response) {
                 if (response.isSuccessful) {
                     val responseData = response.body?.string()
-                    val jsonObject = JSONObject(responseData)
+                    val jsonObject = JSONObject(responseData!!)
                     val latestVersion = jsonObject.getString("tag_name")
+                    latest = latestVersion
                     val asset = jsonObject.getString("assets")
                     val browse = JSONArray(asset)
                     val link = browse.getJSONObject(0)
-                    var linkdl = link.getString("browser_download_url")
+                    val linkdl = link.getString("browser_download_url")
                     // Bandingkan dengan versi saat ini
                     val currentVersion = BuildConfig.VERSION_NAME
 
@@ -161,7 +156,7 @@ class SplashActivity : AppCompatActivity() {
                                     // Tindakan ketika pengguna mengklik "Ya" (unduh pembaruan)
                                     // Panggil metode untuk mengunduh pembaruan aplikasi di sini
                                     startAppUpdate(linkdl)
-                                    textView22.setText("Update Tersedia Silahkan Install Terlebih Dahulu")
+                                    textView22.text = "Update Tersedia Silahkan Install Terlebih Dahulu"
                                 }
                                 .setNegativeButton("Nanti") { _, _ ->
                                     // Tindakan ketika pengguna mengklik "Nanti" (tutup dialog)
@@ -181,7 +176,7 @@ class SplashActivity : AppCompatActivity() {
 
     private fun exitApp() {
         finish() // This closes the current activity
-        System.exit(0) // This forcefully terminates the app (use with caution)
+        exitProcess(0) // This forcefully terminates the app (use with caution)
     }
     fun compareVersions(latestVersion: String, currentVersion: String): Boolean {
         val latestParts = parseVersionString(latestVersion)
@@ -203,7 +198,7 @@ class SplashActivity : AppCompatActivity() {
         return false
     }
 
-    fun parseVersionString(version: String): List<Int> {
+    private fun parseVersionString(version: String): List<Int> {
         val parts = version.replace("v", "").split(".").mapNotNull {
             try {
                 it.toInt()

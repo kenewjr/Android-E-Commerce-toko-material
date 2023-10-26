@@ -36,20 +36,6 @@
         app:layout_constraintTop_toBottomOf="@+id/imageView2"
         tools:ignore="HardcodedText,MissingConstraints" />
 
-    <TextView
-        android:id="@+id/textView22"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Check For Updates"
-        android:textColor="@color/black"
-        android:textSize="26sp"
-        android:textStyle="italic"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5"
-        tools:ignore="HardcodedText,MissingConstraints" />
-
     <ProgressBar
         android:id="@+id/progressBarSplash"
         style="?android:attr/progressBarStyle"
@@ -61,6 +47,18 @@
         app:layout_constraintTop_toBottomOf="@+id/textView5"
         android:visibility="invisible"
         tools:ignore="MissingConstraints" />
-
+    <TextView
+        android:id="@+id/textView22"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Sedang Cek Pembaruan Mohon Bersabar"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        android:textStyle="italic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/progressBarSplash"
+        tools:ignore="HardcodedText,MissingConstraints" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

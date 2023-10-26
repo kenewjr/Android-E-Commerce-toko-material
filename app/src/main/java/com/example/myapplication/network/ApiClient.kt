@@ -7,10 +7,11 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
+@Suppress("PropertyName", "PropertyName", "PrivatePropertyName")
 class ApiClient {
     private lateinit var apiService: ApiService
 
-    val BASE = "https://abrar.vzcyberd.my.id/API/"
+    private val BASE = "https://abrar.vzcyberd.my.id/API/"
 
     private  val logging : HttpLoggingInterceptor
         get() {
@@ -20,7 +21,7 @@ class ApiClient {
             }
         }
 
-    var gson: Gson = GsonBuilder()
+    private var gson: Gson = GsonBuilder()
         .setLenient()
         .create()
 

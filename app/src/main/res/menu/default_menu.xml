@@ -1,19 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
         android:title="home"
         android:id="@+id/home"
-        android:icon="@drawable/ic_home"/>
+        android:icon="@drawable/ic_home"
+        tools:ignore="HardcodedText" />
 
     <item
         android:title="history"
         android:id="@+id/history"
-        android:icon="@drawable/ic_baseline_history_24"/>
+        android:icon="@drawable/ic_baseline_history_24"
+        tools:ignore="HardcodedText" />
 
     <item
         android:title="akun"
         android:id="@+id/akun"
-        android:icon="@drawable/ic_person_24"/>
+        android:icon="@drawable/ic_person_24"
+        tools:ignore="HardcodedText" />
 
 </menu>

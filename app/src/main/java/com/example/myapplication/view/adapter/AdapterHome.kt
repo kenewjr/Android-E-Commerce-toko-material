@@ -4,8 +4,6 @@ package com.example.myapplication.view.adapter
 
 
 import android.annotation.SuppressLint
-import android.content.ContentValues.TAG
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -55,7 +53,7 @@ class AdapterHome(private var onClick : (GetAllProdukItem)->Unit):RecyclerView.A
                 .into(holder.itemView.imageProduct)
         }
         holder.itemView.tvKategori_product.text = dataProduk!![position].kategori
-        holder.itemView.tvHarga_product.text = dataProduk!![position].harga.toString()
+        holder.itemView.tvHarga_product.text = dataProduk!![position].harga
     }
 
     override fun getItemCount(): Int {

@@ -1,13 +1,16 @@
+@file:OptIn(DelicateCoroutinesApi::class)
+
 package com.example.myapplication.view.seller
 
+import android.annotation.SuppressLint
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
@@ -18,9 +21,7 @@ import com.example.myapplication.view.AkunsayaActivty
 import com.example.myapplication.view.HomeActivity
 import com.example.myapplication.view.LoginActivity
 import com.example.myapplication.view.adapter.AdapterPengiriman
-import com.example.myapplication.view.adapter.AdapterProductSeller
 import com.example.myapplication.view.buyer.NotifikasiBuyerActivity
-import com.example.myapplication.viewmodel.ViewModelHome
 import com.example.myapplication.viewmodel.ViewModelProductSeller
 import com.example.myapplication.viewmodel.ViewModelUser
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -33,7 +34,9 @@ import kotlinx.android.synthetic.main.activity_daftar_jual_pengiriman.daftarCtgy
 import kotlinx.android.synthetic.main.activity_daftar_jual_pengiriman.daftarHistory
 import kotlinx.android.synthetic.main.activity_daftar_jual_pengiriman.daftar_jualEdit
 import kotlinx.android.synthetic.main.activity_daftar_jual_pengiriman.kalaukosongHistory
+import kotlinx.coroutines.DelicateCoroutinesApi
 
+@Suppress("DEPRECATION")
 @AndroidEntryPoint
 class DaftarJualPengiriman : AppCompatActivity() {
 
@@ -52,7 +55,7 @@ class DaftarJualPengiriman : AppCompatActivity() {
             }
             R.id.jual -> {
                 val booleanvalue = userManager.getBooleanValue()
-                if (booleanvalue == true){
+                if (booleanvalue){
                     startActivity(Intent(this, LengkapiDetailProductActivity::class.java))
                     return@OnNavigationItemSelectedListener true
                 } else {
@@ -95,7 +98,8 @@ class DaftarJualPengiriman : AppCompatActivity() {
         }
     }
 
-    fun addpengiriman(){
+    @SuppressLint("SetTextI18n")
+    private fun addpengiriman(){
         btn_tambah_pengiriman.setOnClickListener{
             val viewModelSeller = ViewModelProvider(this)[ViewModelProductSeller::class.java]
             val dialogView = LayoutInflater.from(this).inflate(R.layout.customdialog_pengiriman, null)
@@ -105,7 +109,7 @@ class DaftarJualPengiriman : AppCompatActivity() {
 
             // Get references to views in the custom dialog
             val buttonUpdate = dialogView.findViewById<Button>(R.id.btn_editPengiriman)
-            buttonUpdate.setText("Tambahkan Pengiriman")
+            buttonUpdate.text = "Tambahkan Pengiriman"
             buttonUpdate.setOnClickListener {
                 val etKendaraan = dialogView.findViewById<EditText>(R.id.cd_kendaraan)
                 val etHarga = dialogView.findViewById<EditText>(R.id.cd_harga)
@@ -123,12 +127,13 @@ class DaftarJualPengiriman : AppCompatActivity() {
         val viewModelDataSeller = ViewModelProvider(this)[ViewModelUser::class.java]
         viewModelDataSeller.getProfile(id = userManager.fetchId()!!.toInt())
         viewModelDataSeller.profileData.observe(this) {
-            TV_nama.setText(it.nama)
-            profileKota.setText(it.alamat)
+            TV_nama.text = it.nama
+            profileKota.text = it.alamat
         }
         initRecyclerView()
     }
 
+     @SuppressLint("NotifyDataSetChanged")
      fun initRecyclerView(){
         userManager = UserManager(this)
         val viewModelSellerCategory = ViewModelProvider(this)[ViewModelProductSeller::class.java]

@@ -7,32 +7,26 @@ package com.example.myapplication.view.seller
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.content.ContentValues
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Base64
 import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.core.view.get
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.example.myapplication.R
 import com.example.myapplication.datastore.UserManager
 import com.example.myapplication.model.GetAllProdukItem
 import com.example.myapplication.model.GetCategorySellerItem
-import com.example.myapplication.view.AkunsayaActivty
 import com.example.myapplication.viewmodel.ViewModelHome
 import com.example.myapplication.viewmodel.ViewModelProductSeller
 import dagger.hilt.android.AndroidEntryPoint
@@ -45,7 +39,6 @@ import kotlinx.android.synthetic.main.custom_edit_product.edt_lokasi
 import kotlinx.android.synthetic.main.custom_edit_product.edt_namaprodut
 import kotlinx.android.synthetic.main.custom_edit_product.icon_foto
 import kotlinx.android.synthetic.main.custom_edit_product.select_kategori
-import kotlinx.android.synthetic.main.custom_edit_product.tv_warningn
 import kotlinx.android.synthetic.main.custom_edit_product.view.*
 import kotlinx.coroutines.DelicateCoroutinesApi
 import okhttp3.MediaType.Companion.toMediaType
@@ -54,9 +47,7 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
-import java.io.ByteArrayOutputStream
 import java.io.File
-import java.io.InputStream
 
 @DelicateCoroutinesApi
 @AndroidEntryPoint
@@ -73,16 +64,10 @@ class EditProduct : AppCompatActivity() {
             image = result!!
         }
     private lateinit var image : Uri
-    private var ngambil : Boolean = false
-    private var categorystatus : Boolean = false
-    var encodeImageString: String = ""
     private lateinit var selectedCategory: GetCategorySellerItem
     companion object {
         private const val REQUEST_BROWSE_PICTURE = 11
         private const val PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 22
-        private const val MY_SHARED_PREFS = "MySharedPrefs"
-        lateinit var documentImage : Bitmap
-        lateinit var numberDoccument : String
     }
     @SuppressLint("NewApi")
     @RequiresApi(Build.VERSION_CODES.M)
@@ -109,16 +94,16 @@ class EditProduct : AppCompatActivity() {
             when {
                 ContextCompat.checkSelfPermission(
                     this,
-                    android.Manifest.permission.READ_EXTERNAL_STORAGE
+                    Manifest.permission.READ_EXTERNAL_STORAGE
                 ) == PackageManager.PERMISSION_GRANTED -> {
                     galleryResult.launch("image/*")
                 }
-                shouldShowRequestPermissionRationale(android.Manifest.permission.READ_EXTERNAL_STORAGE) -> {
+                shouldShowRequestPermissionRationale(Manifest.permission.READ_EXTERNAL_STORAGE) -> {
                     showPermissionContextPopup()
                 }
                 else -> {
                     requestPermissions(
-                        arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),
+                        arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
                         1010
                     )
                 }
@@ -127,6 +112,7 @@ class EditProduct : AppCompatActivity() {
         updateproduk()
     }
 
+     @SuppressLint("Recycle")
      fun updateproduk() {
          btn_updatedataproduct.setOnClickListener {
 //             var categoryProduct : String = selectedCategory.id.toString()
@@ -193,29 +179,11 @@ class EditProduct : AppCompatActivity() {
             .setTitle("izin diperlukan.")
             .setMessage("Diperlukan untuk mengimpor foto.")
             .setPositiveButton("setuju") { _, _ ->
-                requestPermissions(arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE), 1010)
+                requestPermissions(arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), 1010)
             }
             .create()
             .show()
     }
-
-//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-//        if (requestCode == REQUEST_BROWSE_PICTURE && resultCode == Activity.RESULT_OK) {
-//            val filepath: Uri? = data?.data
-//            try {
-//                val inputStream: InputStream? = contentResolver.openInputStream(filepath!!)
-//                val localBitmap = BitmapFactory.decodeStream(inputStream)
-//                localBitmap?.let {
-//                    documentImage = it
-//                    encodeBitmapImage(documentImage)
-//                    icon_foto.setImageBitmap(documentImage)
-//                }
-//            } catch (ex: Exception) {
-//                Log.e(ContentValues.TAG, "Error compressing bitmap: ${ex.message}")
-//            }
-//        }
-//        super.onActivityResult(requestCode, resultCode, data)
-//    }
 
     @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -306,23 +274,5 @@ class EditProduct : AppCompatActivity() {
                 .into(icon_foto)
                 }
             }
-    fun encodeBitmapImage(bitmap: Bitmap) {
-        Log.d(ContentValues.TAG, "encodeBitmapImage called")
-        val maxFileSize = 1024 * 1024 // Contoh: 1 MB
-        if (bitmap != null && !bitmap.isRecycled) {
-            val byteArrayOutputStream = ByteArrayOutputStream()
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 70, byteArrayOutputStream)
-            val bytesOfImage = byteArrayOutputStream.toByteArray()
-            if (bytesOfImage.size > maxFileSize) {
-                // Gambar terlalu besar, tampilkan pesan kesalahan kepada pengguna
-                tv_warningn.text = "Ukurang Makismal Gambar Adalah 1024 x 1024"
-                Toast.makeText(this, "Ukuran gambar terlalu besar", Toast.LENGTH_SHORT).show()
-            } else {
-                // Gambar dalam batas ukuran yang diizinkan, lanjutkan mengunggahnya ke server
-                encodeImageString = Base64.encodeToString(bytesOfImage, Base64.DEFAULT)
-            }
-        } else {
-            Log.e(ContentValues.TAG, "Bitmap is null or recycled")
-        }
-    }
+
 }

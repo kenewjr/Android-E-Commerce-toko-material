@@ -60,7 +60,7 @@
         <EditText
             android:id="@+id/etNama_profile"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:background="@drawable/custom_drawable"
             android:hint="Nama Lengkap"
             android:inputType="text"
@@ -134,7 +134,7 @@
         <EditText
             android:id="@+id/etNohp_profile"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:background="@drawable/custom_drawable"
             android:hint="No Handphone"
             android:inputType="phone"

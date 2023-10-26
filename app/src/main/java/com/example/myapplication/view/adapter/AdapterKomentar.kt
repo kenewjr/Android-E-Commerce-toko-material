@@ -6,10 +6,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
 import com.example.myapplication.model.GetKomentarItem
-import kotlinx.android.synthetic.main.item_komentar.*
 import kotlinx.android.synthetic.main.item_komentar.view.*
 
-class AdapterKomentar(private var onClick : (GetKomentarItem)->Unit):RecyclerView.Adapter<AdapterKomentar.ViewHolder>() {
+class AdapterKomentar :RecyclerView.Adapter<AdapterKomentar.ViewHolder>() {
 
     class ViewHolder(itemView : View):RecyclerView.ViewHolder(itemView)
 

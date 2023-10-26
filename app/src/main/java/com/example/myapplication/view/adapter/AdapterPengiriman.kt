@@ -1,5 +1,6 @@
 package com.example.myapplication.view.adapter
 
+import android.annotation.SuppressLint
 import android.content.DialogInterface
 import android.view.LayoutInflater
 import android.view.View
@@ -18,7 +19,7 @@ import kotlinx.android.synthetic.main.item_produk_pengiriman.view.*
 import kotlinx.android.synthetic.main.item_produk_pengiriman.view.button_delete_card
 import kotlinx.android.synthetic.main.item_produk_pengiriman.view.button_edit_card
 
-class AdapterPengiriman(): RecyclerView.Adapter<AdapterPengiriman.ViewHolder> () {
+class AdapterPengiriman : RecyclerView.Adapter<AdapterPengiriman.ViewHolder> () {
 
     class ViewHolder (itemView : View) : RecyclerView.ViewHolder(itemView)
 
@@ -41,6 +42,7 @@ class AdapterPengiriman(): RecyclerView.Adapter<AdapterPengiriman.ViewHolder> ()
         }
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         with(holder.itemView){
             tvPengirimanKendaraan.text = "Jenis Kendaraan : "+ dataPengiriman!![position].kendaraan

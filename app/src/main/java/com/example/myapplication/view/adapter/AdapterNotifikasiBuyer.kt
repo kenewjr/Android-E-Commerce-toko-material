@@ -12,17 +12,12 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.example.myapplication.R
-import com.example.myapplication.model.GetAllProdukItem
 import com.example.myapplication.model.GetHistoryItem
 import kotlinx.android.synthetic.main.item_notifikasi_buyer.view.*
 
 class AdapterNotifikasiBuyer(private var dataNotif : List<GetHistoryItem>,
                              private  var onClick : (GetHistoryItem)->Unit):RecyclerView.Adapter<AdapterNotifikasiBuyer.ViewHolder>() {
     class ViewHolder(itemView : View):RecyclerView.ViewHolder(itemView)
-
-    fun setNotif(notif : List<GetHistoryItem>){
-        this.dataNotif = notif
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val viewitem = LayoutInflater.from(parent.context).inflate(R.layout.item_notifikasi_buyer,parent, false)

@@ -1,36 +1,28 @@
 package com.example.myapplication.view.buyer
 
+import android.annotation.SuppressLint
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isInvisible
-import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.myapplication.R
 import com.example.myapplication.datastore.UserManager
-import com.example.myapplication.model.GetAllProdukItem
 import com.example.myapplication.model.GetHistoryItem
-import com.example.myapplication.network.ApiClient
 import com.example.myapplication.view.AkunsayaActivty
 import com.example.myapplication.view.HomeActivity
 import com.example.myapplication.view.LoginActivity
-import com.example.myapplication.view.adapter.AdapterNotifikasiBuyer
 import com.example.myapplication.view.seller.DaftarJualActivity
 import com.example.myapplication.view.seller.LengkapiDetailProductActivity
-import com.example.myapplication.viewmodel.ViewModelProductSeller
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import kotlinx.android.synthetic.main.activity_add_product_buyer.*
 import kotlinx.android.synthetic.main.activity_history_buyer.*
-import kotlinx.android.synthetic.main.activity_notifikasi_buyer.*
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import kotlinx.coroutines.DelicateCoroutinesApi
 
+@Suppress("DEPRECATION")
 class HistoryBuyerActivity : AppCompatActivity() {
     private lateinit var  userManager: UserManager
+    @DelicateCoroutinesApi
     private val bottomNavigasi = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when(item.itemId){
             R.id.notifikasi -> {
@@ -47,7 +39,7 @@ class HistoryBuyerActivity : AppCompatActivity() {
             }
             R.id.jual -> {
                 val booleanvalue = userManager.getBooleanValue()
-                if (booleanvalue == true){
+                if (booleanvalue){
                     startActivity(Intent(this, LengkapiDetailProductActivity::class.java))
                 } else {
                     Toast.makeText(applicationContext, "Anda Belum Login", Toast.LENGTH_SHORT).show()
@@ -67,6 +59,7 @@ class HistoryBuyerActivity : AppCompatActivity() {
         }
         false
     }
+    @DelicateCoroutinesApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_history_buyer)
@@ -86,23 +79,24 @@ class HistoryBuyerActivity : AppCompatActivity() {
         fetchnotif()
     }
 
+    @SuppressLint("SetTextI18n")
     private fun fetchnotif(){
         val dataProduct = intent.extras!!.getSerializable("detailorder") as GetHistoryItem?
         with(dataProduct!!){
-            tv_status.text = "Status : "+status
-            tv_orderid.text = "Order Id : "+order_id
-            tv_tanggal.text = "Tanggal Transaksi : "+tgl_transaksi
+            tv_status.text = "Status : $status"
+            tv_orderid.text = "Order Id : $order_id"
+            tv_tanggal.text = "Tanggal Transaksi : $tgl_transaksi"
             Glide.with(this@HistoryBuyerActivity)
                 .load(gambar)
                 .override(80, 80)
                 .into(gambarProdukBuyer)
-            historyBuyer_harga.text = "Harga Produk : "+harga_produk
-            historyBuyer_namaProduk.text = "Nama Produk : "+nama_produk
-            historyBuyer_order.text = "Order Id : "+order_id
-            historyBuyer_alamat.text = "Alamat Pengiriman : "+alamat
-            historyBuyer_totalongkos.text = "Harga Ongkir : "+ongkos
-            historyBuyer_jumlahbrg.text = "Jumlah Produk : "+jumlah_produk
-            historyBuyer_ttlbelanja.text = "Total Harga :"+total_harga
+            historyBuyer_harga.text = "Harga Produk : $harga_produk"
+            historyBuyer_namaProduk.text = "Nama Produk : $nama_produk"
+            historyBuyer_order.text = "Order Id : $order_id"
+            historyBuyer_alamat.text = "Alamat Pengiriman : $alamat"
+            historyBuyer_totalongkos.text = "Harga Ongkir : $ongkos"
+            historyBuyer_jumlahbrg.text = "Jumlah Produk : $jumlah_produk"
+            historyBuyer_ttlbelanja.text = "Total Harga :$total_harga"
 
         }
 

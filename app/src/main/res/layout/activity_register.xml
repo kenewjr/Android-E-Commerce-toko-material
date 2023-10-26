@@ -34,18 +34,6 @@
             app:layout_constraintTop_toBottomOf="@+id/imageViewKeLogin"
             tools:ignore="HardcodedText,MissingConstraints" />
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/image_register"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginTop="30dp"
-            android:src="@drawable/jamtangan"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_daftar"
-            tools:ignore="MissingConstraints" />
-
-
         <TextView
             android:id="@+id/tv_nama_register"
             android:layout_width="wrap_content"
@@ -57,7 +45,7 @@
             android:textSize="16sp"
             android:textStyle="normal"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/image_register"
+            app:layout_constraintTop_toBottomOf="@+id/tv_daftar"
             tools:ignore="HardcodedText,MissingConstraints" />
 
         <TextView
@@ -70,7 +58,7 @@
             android:text="*  "
             android:textStyle="italic"
             app:layout_constraintStart_toEndOf="@+id/tv_nama_register"
-            app:layout_constraintTop_toBottomOf="@+id/image_register"
+            app:layout_constraintTop_toBottomOf="@+id/tv_daftar"
             tools:ignore="HardcodedText,MissingConstraints" />
 
         <com.google.android.material.textfield.TextInputLayout
@@ -293,7 +281,7 @@
                 android:layout_height="match_parent"
                 android:hint="Contoh : 6285779688533"
                 android:background="@drawable/custom_drawable"
-                android:inputType="text"
+                android:inputType="phone"
                 tools:ignore="HardcodedText,Autofill,LabelFor,TextFields" />
 
         </com.google.android.material.textfield.TextInputLayout>

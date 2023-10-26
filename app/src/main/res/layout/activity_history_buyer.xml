@@ -16,7 +16,8 @@
     android:text="Detail Transaksi"
     android:layout_centerHorizontal="true"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"/>
+    android:layout_height="wrap_content"
+    tools:ignore="HardcodedText" />
 
     <TextView
         android:id="@+id/tv_status"
@@ -28,7 +29,8 @@
         android:layout_marginTop="20dp"
         android:layout_below="@id/tv_detail"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        tools:ignore="HardcodedText" />
 
     <TextView
         android:id="@+id/tv_orderid"
@@ -38,7 +40,8 @@
         android:layout_marginStart="20dp"
         android:layout_below="@id/tv_status"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        tools:ignore="HardcodedText" />
 
     <TextView
         android:id="@+id/tv_tanggal"
@@ -48,7 +51,8 @@
         android:layout_marginStart="20dp"
         android:layout_below="@id/tv_orderid"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        tools:ignore="HardcodedText" />
 
     <TextView
         android:id="@+id/tv_detail_produk"
@@ -60,7 +64,8 @@
         android:layout_marginTop="30dp"
         android:layout_below="@id/tv_tanggal"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        tools:ignore="HardcodedText" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardHistory"
@@ -70,8 +75,7 @@
         android:layout_marginTop="5dp"
         app:cardCornerRadius="15dp"
         android:layout_below="@id/tv_detail_produk"
-        app:cardElevation="5dp"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
+        app:cardElevation="5dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -126,7 +130,8 @@
         android:layout_marginTop="30dp"
         android:layout_below="@id/cardHistory"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        tools:ignore="HardcodedText" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardinfoPengiriman"
@@ -136,8 +141,7 @@
         android:layout_marginTop="5dp"
         app:cardCornerRadius="15dp"
         android:layout_below="@id/tv_info_pengiriman"
-        app:cardElevation="5dp"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
+        app:cardElevation="5dp">
 
         <LinearLayout
             android:orientation="vertical"
@@ -179,18 +183,17 @@
         android:layout_marginTop="30dp"
         android:layout_below="@id/cardinfoPengiriman"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        tools:ignore="HardcodedText" />
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardrincian"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="3dp"
         android:layout_marginTop="5dp"
         app:cardCornerRadius="15dp"
         android:layout_below="@id/tv_rincian_pembayaran"
-        app:cardElevation="5dp"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
+        app:cardElevation="5dp">
 
         <LinearLayout
             android:orientation="vertical"

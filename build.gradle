@@ -1,12 +1,15 @@
 buildscript {
     repositories {
         google()
+         //noinspection JcenterRepositoryObsolete
          jcenter()
         maven { url 'https://jitpack.io' }
         mavenCentral()
     }
     dependencies {
+        //noinspection GradleDependency,GradleDependency
         classpath 'com.google.dagger:hilt-android-gradle-plugin:2.38.1'
+        //noinspection GradleDependency
         classpath 'com.google.gms:google-services:4.3.5'
     }
 }

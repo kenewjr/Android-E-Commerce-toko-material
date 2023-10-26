@@ -3,14 +3,13 @@
 package com.example.myapplication.view.buyer
 
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isInvisible
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.asLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myapplication.R
 import com.example.myapplication.datastore.UserManager
@@ -21,7 +20,6 @@ import com.example.myapplication.view.HomeActivity
 import com.example.myapplication.view.LoginActivity
 import com.example.myapplication.view.adapter.AdapterNotifikasiBuyer
 import com.example.myapplication.view.seller.DaftarJualActivity
-import com.example.myapplication.view.seller.EditProduct
 import com.example.myapplication.view.seller.LengkapiDetailProductActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
@@ -54,7 +52,7 @@ class NotifikasiBuyerActivity : AppCompatActivity() {
             }
             R.id.jual -> {
                 val booleanvalue = userManager.getBooleanValue()
-                if (booleanvalue == true){
+                if (booleanvalue){
                     startActivity(Intent(this, LengkapiDetailProductActivity::class.java))
                 } else {
                     Toast.makeText(applicationContext, "Anda Belum Login", Toast.LENGTH_SHORT).show()
@@ -75,6 +73,7 @@ class NotifikasiBuyerActivity : AppCompatActivity() {
         false
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_notifikasi_buyer)
@@ -92,6 +91,7 @@ class NotifikasiBuyerActivity : AppCompatActivity() {
             val botnav = findViewById<BottomNavigationView>(R.id.default_navigation)
             val botnav2 = findViewById<BottomNavigationView>(R.id.navigation)
             botnav2.isInvisible = true
+            notifikasiBuyer_welcome.text = "History"
             botnav.setOnNavigationItemSelectedListener(bottomNavigasi)
         }
 
