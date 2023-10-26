@@ -87,7 +87,6 @@ dependencies {
     //noinspection GradleDependency
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.2.0"
 
-
     //noinspection GradleDependency
     implementation 'androidx.activity:activity-ktx:1.4.0'
     //    library untuk livedata
