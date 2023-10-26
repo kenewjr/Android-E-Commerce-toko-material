@@ -39,7 +39,7 @@ class LoginActivity : AppCompatActivity() {
             finish()
         }
         imageBack.setOnClickListener {
-           onBackPressed()
+           finish()
         }
     }
     private fun loginauth(loginusername : String, loginPassword : String){
@@ -77,4 +77,5 @@ class LoginActivity : AppCompatActivity() {
 
             })
     }
+
 }

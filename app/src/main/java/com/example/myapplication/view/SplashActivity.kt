@@ -161,11 +161,11 @@ class SplashActivity : AppCompatActivity() {
                                     // Tindakan ketika pengguna mengklik "Ya" (unduh pembaruan)
                                     // Panggil metode untuk mengunduh pembaruan aplikasi di sini
                                     startAppUpdate(linkdl)
-                                    checkAccount()
+                                    textView22.setText("Update Tersedia Silahkan Install Terlebih Dahulu")
                                 }
                                 .setNegativeButton("Nanti") { _, _ ->
                                     // Tindakan ketika pengguna mengklik "Nanti" (tutup dialog)
-                                    checkAccount()
+                                    exitApp()
                                 }
                                 .create()
 
@@ -179,6 +179,10 @@ class SplashActivity : AppCompatActivity() {
         })
     }
 
+    private fun exitApp() {
+        finish() // This closes the current activity
+        System.exit(0) // This forcefully terminates the app (use with caution)
+    }
     fun compareVersions(latestVersion: String, currentVersion: String): Boolean {
         val latestParts = parseVersionString(latestVersion)
         val currentParts = parseVersionString(currentVersion)
