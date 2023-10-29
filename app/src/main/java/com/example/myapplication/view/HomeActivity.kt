@@ -111,9 +111,9 @@ class HomeActivity : AppCompatActivity() {
         }
 
         if (isOnline(this)) {
+            search()
             iniviewmodel()
             vmCategory()
-            search()
         } else {
             Toast.makeText(applicationContext, "Tidak Ada Koneksi Internet", Toast.LENGTH_SHORT)
                 .show()
@@ -224,6 +224,7 @@ class HomeActivity : AppCompatActivity() {
         rv_homeProduk.isDrawingCacheEnabled = true
         rv_homeProduk.drawingCacheQuality = View.DRAWING_CACHE_QUALITY_HIGH
         val viewModel = ViewModelProvider(this)[ViewModelHome::class.java]
+        runOnUiThread {
             Handler(Looper.getMainLooper()).postDelayed({
                 searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
                     androidx.appcompat.widget.SearchView.OnQueryTextListener {
@@ -257,7 +258,7 @@ class HomeActivity : AppCompatActivity() {
                 rv_homeProduk.layoutManager = GridLayoutManager(this, 2)
                 rv_homeProduk.adapter = adapterHome
             }
-
+        }
     }
 
     @Deprecated("Deprecated in Java")

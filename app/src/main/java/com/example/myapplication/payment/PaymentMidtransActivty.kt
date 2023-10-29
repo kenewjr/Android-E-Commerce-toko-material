@@ -48,8 +48,8 @@ class PaymentMidtransActivty : AppCompatActivity(), TransactionFinishedCallback 
     private var orderId : String = ""
     private var produkid : Int = 0
     var gambar : String = ""
-    var maxberat = 0
-    var beratbarang = 0
+    var maxberat : String = "0"
+    var beratbarang = 0.0
     var namabarang = ""
     private var idriwayat =0
     private lateinit var userManager: UserManager
@@ -108,7 +108,7 @@ class PaymentMidtransActivty : AppCompatActivity(), TransactionFinishedCallback 
         val postal = etpostal.text.toString()
         val kota = etcity.text.toString()
         val jumlah = etJumlah.text.toString()
-        val ttlberat: Int = try {
+        val ttlberat: Double = try {
             beratbarang*jumlah.toInt()
         } catch (e: NumberFormatException) {
             beratbarang*jumlah.toInt()
@@ -138,7 +138,7 @@ class PaymentMidtransActivty : AppCompatActivity(), TransactionFinishedCallback 
         } else if (select_ongkos.isEmpty()) {
             Toast.makeText(this, "Ongkos harus diisi", Toast.LENGTH_SHORT).show()
             return false
-        } else if(ttlberat >= maxberat){
+        } else if(ttlberat >= maxberat.toLong()){
             Toast.makeText(this, "Barang Terlalu Berat Pilih Ongkir Yang Lain", Toast.LENGTH_SHORT).show()
             return false
         }
@@ -162,7 +162,7 @@ class PaymentMidtransActivty : AppCompatActivity(), TransactionFinishedCallback 
                 @SuppressLint("SetTextI18n")
                 override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                     selectedOngkos = it[p2]
-                    maxberat = it[p2].max_berat.toInt()
+                    maxberat = it[p2].max_berat
                     tv_beratpengiriman.text = "Max Berat Ongkir : "+it[p2].max_berat
                 }
 
@@ -291,7 +291,7 @@ class PaymentMidtransActivty : AppCompatActivity(), TransactionFinishedCallback 
         viewModel.getProductid(idbarang.toInt())
         viewModel.productid.observe(this@PaymentMidtransActivty) {
             if (it != null) {
-                beratbarang = it.berat.toInt()
+                beratbarang = it.berat.toDouble()
                 hargabarang = it.harga.toInt()
                 namabarang = it.nama_produk
                 val requestOptions = RequestOptions()
