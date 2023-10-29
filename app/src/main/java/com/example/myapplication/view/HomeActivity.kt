@@ -39,6 +39,7 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var userManager: UserManager
     private lateinit var adapterHome: AdapterHome
     private lateinit var adapterHomeCategory: AdapterHomeCategory
+    private var backPressedCounter = 0
 
     private val bottomNavigasi = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
@@ -124,12 +125,6 @@ class HomeActivity : AppCompatActivity() {
                     if (it != null) {
                         adapterHome.setProduk(it)
                         adapterHome.notifyDataSetChanged()
-                    }
-                    if (it.isEmpty()) {
-                        // Handle intentionally empty search results here.
-                        // You can show a message to the user.
-                        Toast.makeText(this, "Produk Yang Kamu Cari Tidak Ada", Toast.LENGTH_SHORT)
-                            .show()
                     } else {
                         // Handle network error or other issues here.
                         Toast.makeText(
@@ -153,11 +148,6 @@ class HomeActivity : AppCompatActivity() {
             if (it != null) {
                 adapterHomeCategory.setDataCategory(it)
                 adapterHomeCategory.notifyDataSetChanged()
-            }
-            if (it.isEmpty()) {
-                // Handle intentionally empty search results here.
-                // You can show a message to the user.
-                Toast.makeText(this, "Kategori Masih kosong", Toast.LENGTH_SHORT).show()
             } else {
                 // Handle network error or other issues here.
                 Toast.makeText(
@@ -167,7 +157,6 @@ class HomeActivity : AppCompatActivity() {
                 ).show()
             }
         }
-
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -193,16 +182,11 @@ class HomeActivity : AppCompatActivity() {
                     adapterHome.setProduk(it)
                     adapterHome.notifyDataSetChanged()
                 }
-            }
-            if (it.isEmpty()) {
-                // Handle intentionally empty search results here.
-                // You can show a message to the user.
-                Toast.makeText(this, "Produk Masih kosong", Toast.LENGTH_SHORT).show()
             } else {
                 // Handle network error or other issues here.
                 Toast.makeText(
                     this,
-                    "Terjadi kesalahan saat mencari produk",
+                    "Terjadi Kesalahan",
                     Toast.LENGTH_SHORT
                 ).show()
             }
@@ -252,17 +236,11 @@ class HomeActivity : AppCompatActivity() {
                 if (it != null) {
                     adapterHome.setProduk(it)
                     adapterHome.notifyDataSetChanged()
-                }
-                if (it.isEmpty()) {
-                    // Handle intentionally empty search results here.
-                    // You can show a message to the user.
-                    Toast.makeText(this, "Produk Yang Kamu Cari Tidak Ada", Toast.LENGTH_SHORT)
-                        .show()
                 } else {
                     // Handle network error or other issues here.
                     Toast.makeText(
                         this,
-                        "Terjadi kesalahan saat mencari produk",
+                        "Produk Yang Anda Cari Tidak Di Temukan",
                         Toast.LENGTH_SHORT
                     ).show()
                 }
@@ -274,6 +252,21 @@ class HomeActivity : AppCompatActivity() {
                 rv_homeProduk.layoutManager = GridLayoutManager(this, 2)
                 rv_homeProduk.adapter = adapterHome
             }
+        }
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun onBackPressed() {
+        if (backPressedCounter < 1 ) {
+            backPressedCounter++
+            Toast.makeText(this, "Tekan Sekali Lagi Untuk Keluar", Toast.LENGTH_SHORT).show()
+            Handler(Looper.getMainLooper()).postDelayed({
+                backPressedCounter = 0 // Reset the counter after a delay
+            }, 2000) // Reset counter after 2 seconds
+        } else {
+            // Close the app when the back is pressed twice
+            super.onBackPressed()
+            finishAffinity()
         }
     }
 }

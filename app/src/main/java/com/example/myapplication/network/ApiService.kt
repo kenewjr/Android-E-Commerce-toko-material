@@ -142,6 +142,18 @@ interface ApiService {
         @Part gambar : MultipartBody.Part
     ):Call<Response>
 
+    @POST("edit_produk")
+    @Multipart
+    fun editProdukNG(
+        @Part("id")id : RequestBody,
+        @Part("nama_produk")namaProduk : RequestBody,
+        @Part("kategori_produk")kategoriProduk : RequestBody,
+        @Part("deskripsi")deskripsi : RequestBody,
+        @Part("stok")stok : RequestBody,
+        @Part("harga")harga : RequestBody,
+        @Part("berat")berat : RequestBody
+    ):Call<Response>
+
     @FormUrlEncoded
     @POST("delete_category")
     fun deleteCtgy(

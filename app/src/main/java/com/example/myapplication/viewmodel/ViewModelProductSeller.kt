@@ -247,6 +247,39 @@ class ViewModelProductSeller @Inject constructor(private var productRepository: 
                 }
             })
     }
+
+    fun editProductNG(
+        id : RequestBody,
+        namaProduk : RequestBody,
+        kategoriProduk : RequestBody,
+        deskripsi : RequestBody,
+        stok : RequestBody,
+        harga : RequestBody,
+        berat : RequestBody,
+    ){
+        apiServices.editProdukNG(id, namaProduk, kategoriProduk, deskripsi, stok, harga, berat)
+            .enqueue(object : Callback<com.example.myapplication.model.Response>{
+                override fun onResponse(
+                    call: Call<com.example.myapplication.model.Response>,
+                    response: Response<com.example.myapplication.model.Response>
+                ) {
+                    if(response.isSuccessful){
+                        updateproduct.value = response.body()
+                        Log.e("error1",response.body().toString())
+                    }else {
+                        Log.e("error2",response.message())
+                        Log.e("error2",response.errorBody().toString())
+                        Log.e("error2",response.body().toString())
+                    }
+                }
+                override fun onFailure(
+                    call: Call<com.example.myapplication.model.Response>,
+                    t: Throwable
+                ) {
+                    Log.e("error3",t.toString())
+                }
+            })
+    }
     fun deleteProduct(
         delete : String,
         id: Int

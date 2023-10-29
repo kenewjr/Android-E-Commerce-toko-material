@@ -23,6 +23,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 import com.example.myapplication.R
 import com.example.myapplication.datastore.UserManager
 import com.example.myapplication.model.GetAllProdukItem
@@ -57,18 +59,20 @@ class EditProduct : AppCompatActivity() {
     private var kategoriproduk = ""
     private var idproduk : Int = 0
     private var selectedUri: Uri? = null
-    private val galleryResult =
-        registerForActivityResult(ActivityResultContracts.GetContent()) { result ->
-            icon_foto.setImageURI(result)
-            selectedUri = result
-            image = result!!
-        }
+    private var ngambil : Boolean = false
     private lateinit var image : Uri
     private lateinit var selectedCategory: GetCategorySellerItem
     companion object {
         private const val REQUEST_BROWSE_PICTURE = 11
         private const val PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 22
     }
+    private val galleryResult =
+        registerForActivityResult(ActivityResultContracts.GetContent()) { result ->
+            icon_foto.setImageURI(result)
+            selectedUri = result
+            image = result!!
+            ngambil = true
+        }
     @SuppressLint("NewApi")
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -82,14 +86,6 @@ class EditProduct : AppCompatActivity() {
             getdata()
             getCategory()
         }
-//        icon_foto.setOnClickListener {
-//            if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-//                createImageBrowsingRequest()
-//            } else {
-//                // Jika izin belum diberikan, tampilkan dialog permintaan izin
-//                showPermissionContextPopup()
-//            }
-//        }
         icon_foto.setOnClickListener {
             when {
                 ContextCompat.checkSelfPermission(
@@ -115,13 +111,6 @@ class EditProduct : AppCompatActivity() {
      @SuppressLint("Recycle")
      fun updateproduk() {
          btn_updatedataproduct.setOnClickListener {
-//             var categoryProduct : String = selectedCategory.id.toString()
-//             val namaProdcut : String = edt_namaprodut.text.toString()
-//             val hargaProduct : String = edt_hargaproduct.text.toString()
-//             val stok: String = edt_lokasi.text.toString()
-//             val desc : String = edt_deskripsi.text.toString()
-//             val berat : String = edt_beratproduk.text.toString()
-
              var categoryProduct : RequestBody =
                  selectedCategory.id.toString().toRequestBody("text/plain".toMediaTypeOrNull())
              val namaProdcut : RequestBody =
@@ -136,22 +125,27 @@ class EditProduct : AppCompatActivity() {
                  edt_beratproduk.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
 
              val viewModelSeller = ViewModelProvider(this)[ViewModelProductSeller::class.java]
-             val contentResolver = this.applicationContext.contentResolver
-             val type = contentResolver.getType(image)
-             val tempFile = File.createTempFile("temp-", null, null)
-             val inputstream = contentResolver.openInputStream(image)
-             tempFile.outputStream().use {
-                 inputstream?.copyTo(it)
-             }
-             val requestBody: RequestBody = tempFile.asRequestBody(type?.toMediaType())
-             val body = MultipartBody.Part.createFormData("gambar", tempFile.name, requestBody)
              AlertDialog.Builder(this)
                  .setTitle("KONFIRMASI UPDATE")
                  .setMessage("Anda Yakin Ingin Mengupdate Data Produk Ini ?")
 
                  .setPositiveButton("YA") { _: DialogInterface, _: Int ->
                      Toast.makeText(this, "Berhasil Diupdate", Toast.LENGTH_SHORT).show()
-                     viewModelSeller.editProduct(idproduk.toString().toRequestBody("text/plain".toMediaTypeOrNull()),namaProdcut,categoryProduct,desc,stok,hargaProduct,berat,body)
+                     if(ngambil){
+                         val contentResolver = this.applicationContext.contentResolver
+                         val type = contentResolver.getType(image)
+                         val tempFile = File.createTempFile("temp-", null, null)
+                         val inputstream = contentResolver.openInputStream(image)
+                         tempFile.outputStream().use {
+                             inputstream?.copyTo(it)
+                         }
+                         val requestBody: RequestBody = tempFile.asRequestBody(type?.toMediaType())
+                         val body = MultipartBody.Part.createFormData("gambar", tempFile.name, requestBody)
+                         viewModelSeller.editProduct(idproduk.toString().toRequestBody("text/plain".toMediaTypeOrNull()),namaProdcut,categoryProduct,desc,stok,hargaProduct,berat,body)
+                     }else {
+                         viewModelSeller.editProductNG(idproduk.toString().toRequestBody("text/plain".toMediaTypeOrNull()),namaProdcut,categoryProduct,desc,stok,hargaProduct,berat)
+                     }
+
                      startActivity(Intent(this, DaftarJualActivity::class.java))
                      finish()
                  }
@@ -262,6 +256,10 @@ class EditProduct : AppCompatActivity() {
         val dataProduct = intent.extras!!.getSerializable("detailorder") as GetAllProdukItem?
         val viewModelSeller = ViewModelProvider(this)[ViewModelHome::class.java]
         viewModelSeller.getProductid(dataProduct!!.id.toInt())
+        val requestOptions = RequestOptions()
+            .diskCacheStrategy(DiskCacheStrategy.NONE)
+            .override(300,300)
+            .skipMemoryCache(true)
         viewModelSeller.productid.observe(this){
             idproduk = it.id.toInt()
             edt_namaprodut.setText(it.nama_produk)
@@ -270,7 +268,9 @@ class EditProduct : AppCompatActivity() {
             edt_lokasi.setText(it.stok)
             edt_beratproduk.setText(it.berat)
             kategoriproduk = it.kategori
-            Glide.with(this).load(it.gambar).override(300,300)
+            Glide.with(this)
+                .load(it.gambar)
+                .apply(requestOptions)
                 .into(icon_foto)
                 }
             }

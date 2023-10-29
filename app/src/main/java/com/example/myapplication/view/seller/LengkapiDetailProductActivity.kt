@@ -102,7 +102,7 @@ class LengkapiDetailProductActivity : AppCompatActivity() {
         val stok: String = edt_lokasi.text.toString()
         val desc : String = edt_deskripsi.text.toString()
         val viewModelDataSeller = ViewModelProvider(this)[ViewModelProductSeller::class.java]
-        viewModelDataSeller.jualproduct(namaProdcut,desc,beratProduk,hargaProduct,categoryProduct,stok,encodeImageString)
+        viewModelDataSeller.jualproduct(namaProdcut,desc,hargaProduct,beratProduk,categoryProduct,stok,encodeImageString)
         startActivity(Intent(applicationContext, HomeActivity::class.java))
     }
 
