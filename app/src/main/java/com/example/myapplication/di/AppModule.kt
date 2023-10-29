@@ -1,5 +1,6 @@
 package com.example.myapplication.di
 
+import android.util.Log
 import com.example.myapplication.network.ApiService
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -25,7 +26,22 @@ object AppModule {
             }
         }
 
-    private val client = OkHttpClient.Builder().addInterceptor(logging).build()
+    private val client = OkHttpClient.Builder()
+        .addInterceptor { chain ->
+            val request = chain.request()
+            val response = chain.proceed(request)
+            if (response.code == 404) {
+                // Lakukan penanganan khusus untuk respons 404 di sini
+                // Misalnya, tangani respons 404 dengan menampilkan pesan kesalahan atau melakukan tindakan tertentu.
+                val responseBody = response.body
+                val errorMessage = response.body?.string() ?: "Error 404: Not Found"
+                Log.e("Error 404", errorMessage)
+                responseBody?.close()
+            }
+            response
+        }
+        .addInterceptor(logging)
+        .build()
 
     private var gson: Gson = GsonBuilder()
         .setLenient()

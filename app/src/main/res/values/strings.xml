@@ -3,4 +3,5 @@
     <!-- Strings used for fragments for navigation -->
     <string name="select_category" />
     <string name="gambar_produk">gambar produk</string>
+    <string name="data_not_found_message">Data Kosong/Server Sedang Error Silahkan Coba Beberapa Saat Lagi</string>
 </resources>

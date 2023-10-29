@@ -98,7 +98,9 @@ interface ApiService {
         @Field("total_harga")total_harga: String,
         @Field("jumlah_produk")jumlah_produk: String,
         @Field("gambar")gambar: String,
-        @Field("ongkos")ongkos : String
+        @Field("ongkos")ongkos : String,
+        @Field("tujuan_rekening")tujuan_rekening: String,
+        @Field("nama_rekening")nama_rekening : String
     ):Call<GetHistoryItem>
 
     @GET("get_history.php")
@@ -187,4 +189,9 @@ interface ApiService {
 
     @GET("midtrans_notification.php")
     fun getmidtransNotif():Call<Response>
+
+    @GET("filter_category")
+    fun getFilterCategory(
+        @Query("kategori")kategori : Int
+    ):Call<List<GetAllProdukItem>>
 }

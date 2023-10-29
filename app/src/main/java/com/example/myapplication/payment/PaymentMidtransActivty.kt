@@ -50,6 +50,7 @@ class PaymentMidtransActivty : AppCompatActivity(), TransactionFinishedCallback 
     var gambar : String = ""
     var maxberat = 0
     var beratbarang = 0
+    var namabarang = ""
     private var idriwayat =0
     private lateinit var userManager: UserManager
     private lateinit var selectedOngkos: GetAllPengirimanItem
@@ -193,8 +194,8 @@ class PaymentMidtransActivty : AppCompatActivity(), TransactionFinishedCallback 
                     convert + selectedOngkos.harga.toInt()
                 )
                 val detail =
-                    ItemDetails("NamaItem", hargabarang.toDouble(), Jumlah.toInt(), "testi")
-                val detail2 = ItemDetails("ongkos", selectedOngkos.harga.toDouble(), 1, "ongkos")
+                    ItemDetails("Produk", hargabarang.toDouble(), Jumlah.toInt(), namabarang)
+                val detail2 = ItemDetails("Jenis Pengiriman", selectedOngkos.harga.toDouble(), 1, selectedOngkos.kendaraan)
                 val itemDetails = ArrayList<ItemDetails>()
                 itemDetails.add(detail)
                 itemDetails.add(detail2)
@@ -254,6 +255,15 @@ class PaymentMidtransActivty : AppCompatActivity(), TransactionFinishedCallback 
         viewModel.getProductid(idbarang!!.toInt())
         viewModel.productid.observe(this) {
             viewModelMidtrans.datastatus.observe(this) {t->
+                val tujuanRek: String
+                val namaRek: String
+                if (t.va_numbers.isEmpty()){
+                    tujuanRek = t.payment_code
+                    namaRek = t.store
+                }else{
+                    tujuanRek = t.va_numbers[0].va_number
+                    namaRek = t.va_numbers[0].bank
+                }
                 viewModelProductSeller.tambahHistory(
                     idUser,
                     idbarang.toInt(),
@@ -266,7 +276,9 @@ class PaymentMidtransActivty : AppCompatActivity(), TransactionFinishedCallback 
                     t.gross_amount,
                     etJumlah.text.toString(),
                     it.gambar,
-                    selectedOngkos.harga
+                    selectedOngkos.harga,
+                    tujuanRek,
+                    namaRek
                 )
             }
         }
@@ -281,6 +293,7 @@ class PaymentMidtransActivty : AppCompatActivity(), TransactionFinishedCallback 
             if (it != null) {
                 beratbarang = it.berat.toInt()
                 hargabarang = it.harga.toInt()
+                namabarang = it.nama_produk
                 val requestOptions = RequestOptions()
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .override(400,350)

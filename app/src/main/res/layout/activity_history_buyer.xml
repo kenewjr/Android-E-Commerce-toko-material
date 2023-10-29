@@ -55,6 +55,27 @@
         tools:ignore="HardcodedText" />
 
     <TextView
+        android:id="@+id/tv_norek"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        android:text="No rekening"
+        android:layout_marginStart="20dp"
+        android:layout_below="@id/tv_tanggal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:ignore="HardcodedText" />
+
+    <TextView
+        android:id="@+id/tv_jenisbank"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        android:text="Jenis bank"
+        android:layout_marginStart="20dp"
+        android:layout_below="@id/tv_norek"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:ignore="HardcodedText" />
+    <TextView
         android:id="@+id/tv_detail_produk"
         android:textColor="@color/black"
         android:textSize="20sp"
@@ -62,7 +83,7 @@
         android:text="Detail Produk"
         android:layout_marginStart="20dp"
         android:layout_marginTop="30dp"
-        android:layout_below="@id/tv_tanggal"
+        android:layout_below="@id/tv_jenisbank"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:ignore="HardcodedText" />

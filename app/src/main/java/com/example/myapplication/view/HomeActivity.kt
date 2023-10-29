@@ -16,14 +16,17 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isInvisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myapplication.R
 import com.example.myapplication.datastore.UserManager
 import com.example.myapplication.view.adapter.AdapterHome
+import com.example.myapplication.view.adapter.AdapterHomeCategory
 import com.example.myapplication.view.buyer.AddProductBuyerActivity
 import com.example.myapplication.view.buyer.NotifikasiBuyerActivity
 import com.example.myapplication.view.seller.DaftarJualActivity
 import com.example.myapplication.view.seller.LengkapiDetailProductActivity
 import com.example.myapplication.viewmodel.ViewModelHome
+import com.example.myapplication.viewmodel.ViewModelProductSeller
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_home.*
@@ -33,11 +36,12 @@ import kotlinx.coroutines.DelicateCoroutinesApi
 @Suppress("DEPRECATION")
 @AndroidEntryPoint
 class HomeActivity : AppCompatActivity() {
-    private lateinit var  userManager: UserManager
-    private lateinit var  adapterHome: AdapterHome
+    private lateinit var userManager: UserManager
+    private lateinit var adapterHome: AdapterHome
+    private lateinit var adapterHomeCategory: AdapterHomeCategory
 
     private val bottomNavigasi = BottomNavigationView.OnNavigationItemSelectedListener { item ->
-        when(item.itemId){
+        when (item.itemId) {
             R.id.notifikasi -> {
                 startActivity(Intent(this, NotifikasiBuyerActivity::class.java))
                 return@OnNavigationItemSelectedListener true
@@ -47,7 +51,8 @@ class HomeActivity : AppCompatActivity() {
                 if (booleanvalue) {
                     startActivity(Intent(this, NotifikasiBuyerActivity::class.java))
                 } else {
-                    Toast.makeText(applicationContext, "Anda Belum Login", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(applicationContext, "Anda Belum Login", Toast.LENGTH_SHORT)
+                        .show()
                     startActivity(Intent(this, LoginActivity::class.java))
                     finish()
                 }
@@ -59,14 +64,15 @@ class HomeActivity : AppCompatActivity() {
             }
             R.id.jual -> {
                 val booleanvalue = userManager.getBooleanValue()
-                    if (booleanvalue){
-                        startActivity(Intent(this, LengkapiDetailProductActivity::class.java))
-                        return@OnNavigationItemSelectedListener true
-                    } else {
-                        Toast.makeText(applicationContext, "Anda Belum Login", Toast.LENGTH_SHORT).show()
-                        startActivity(Intent(this, LoginActivity::class.java))
-                        finish()
-                    }
+                if (booleanvalue) {
+                    startActivity(Intent(this, LengkapiDetailProductActivity::class.java))
+                    return@OnNavigationItemSelectedListener true
+                } else {
+                    Toast.makeText(applicationContext, "Anda Belum Login", Toast.LENGTH_SHORT)
+                        .show()
+                    startActivity(Intent(this, LoginActivity::class.java))
+                    finish()
+                }
             }
             R.id.akun -> {
                 startActivity(Intent(this, AkunsayaActivty::class.java))
@@ -79,6 +85,7 @@ class HomeActivity : AppCompatActivity() {
         }
         false
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
@@ -99,10 +106,68 @@ class HomeActivity : AppCompatActivity() {
         if (isOnline(this)) {
             search()
             iniviewmodel()
+            vmCategory()
         } else {
             Toast.makeText(applicationContext, "Tidak Ada Koneksi Internet", Toast.LENGTH_SHORT)
                 .show()
         }
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private fun vmCategory() {
+        val viewModel = ViewModelProvider(this)[ViewModelHome::class.java]
+        val viewModelCategory = ViewModelProvider(this)[ViewModelProductSeller::class.java]
+        adapterHomeCategory = AdapterHomeCategory {
+            runOnUiThread {
+                viewModel.getCategory(it.id)
+                viewModel.category.observe(this@HomeActivity) {
+                    if (it != null) {
+                        adapterHome.setProduk(it)
+                        adapterHome.notifyDataSetChanged()
+                    }
+                    if (it.isEmpty()) {
+                        // Handle intentionally empty search results here.
+                        // You can show a message to the user.
+                        Toast.makeText(this, "Produk Yang Kamu Cari Tidak Ada", Toast.LENGTH_SHORT)
+                            .show()
+                    } else {
+                        // Handle network error or other issues here.
+                        Toast.makeText(
+                            this,
+                            "Terjadi kesalahan saat mencari kategori",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                    rv_homeProduk.layoutManager = GridLayoutManager(this, 2)
+                    rv_homeProduk.adapter = adapterHome
+                }
+            }
+        }
+
+        rv_homeCategory.layoutManager =
+            LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        rv_homeCategory.adapter = adapterHomeCategory
+
+        viewModelCategory.getSellerCategory()
+        viewModelCategory.sellerCategory.observe(this) {
+            if (it != null) {
+                adapterHomeCategory.setDataCategory(it)
+                adapterHomeCategory.notifyDataSetChanged()
+            }
+            if (it.isEmpty()) {
+                // Handle intentionally empty search results here.
+                // You can show a message to the user.
+                Toast.makeText(this, "Kategori Masih kosong", Toast.LENGTH_SHORT).show()
+            } else {
+                // Handle network error or other issues here.
+                Toast.makeText(
+                    this,
+                    "Terjadi kesalahan saat mencari kategori",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -129,6 +194,18 @@ class HomeActivity : AppCompatActivity() {
                     adapterHome.notifyDataSetChanged()
                 }
             }
+            if (it.isEmpty()) {
+                // Handle intentionally empty search results here.
+                // You can show a message to the user.
+                Toast.makeText(this, "Produk Masih kosong", Toast.LENGTH_SHORT).show()
+            } else {
+                // Handle network error or other issues here.
+                Toast.makeText(
+                    this,
+                    "Terjadi kesalahan saat mencari produk",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         }
     }
 
@@ -151,13 +228,13 @@ class HomeActivity : AppCompatActivity() {
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    private fun search(){
+    private fun search() {
         rv_homeProduk.setHasFixedSize(true)
         rv_homeProduk.setItemViewCacheSize(20)
         rv_homeProduk.isDrawingCacheEnabled = true
         rv_homeProduk.drawingCacheQuality = View.DRAWING_CACHE_QUALITY_HIGH
         val viewModel = ViewModelProvider(this)[ViewModelHome::class.java]
-        runOnUiThread{
+        runOnUiThread {
             Handler(Looper.getMainLooper()).postDelayed({
                 searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
                     androidx.appcompat.widget.SearchView.OnQueryTextListener {
@@ -165,25 +242,37 @@ class HomeActivity : AppCompatActivity() {
                         viewModel.searchproduct(query!!)
                         return false
                     }
+
                     override fun onQueryTextChange(p0: String?): Boolean {
                         return false
                     }
                 })
-            },3000)
+            }, 3000)
             viewModel.product.observe(this@HomeActivity) { it ->
                 if (it != null) {
                     adapterHome.setProduk(it)
                     adapterHome.notifyDataSetChanged()
-                }else {
-                    Toast.makeText(this, "Produk Yang Kamu Cari Tidak Ada", Toast.LENGTH_SHORT).show()
                 }
-                adapterHome = AdapterHome{
+                if (it.isEmpty()) {
+                    // Handle intentionally empty search results here.
+                    // You can show a message to the user.
+                    Toast.makeText(this, "Produk Yang Kamu Cari Tidak Ada", Toast.LENGTH_SHORT)
+                        .show()
+                } else {
+                    // Handle network error or other issues here.
+                    Toast.makeText(
+                        this,
+                        "Terjadi kesalahan saat mencari produk",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                adapterHome = AdapterHome {
                     val pindahdata = Intent(applicationContext, AddProductBuyerActivity::class.java)
-                    pindahdata.putExtra("detailproduk",it)
+                    pindahdata.putExtra("detailproduk", it)
                     startActivity(pindahdata)
                 }
-                rv_homeProduk.layoutManager=GridLayoutManager(this,2)
-                rv_homeProduk.adapter=adapterHome
+                rv_homeProduk.layoutManager = GridLayoutManager(this, 2)
+                rv_homeProduk.adapter = adapterHome
             }
         }
     }

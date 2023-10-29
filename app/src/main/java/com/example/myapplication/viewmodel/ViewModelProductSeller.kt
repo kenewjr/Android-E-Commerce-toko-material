@@ -1,6 +1,7 @@
 package com.example.myapplication.viewmodel
 
 
+import android.annotation.SuppressLint
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -43,17 +44,39 @@ class ViewModelProductSeller @Inject constructor(private var productRepository: 
     private val updateproduct = MutableLiveData<com.example.myapplication.model.Response>()
 
     private val apiServices = api
+    @SuppressLint("NullSafeMutableLiveData")
     fun getSellerCategory(){
         viewModelScope.launch {
-            val category = productRepository.getSellerCategory()
-            sellerCategory.value = category
+            try {
+                val category = productRepository.getSellerCategory()
+                sellerCategory.value = category
+                if (category.isEmpty()) {
+                    sellerCategory.value = null
+                } else {
+                    sellerCategory.value = category
+                }
+            } catch (e: Exception) {
+                // Handle network failures or exceptions here
+                Log.e("NetworkError", e.message, e)
+            }
+
         }
     }
 
+    @SuppressLint("NullSafeMutableLiveData")
     fun getSellerPengiriman(){
         viewModelScope.launch {
-            val pengiriman = productRepository.getPengiriman()
-            sellerPengiriman.value=pengiriman
+            try{
+                val pengiriman = productRepository.getPengiriman()
+                if (pengiriman.isEmpty()) {
+                    sellerPengiriman.value=null
+                } else {
+                    sellerPengiriman.value=pengiriman
+                }
+            } catch (e: Exception) {
+                // Handle network failures or exceptions here
+                Log.e("NetworkError", e.message, e)
+            }
         }
     }
 
@@ -258,9 +281,11 @@ class ViewModelProductSeller @Inject constructor(private var productRepository: 
         totalHarga : String,
         jumlahProduk : String,
         gambar : String,
-        ongkos : String
+        ongkos : String,
+        rekening : String,
+        namarek : String
     ){
-        apiServices.tambahHistory(idUser,idProduk,order_id,namaUser,alamat,tglTransaksi,namaProduk,hargaProduk,totalHarga,jumlahProduk,gambar,ongkos)
+        apiServices.tambahHistory(idUser,idProduk,order_id,namaUser,alamat,tglTransaksi,namaProduk,hargaProduk,totalHarga,jumlahProduk,gambar,ongkos,rekening,namarek)
             .enqueue(object : Callback<GetHistoryItem>{
                 override fun onResponse(
                     call: Call<GetHistoryItem>,

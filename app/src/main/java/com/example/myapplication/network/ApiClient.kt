@@ -1,5 +1,6 @@
 package com.example.myapplication.network
 
+import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
@@ -25,7 +26,22 @@ class ApiClient {
         .setLenient()
         .create()
 
-    private val clint = OkHttpClient.Builder().addInterceptor(logging).build()
+    private val client = OkHttpClient.Builder()
+        .addInterceptor { chain ->
+            val request = chain.request()
+            val response = chain.proceed(request)
+            if (response.code == 404) {
+                // Lakukan penanganan khusus untuk respons 404 di sini
+                val responseBody = response.body
+                val errorMessage = response.body?.string() ?: "Error 404: Not Found"
+                Log.e("Error 404", errorMessage)
+                responseBody?.close()
+                // Misalnya, tangani respons 404 dengan menampilkan pesan kesalahan atau melakukan tindakan tertentu.
+            }
+            response
+        }
+        .addInterceptor(logging)
+        .build()
     fun getApiService(): ApiService {
 
         // Initialize ApiService if not initialized yet
@@ -33,7 +49,7 @@ class ApiClient {
             val retrofit = Retrofit.Builder()
                 .baseUrl(BASE)
                 .addConverterFactory(GsonConverterFactory.create(gson))
-                .client(clint)
+                .client(client)
                 .build()
 
             apiService = retrofit.create(ApiService::class.java)

@@ -113,6 +113,8 @@ class NotifikasiBuyerActivity : AppCompatActivity() {
                     }
                     rv_notifikasiBuyer.layoutManager = LinearLayoutManager(applicationContext)
                     rv_notifikasiBuyer.adapter = adapterNotifikasiBuyer
+                }else{
+                    Toast.makeText(this@NotifikasiBuyerActivity, "Anda Belom Berbelanja", Toast.LENGTH_SHORT).show()
                 }
             }
             override fun onFailure(call: Call<List<GetHistoryItem>>, t: Throwable) {
@@ -138,6 +140,8 @@ class NotifikasiBuyerActivity : AppCompatActivity() {
                         }
                         rv_notifikasiBuyer.layoutManager = LinearLayoutManager(applicationContext)
                         rv_notifikasiBuyer.adapter = adapterNotifikasiBuyer
+                    }else{
+                        Toast.makeText(this@NotifikasiBuyerActivity, "Belom Ada Pembeli Yang Beli", Toast.LENGTH_SHORT).show()
                     }
                 }
                 override fun onFailure(call: Call<List<GetHistoryItem>>, t: Throwable) {

@@ -298,7 +298,7 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
             android:gravity="center"
-            android:text="Belum ada Kategori"
+            android:text="Belum ada Pengiriman"
             android:textColor="@color/black"
             android:textSize="20sp"
             tools:ignore="HardcodedText" />

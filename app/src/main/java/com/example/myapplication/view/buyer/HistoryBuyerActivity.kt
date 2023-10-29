@@ -86,6 +86,8 @@ class HistoryBuyerActivity : AppCompatActivity() {
             tv_status.text = "Status : $status"
             tv_orderid.text = "Order Id : $order_id"
             tv_tanggal.text = "Tanggal Transaksi : $tgl_transaksi"
+            tv_norek.text = "Tujuan Nomor Rekening : $tujuan_rekening"
+            tv_jenisbank.text = "Penerima : $nama_rekening"
             Glide.with(this@HistoryBuyerActivity)
                 .load(gambar)
                 .override(80, 80)

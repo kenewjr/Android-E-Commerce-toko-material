@@ -116,8 +116,9 @@ class DaftarJualActivity : AppCompatActivity() {
             if (it.isNotEmpty()){
                 adapter.setDataProductSeller(it)
                 adapter.notifyDataSetChanged()
+            }else{
+                Toast.makeText(this, "Produk Anda Kosong", Toast.LENGTH_SHORT).show()
             }
-
         }
     }
 

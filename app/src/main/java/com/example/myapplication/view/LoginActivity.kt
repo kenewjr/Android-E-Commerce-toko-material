@@ -1,6 +1,7 @@
 package com.example.myapplication.view
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -34,6 +35,16 @@ class LoginActivity : AppCompatActivity() {
         }
         imageBack.setOnClickListener {
            finish()
+        }
+        tv_lupaPassword.setOnClickListener {
+            val message = "Mohon Bantuan Nya Mas Saya Lupa Akun Password saya"
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(
+                String.format(
+                    "https://api.whatsapp.com/send?phone=%s&text=%s",
+                    "+6208977715400",
+                    message
+                )
+            )))
         }
     }
     private fun loginauth(loginusername : String, loginPassword : String){
