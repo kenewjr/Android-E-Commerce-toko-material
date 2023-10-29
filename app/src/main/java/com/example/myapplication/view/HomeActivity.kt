@@ -10,10 +10,12 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.View
+import android.widget.ScrollView
 import android.widget.SearchView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isInvisible
+import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -60,7 +62,11 @@ class HomeActivity : AppCompatActivity() {
                 return@OnNavigationItemSelectedListener true
             }
             R.id.home -> {
-                startActivity(Intent(this, HomeActivity::class.java))
+                iniviewmodel()
+                val scrollView = findViewById<NestedScrollView>(R.id.nestscroll)
+                scrollView.fullScroll(ScrollView.FOCUS_UP)
+                val y = 0
+                scrollView.scrollTo(0, y)
                 return@OnNavigationItemSelectedListener true
             }
             R.id.jual -> {
@@ -105,9 +111,9 @@ class HomeActivity : AppCompatActivity() {
         }
 
         if (isOnline(this)) {
-            search()
             iniviewmodel()
             vmCategory()
+            search()
         } else {
             Toast.makeText(applicationContext, "Tidak Ada Koneksi Internet", Toast.LENGTH_SHORT)
                 .show()
@@ -186,7 +192,7 @@ class HomeActivity : AppCompatActivity() {
                 // Handle network error or other issues here.
                 Toast.makeText(
                     this,
-                    "Terjadi Kesalahan",
+                    "Barang Kosong",
                     Toast.LENGTH_SHORT
                 ).show()
             }
@@ -218,7 +224,6 @@ class HomeActivity : AppCompatActivity() {
         rv_homeProduk.isDrawingCacheEnabled = true
         rv_homeProduk.drawingCacheQuality = View.DRAWING_CACHE_QUALITY_HIGH
         val viewModel = ViewModelProvider(this)[ViewModelHome::class.java]
-        runOnUiThread {
             Handler(Looper.getMainLooper()).postDelayed({
                 searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
                     androidx.appcompat.widget.SearchView.OnQueryTextListener {
@@ -252,7 +257,7 @@ class HomeActivity : AppCompatActivity() {
                 rv_homeProduk.layoutManager = GridLayoutManager(this, 2)
                 rv_homeProduk.adapter = adapterHome
             }
-        }
+
     }
 
     @Deprecated("Deprecated in Java")
