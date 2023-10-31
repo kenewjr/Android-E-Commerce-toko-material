@@ -16,258 +16,259 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-<TextView
-    android:id="@+id/tv_detail"
-    android:layout_marginTop="10dp"
-    android:textColor="@color/black"
-    android:textSize="30sp"
-    android:textStyle="bold"
-    android:text="Detail Transaksi"
-    android:layout_centerHorizontal="true"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    tools:ignore="HardcodedText" />
-
-
-    <TextView
-        android:id="@+id/tv_status"
-        android:textColor="@color/black"
-        android:textSize="15sp"
-        android:textStyle="bold"
-        android:text="STATUS"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_below="@id/tv_detail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:ignore="HardcodedText" />
-
-    <TextView
-        android:id="@+id/tv_orderid"
-        android:textColor="@color/black"
-        android:textSize="15sp"
-        android:text="ORDER ID"
-        android:layout_marginStart="20dp"
-        android:layout_below="@id/tv_status"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:ignore="HardcodedText" />
-
-    <TextView
-        android:id="@+id/tv_tanggal"
-        android:textColor="@color/black"
-        android:textSize="15sp"
-        android:text="TANGGAL"
-        android:layout_marginStart="20dp"
-        android:layout_below="@id/tv_orderid"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:ignore="HardcodedText" />
-
-    <TextView
-        android:id="@+id/tv_norek"
-        android:textColor="@color/black"
-        android:textSize="15sp"
-        android:text="No rekening"
-        android:layout_marginStart="20dp"
-        android:layout_below="@id/tv_tanggal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:ignore="HardcodedText" />
-
-    <TextView
-        android:id="@+id/tv_jenisbank"
-        android:textColor="@color/black"
-        android:textSize="15sp"
-        android:text="Jenis bank"
-        android:layout_marginStart="20dp"
-        android:layout_below="@id/tv_norek"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:ignore="HardcodedText" />
-    <TextView
-        android:id="@+id/tv_detail_produk"
-        android:textColor="@color/black"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:text="Detail Produk"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="30dp"
-        android:layout_below="@id/tv_jenisbank"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:ignore="HardcodedText" />
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardHistory"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="3dp"
-        android:layout_marginTop="5dp"
-        app:cardCornerRadius="15dp"
-        android:layout_below="@id/tv_detail_produk"
-        app:cardElevation="5dp">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:id="@+id/gambarProdukBuyer"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:src="@drawable/ic_launcher_background"
-                tools:ignore="ContentDescription,ImageContrastCheck" />
-
             <TextView
-                android:id="@+id/historyBuyer_namaProduk"
+                android:id="@+id/tv_detail"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/black"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                android:text="Detail Transaksi"
+                android:layout_centerHorizontal="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_toEndOf="@id/gambarProdukBuyer"
-                android:text="Jam Tangan Casio"
-                android:textColor="@color/black"
-                android:textSize="17sp"
-                android:textStyle="normal"
                 tools:ignore="HardcodedText" />
 
+
             <TextView
-                android:id="@+id/historyBuyer_harga"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/historyBuyer_namaProduk"
-                android:layout_marginLeft="10dp"
-                android:layout_toRightOf="@id/gambarProdukBuyer"
-                android:text="Rp 250.000"
+                android:id="@+id/tv_status"
                 android:textColor="@color/black"
                 android:textSize="15sp"
-                android:textStyle="normal"
-                tools:ignore="HardcodedText,RtlHardcoded" />
-        </RelativeLayout>
-
-    </androidx.cardview.widget.CardView>
-
-    <TextView
-        android:id="@+id/tv_info_pengiriman"
-        android:textColor="@color/black"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:text="Info Pengiriman"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="30dp"
-        android:layout_below="@id/cardHistory"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:ignore="HardcodedText" />
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardinfoPengiriman"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="3dp"
-        android:layout_marginTop="5dp"
-        app:cardCornerRadius="15dp"
-        android:layout_below="@id/tv_info_pengiriman"
-        app:cardElevation="5dp">
-
-        <LinearLayout
-            android:layout_margin="20dp"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/historyBuyer_order"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:text="Order ID"
-                android:textColor="@color/black"
-                android:textSize="20sp"
-                android:textStyle="normal"
-                tools:ignore="HardcodedText" />
-
-            <TextView
-                android:id="@+id/historyBuyer_alamat"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:text="alamat"
-                android:textColor="@color/black"
-                android:textSize="20sp"
-                android:textStyle="normal"
-                tools:ignore="HardcodedText,RtlHardcoded" />
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
-
-    <TextView
-        android:id="@+id/tv_rincian_pembayaran"
-        android:textColor="@color/black"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:text="Rincian Pembayaran"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="30dp"
-        android:layout_below="@id/cardinfoPengiriman"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:ignore="HardcodedText" />
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cvRincian"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="3dp"
-        android:layout_marginTop="5dp"
-        app:cardCornerRadius="15dp"
-        android:layout_below="@id/tv_rincian_pembayaran"
-        app:cardElevation="5dp">
-
-        <LinearLayout
-            android:layout_margin="20dp"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/historyBuyer_jumlahbrg"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:text="jumlah barang"
-                android:textColor="@color/black"
-                android:textSize="20sp"
-                android:textStyle="normal"
-                tools:ignore="HardcodedText" />
-
-            <TextView
-                android:id="@+id/historyBuyer_totalongkos"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:text="ongkos"
-                android:textColor="@color/black"
-                android:textSize="20sp"
-                android:textStyle="normal"
-                tools:ignore="HardcodedText,RtlHardcoded" />
-
-            <TextView
-                android:id="@+id/historyBuyer_ttlbelanja"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:text="total belanja"
-                android:textColor="@color/black"
-                android:textSize="25sp"
                 android:textStyle="bold"
-                tools:ignore="HardcodedText,RtlHardcoded" />
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
+                android:text="STATUS"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_below="@id/tv_detail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:id="@+id/tv_orderid"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:text="ORDER ID"
+                android:layout_marginStart="20dp"
+                android:layout_below="@id/tv_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:id="@+id/tv_tanggal"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:text="TANGGAL"
+                android:layout_marginStart="20dp"
+                android:layout_below="@id/tv_orderid"
+                android:layout_width="wrap_content"
+                android:textIsSelectable="true"
+                android:layout_height="wrap_content"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:id="@+id/tv_norek"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:text="No rekening"
+                android:layout_marginStart="20dp"
+                android:layout_below="@id/tv_tanggal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:id="@+id/tv_jenisbank"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:text="Jenis bank"
+                android:layout_marginStart="20dp"
+                android:layout_below="@id/tv_norek"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:ignore="HardcodedText" />
+            <TextView
+                android:id="@+id/tv_detail_produk"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:text="Detail Produk"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="30dp"
+                android:layout_below="@id/tv_jenisbank"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:ignore="HardcodedText" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardHistory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="3dp"
+                android:layout_marginTop="5dp"
+                app:cardCornerRadius="15dp"
+                android:layout_below="@id/tv_detail_produk"
+                app:cardElevation="5dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/gambarProdukBuyer"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        android:src="@drawable/ic_launcher_background"
+                        tools:ignore="ContentDescription,ImageContrastCheck" />
+
+                    <TextView
+                        android:id="@+id/historyBuyer_namaProduk"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_toEndOf="@id/gambarProdukBuyer"
+                        android:text="Jam Tangan Casio"
+                        android:textColor="@color/black"
+                        android:textSize="17sp"
+                        android:textStyle="normal"
+                        tools:ignore="HardcodedText" />
+
+                    <TextView
+                        android:id="@+id/historyBuyer_harga"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/historyBuyer_namaProduk"
+                        android:layout_marginLeft="10dp"
+                        android:layout_toRightOf="@id/gambarProdukBuyer"
+                        android:text="Rp 250.000"
+                        android:textColor="@color/black"
+                        android:textSize="15sp"
+                        android:textStyle="normal"
+                        tools:ignore="HardcodedText,RtlHardcoded" />
+                </RelativeLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/tv_info_pengiriman"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:text="Info Pengiriman"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="30dp"
+                android:layout_below="@id/cardHistory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:ignore="HardcodedText" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardinfoPengiriman"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="3dp"
+                android:layout_marginTop="5dp"
+                app:cardCornerRadius="15dp"
+                android:layout_below="@id/tv_info_pengiriman"
+                app:cardElevation="5dp">
+
+                <LinearLayout
+                    android:layout_margin="20dp"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/historyBuyer_order"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        android:text="Order ID"
+                        android:textColor="@color/black"
+                        android:textSize="20sp"
+                        android:textStyle="normal"
+                        tools:ignore="HardcodedText" />
+
+                    <TextView
+                        android:id="@+id/historyBuyer_alamat"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="alamat"
+                        android:textColor="@color/black"
+                        android:textSize="20sp"
+                        android:textStyle="normal"
+                        tools:ignore="HardcodedText,RtlHardcoded" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/tv_rincian_pembayaran"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:text="Rincian Pembayaran"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="30dp"
+                android:layout_below="@id/cardinfoPengiriman"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:ignore="HardcodedText" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cvRincian"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="3dp"
+                android:layout_marginTop="5dp"
+                app:cardCornerRadius="15dp"
+                android:layout_below="@id/tv_rincian_pembayaran"
+                app:cardElevation="5dp">
+
+                <LinearLayout
+                    android:layout_margin="20dp"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/historyBuyer_jumlahbrg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:text="jumlah barang"
+                        android:textColor="@color/black"
+                        android:textSize="20sp"
+                        android:textStyle="normal"
+                        tools:ignore="HardcodedText" />
+
+                    <TextView
+                        android:id="@+id/historyBuyer_totalongkos"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="ongkos"
+                        android:textColor="@color/black"
+                        android:textSize="20sp"
+                        android:textStyle="normal"
+                        tools:ignore="HardcodedText,RtlHardcoded" />
+
+                    <TextView
+                        android:id="@+id/historyBuyer_ttlbelanja"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="total belanja"
+                        android:textColor="@color/black"
+                        android:textSize="25sp"
+                        android:textStyle="bold"
+                        tools:ignore="HardcodedText,RtlHardcoded" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
 
 
             <androidx.appcompat.widget.AppCompatButton

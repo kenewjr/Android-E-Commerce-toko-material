@@ -63,7 +63,7 @@ class NotifikasiBuyerActivity : AppCompatActivity() {
             }
             R.id.akun -> {
                 startActivity(Intent(this, AkunsayaActivty::class.java))
-                return@OnNavigationItemSelectedListener false
+                return@OnNavigationItemSelectedListener true
             }
             R.id.daftar_jual -> {
                 startActivity(Intent(this, DaftarJualActivity::class.java))

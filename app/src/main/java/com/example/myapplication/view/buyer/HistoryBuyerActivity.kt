@@ -1,6 +1,8 @@
 package com.example.myapplication.view.buyer
 
 import android.annotation.SuppressLint
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
@@ -97,6 +99,10 @@ class HistoryBuyerActivity : AppCompatActivity() {
             }else {
                 btn_selesai.text = "Pesanan Selesai"
             }
+            if(getstatus == "Dibatalkan"){
+                btn_selesai.isInvisible = true
+                btn_batal.isInvisible = true
+            }
             btnSelesai()
         }
         btnBatal()
@@ -127,6 +133,7 @@ class HistoryBuyerActivity : AppCompatActivity() {
             val viewModel = ViewModelProvider(this)[ViewModelUser::class.java]
             viewModel.changeStatus("Terkirim",dataProduct!!.id.toInt())
             updateStatus("Terkirim")
+            btn_selesai.isInvisible = true // Hide the button
         }
     }
 
@@ -136,6 +143,7 @@ class HistoryBuyerActivity : AppCompatActivity() {
             val viewModel = ViewModelProvider(this)[ViewModelUser::class.java]
             viewModel.changeStatus("Selesai",dataProduct!!.id.toInt())
             updateStatus("Selesai")
+            btn_selesai.isInvisible = true // Hide the button
         }
     }
 
@@ -146,11 +154,20 @@ class HistoryBuyerActivity : AppCompatActivity() {
         // Update any other UI components based on the new status here
     }
 
+    private fun copyTextToClipboard(textToCopy: String) {
+        val clipboardManager = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+        val clipData = ClipData.newPlainText("norek", textToCopy)
+        clipboardManager.setPrimaryClip(clipData)
 
+        Toast.makeText(this, "Nomor Berahasil Di Copy: $textToCopy", Toast.LENGTH_SHORT).show()
+    }
     @SuppressLint("SetTextI18n")
     private fun fetchnotif(){
         val dataProduct = intent.extras!!.getSerializable("detailorder") as GetHistoryItem?
         with(dataProduct!!){
+            tv_norek.setOnClickListener {
+                copyTextToClipboard(tujuan_rekening)
+            }
             getstatus = status
             tv_status.text = "Status : $status"
             tv_orderid.text = "Order Id : $order_id"

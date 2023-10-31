@@ -32,29 +32,29 @@ class AdapterNotifikasiBuyer(private var dataNotif : List<GetHistoryItem>,
             .skipMemoryCache(true)
         with(holder.itemView){
             with(dataNotif[position]){
-                    cardNotifikasiBuyer.setOnClickListener {
-                        onClick(dataNotif[position])
-                    }
-                    Glide.with(holder.itemView.context)
-                        .load(dataNotif[position].gambar)
-                        .error(R.drawable.ic_launcher_background)
-                        .override(75,75)
-                        .apply(requestOptions)
-                        .into(holder.itemView.gambarProdukBuyer)
-                    if (status == "Pending" || status == "Lunas" || status == "Terkirim"){
-                        notikasiBuyer_alert.setImageResource(R.drawable.ic_baseline_circle_24)
-                    }else if (status == "Selesai"){
-                        notikasiBuyer_alert.setImageResource(R.drawable.ic_baseline_circle_ijo)
-                    }
-                    notifikasiBuyer_namaProduk.text = "Nama Produk : $nama_produk"
-                    notikasiBuyer_statusproduk.text = "Status : $status"
-                    notifikasiBuyer_harga.text = "Harga : Rp. $harga_produk"
-
-                        notifikasiBuyer_tawar.text = "Jumlah : Rp. $jumlah_produk"
-
-                        notikasiBuyer_waktu.text = tgl_transaksi
-
+                cardNotifikasiBuyer.setOnClickListener {
+                    onClick(dataNotif[position])
                 }
+                Glide.with(holder.itemView.context)
+                    .load(dataNotif[position].gambar)
+                    .error(R.drawable.ic_launcher_background)
+                    .override(75,75)
+                    .apply(requestOptions)
+                    .into(holder.itemView.gambarProdukBuyer)
+                if (status == "Pending" || status == "Lunas" || status == "Terkirim"){
+                    notikasiBuyer_alert.setImageResource(R.drawable.ic_baseline_circle_24)
+                }else if (status == "Selesai"){
+                    notikasiBuyer_alert.setImageResource(R.drawable.ic_baseline_circle_ijo)
+                }
+                notifikasiBuyer_namaProduk.text = "Nama Produk : $nama_produk"
+                notikasiBuyer_statusproduk.text = "Status : $status"
+                notifikasiBuyer_harga.text = "Harga : Rp. $harga_produk"
+
+                notifikasiBuyer_tawar.text = "Jumlah : $jumlah_produk"
+
+                notikasiBuyer_waktu.text = tgl_transaksi
+
+            }
         }
     }
 

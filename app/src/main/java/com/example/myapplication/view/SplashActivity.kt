@@ -95,7 +95,7 @@ class SplashActivity : AppCompatActivity() {
         request.setDestinationInExternalFilesDir(
             this,
             Environment.DIRECTORY_DOWNLOADS,
-            "TBCibeberKencanaV${latest}.apk"
+            "TBCibeberKencana${latest}.apk"
         )
 
         // Memulai pengunduhan
