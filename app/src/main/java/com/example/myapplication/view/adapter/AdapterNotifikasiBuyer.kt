@@ -41,9 +41,9 @@ class AdapterNotifikasiBuyer(private var dataNotif : List<GetHistoryItem>,
                         .override(75,75)
                         .apply(requestOptions)
                         .into(holder.itemView.gambarProdukBuyer)
-                    if (status == "pending"){
+                    if (status == "Pending" || status == "Lunas" || status == "Terkirim"){
                         notikasiBuyer_alert.setImageResource(R.drawable.ic_baseline_circle_24)
-                    }else if (status == "Lunas"){
+                    }else if (status == "Selesai"){
                         notikasiBuyer_alert.setImageResource(R.drawable.ic_baseline_circle_ijo)
                     }
                     notifikasiBuyer_namaProduk.text = "Nama Produk : $nama_produk"

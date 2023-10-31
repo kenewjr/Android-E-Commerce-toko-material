@@ -208,7 +208,7 @@ interface ApiService {
     ):Call<List<GetAllProdukItem>>
 
     @FormUrlEncoded
-    @POST("update_hisotry_status")
+    @POST("update_history_status")
     fun updatehisotryStatus(
         @Field("id")id:Int,
         @Field("status")status:String
