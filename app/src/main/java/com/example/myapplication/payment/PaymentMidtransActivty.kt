@@ -79,6 +79,10 @@ class PaymentMidtransActivty : AppCompatActivity(), TransactionFinishedCallback 
                 .setColorTheme(CustomColorTheme("#FFE51255", "#B61548", "#FFE51255"))
                 .setLanguage("id")
                 .buildSDK()
+
+            TransactionFinishedCallback {
+                addHistory()
+            }
         }
         pesan()
         btn_home.setOnClickListener {
@@ -325,7 +329,6 @@ class PaymentMidtransActivty : AppCompatActivity(), TransactionFinishedCallback 
                         Toast.makeText(this, "Failed ${transactionResult.response.statusMessage}", Toast.LENGTH_LONG).show()
                     }
                 }
-                addHistory()
             }
             transactionResult.isTransactionCanceled -> {
                 Toast.makeText(this, "Canceled transaction", Toast.LENGTH_LONG).show()

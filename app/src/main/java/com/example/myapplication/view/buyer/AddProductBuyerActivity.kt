@@ -165,6 +165,7 @@ class AddProductBuyerActivity : AppCompatActivity() {
                 .apply(requestOptions)
                 .into(tv_imgdetailproduct)
             produkpilih = dataProduct.id
+            tv_stok.text = "Stok Sisa : "+dataProduct.stok
             tv_judulproductdetail.text = "Nama Produk : "+dataProduct.nama
             tv_acesorisproductdetail.text ="Kategori : "+ dataProduct.kategori
             tv_hargaproductdetail.text = "Harga Produk : "+dataProduct.harga

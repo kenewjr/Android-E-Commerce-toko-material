@@ -1,5 +1,6 @@
 package com.example.myapplication.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -18,6 +19,8 @@ class ViewModelUser@Inject constructor(api: ApiService): ViewModel() {
     private val livedatauser = MutableLiveData<DataUser>()
     private val apiService = api
 
+    private val livedatastatus  = MutableLiveData<com.example.myapplication.model.Response>()
+
     private val liveDataProfile = MutableLiveData<DataUser>()
     val profileData: LiveData<DataUser> = liveDataProfile
 
@@ -28,6 +31,29 @@ class ViewModelUser@Inject constructor(api: ApiService): ViewModel() {
     val komentarData : LiveData<List<GetKomentarItem>> = liveDataKomentar
 
     private val liveKomentar= MutableLiveData<com.example.myapplication.model.Response>()
+
+    fun changeStatus(status: String,id: Int){
+        apiService.updatehisotryStatus(id, status).enqueue(object : Callback<com.example.myapplication.model.Response>{
+            override fun onResponse(
+                call: Call<com.example.myapplication.model.Response>,
+                response: Response<com.example.myapplication.model.Response>
+            ) {
+                if (response.isSuccessful){
+                    livedatastatus.value = response.body()
+                } else {
+                    livedatastatus.value = response.body()
+                }
+            }
+
+            override fun onFailure(
+                call: Call<com.example.myapplication.model.Response>,
+                t: Throwable
+            ) {
+                Log.e("vmchangestatus", t.message.toString())
+            }
+
+        })
+    }
     fun getProfile(id : Int){
         apiService.profileuser(id).enqueue(object : Callback<DataUser>{
             override fun onResponse(call: Call<DataUser>, response: Response<DataUser>) {

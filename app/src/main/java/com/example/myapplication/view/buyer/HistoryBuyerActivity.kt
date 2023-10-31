@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isInvisible
+import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.example.myapplication.R
 import com.example.myapplication.datastore.UserManager
@@ -15,6 +16,7 @@ import com.example.myapplication.view.HomeActivity
 import com.example.myapplication.view.LoginActivity
 import com.example.myapplication.view.seller.DaftarJualActivity
 import com.example.myapplication.view.seller.LengkapiDetailProductActivity
+import com.example.myapplication.viewmodel.ViewModelUser
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_history_buyer.*
 import kotlinx.coroutines.DelicateCoroutinesApi
@@ -59,6 +61,8 @@ class HistoryBuyerActivity : AppCompatActivity() {
         }
         false
     }
+
+    @SuppressLint("SetTextI18n")
     @DelicateCoroutinesApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,15 +74,34 @@ class HistoryBuyerActivity : AppCompatActivity() {
             val botnav2 = findViewById<BottomNavigationView>(R.id.default_navigation)
             botnav2.isInvisible = true
             botnav.setOnNavigationItemSelectedListener(bottomNavigasi)
+            btn_selesai.text = "Kirim Pesanan"
+            btnKirim()
         } else {
             val botnav = findViewById<BottomNavigationView>(R.id.default_navigation)
             val botnav2 = findViewById<BottomNavigationView>(R.id.navigation)
             botnav2.isInvisible = true
             botnav.setOnNavigationItemSelectedListener(bottomNavigasi)
+            btn_selesai.text = "Pesanan Selesai"
+            btnSelesai()
         }
         fetchnotif()
     }
 
+    private fun btnKirim(){
+        btn_selesai.setOnClickListener{
+            val dataProduct = intent.extras!!.getSerializable("detailorder") as GetHistoryItem?
+            val viewModel = ViewModelProvider(this)[ViewModelUser::class.java]
+            viewModel.changeStatus("Terkirim",dataProduct!!.id.toInt())
+        }
+    }
+
+    private fun btnSelesai(){
+        btn_selesai.setOnClickListener {
+            val dataProduct = intent.extras!!.getSerializable("detailorder") as GetHistoryItem?
+            val viewModel = ViewModelProvider(this)[ViewModelUser::class.java]
+            viewModel.changeStatus("Selesai",dataProduct!!.id.toInt())
+        }
+    }
     @SuppressLint("SetTextI18n")
     private fun fetchnotif(){
         val dataProduct = intent.extras!!.getSerializable("detailorder") as GetHistoryItem?
@@ -99,7 +122,9 @@ class HistoryBuyerActivity : AppCompatActivity() {
             historyBuyer_totalongkos.text = "Harga Ongkir : $ongkos"
             historyBuyer_jumlahbrg.text = "Jumlah Produk : $jumlah_produk"
             historyBuyer_ttlbelanja.text = "Total Harga :$total_harga"
+            if (status == "Terkirim"){
+                btn_batal.isInvisible = true
+            }
         }
-
     }
 }

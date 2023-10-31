@@ -206,4 +206,13 @@ interface ApiService {
     fun getFilterCategory(
         @Query("kategori")kategori : Int
     ):Call<List<GetAllProdukItem>>
+
+    @FormUrlEncoded
+    @POST("update_hisotry_status")
+    fun updatehisotryStatus(
+        @Field("id")id:Int,
+        @Field("status")status:String
+    ):Call<Response>
+
+
 }
