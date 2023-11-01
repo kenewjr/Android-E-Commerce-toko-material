@@ -9,13 +9,11 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.view.View
-import android.widget.ScrollView
+import android.util.Log
 import android.widget.SearchView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isInvisible
-import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -36,7 +34,6 @@ import kotlinx.android.synthetic.main.activity_home.default_navigation
 import kotlinx.android.synthetic.main.activity_home.navigation
 import kotlinx.android.synthetic.main.activity_notifikasi_buyer.*
 import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlin.system.exitProcess
 
 @OptIn(DelicateCoroutinesApi::class)
 @Suppress("DEPRECATION")
@@ -48,11 +45,7 @@ class HomeActivity : AppCompatActivity() {
     private var backPressedCounter = 0
 
     private val bottomNavigasi = BottomNavigationView.OnNavigationItemSelectedListener { item ->
-        val sharedPref = getPreferences(Context.MODE_PRIVATE)
-        with (sharedPref.edit()) {
-            putInt("SELECTED_ITEM_ID", item.itemId)
-            apply()
-        }
+
         when (item.itemId) {
             R.id.notifikasi -> {
                 startActivity(Intent(this, NotifikasiBuyerActivity::class.java))
@@ -71,24 +64,21 @@ class HomeActivity : AppCompatActivity() {
                 return@OnNavigationItemSelectedListener true
             }
             R.id.home -> {
-                iniviewmodel()
-                val scrollView = findViewById<NestedScrollView>(R.id.nestscroll)
-                scrollView.fullScroll(ScrollView.FOCUS_UP)
-                val y = 0
-                scrollView.scrollTo(0, y)
+                startActivity(Intent(this, HomeActivity::class.java))
+                overridePendingTransition(0,0)
                 return@OnNavigationItemSelectedListener true
             }
             R.id.jual -> {
                 val booleanvalue = userManager.getBooleanValue()
                 if (booleanvalue) {
                     startActivity(Intent(this, LengkapiDetailProductActivity::class.java))
-                    return@OnNavigationItemSelectedListener true
                 } else {
                     Toast.makeText(applicationContext, "Anda Belum Login", Toast.LENGTH_SHORT)
                         .show()
                     startActivity(Intent(this, LoginActivity::class.java))
                     finish()
                 }
+                return@OnNavigationItemSelectedListener true
             }
             R.id.akun -> {
                 startActivity(Intent(this, AkunsayaActivty::class.java))
@@ -107,20 +97,17 @@ class HomeActivity : AppCompatActivity() {
         setContentView(R.layout.activity_home)
         userManager = UserManager(this)
         val booleanvalue = userManager.getBooleanValue()
+        navigation.selectedItemId = R.id.home
+        default_navigation.selectedItemId = R.id.home
         val botnav = findViewById<BottomNavigationView>(R.id.navigation)
         val botnav2 = findViewById<BottomNavigationView>(R.id.default_navigation)
         if (booleanvalue && userManager.fetchstatus() == "seller") {
             botnav2.isInvisible = true
+            botnav.setOnNavigationItemSelectedListener(bottomNavigasi)
         } else {
             botnav.isInvisible = true
+            botnav2.setOnNavigationItemSelectedListener(bottomNavigasi)
         }
-        val sharedPref = getPreferences(Context.MODE_PRIVATE)
-        val selectedItemId = sharedPref.getInt("SELECTED_ITEM_ID", R.id.home)
-        navigation.selectedItemId = selectedItemId
-        default_navigation.selectedItemId = selectedItemId
-        botnav.setOnNavigationItemSelectedListener(bottomNavigasi)
-        botnav2.setOnNavigationItemSelectedListener(bottomNavigasi)
-
         if (isOnline(this)) {
             search()
             iniviewmodel()
@@ -135,46 +122,48 @@ class HomeActivity : AppCompatActivity() {
     private fun vmCategory() {
         val viewModel = ViewModelProvider(this)[ViewModelHome::class.java]
         val viewModelCategory = ViewModelProvider(this)[ViewModelProductSeller::class.java]
-        adapterHomeCategory = AdapterHomeCategory {
-            runOnUiThread {
-                viewModel.getCategory(it.id)
-                viewModel.category.observe(this@HomeActivity) {
-                    if (it != null) {
-                        adapterHome.setProduk(it)
-                        adapterHome.notifyDataSetChanged()
-                    } else {
-                        // Handle network error or other issues here.
-                        Toast.makeText(
-                            this,
-                            "Terjadi kesalahan saat mencari kategori",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                    rv_homeProduk.layoutManager = GridLayoutManager(this, 2)
-                    rv_homeProduk.adapter = adapterHome
+        adapterHomeCategory = AdapterHomeCategory { t ->
+            viewModel.getCategory(t.id)
+            // Hapus observasi sebelum mengamati data kategori
+            viewModel.category.removeObservers(this@HomeActivity)
+
+            viewModel.category.observe(this@HomeActivity) { it ->
+                if (it != null) {
+                    adapterHome.setProduk(it)
+                    adapterHome.notifyDataSetChanged()
+                } else {
+                    // Handle network error or other issues here.
+                    Log.e("HomeActivity", "Error fetching category data")
+                    Toast.makeText(
+                        this@HomeActivity,
+                        "Terjadi kesalahan saat mencari kategori",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
                 }
             }
         }
+
+        rv_homeProduk.layoutManager = GridLayoutManager(this, 2)
+        rv_homeProduk.adapter = adapterHome
 
         rv_homeCategory.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         rv_homeCategory.adapter = adapterHomeCategory
 
         viewModelCategory.getSellerCategory()
-        viewModelCategory.sellerCategory.observe(this) {
+
+        // Hapus observasi sebelum mengamati data kategori penjual
+        viewModelCategory.sellerCategory.removeObservers(this@HomeActivity)
+
+        viewModelCategory.sellerCategory.observe(this@HomeActivity) { it ->
             if (it != null) {
                 adapterHomeCategory.setDataCategory(it)
                 adapterHomeCategory.notifyDataSetChanged()
-            } else {
-                // Handle network error or other issues here.
-                Toast.makeText(
-                    this,
-                    "Terjadi kesalahan saat mencari kategori",
-                    Toast.LENGTH_SHORT
-                ).show()
             }
         }
     }
+
 
     @SuppressLint("NotifyDataSetChanged")
     private fun iniviewmodel() {
@@ -186,19 +175,12 @@ class HomeActivity : AppCompatActivity() {
             startActivity(pindah)
         }
         rv_homeProduk.layoutManager = GridLayoutManager(this, 2)
-        rv_homeProduk.setHasFixedSize(true)
-        rv_homeProduk.setItemViewCacheSize(20)
-        rv_homeProduk.isDrawingCacheEnabled = true
-        rv_homeProduk.drawingCacheQuality = View.DRAWING_CACHE_QUALITY_HIGH
-        adapterHome.setHasStableIds(true)
         rv_homeProduk.adapter = adapterHome
         val viewModel = ViewModelProvider(this)[ViewModelHome::class.java]
         viewModel.product.observe(this) {
             if (it != null) {
-                runOnUiThread {
                     adapterHome.setProduk(it)
                     adapterHome.notifyDataSetChanged()
-                }
             } else {
                 // Handle network error or other issues here.
                 Toast.makeText(
@@ -230,16 +212,12 @@ class HomeActivity : AppCompatActivity() {
 
     @SuppressLint("NotifyDataSetChanged")
     private fun search() {
-        rv_homeProduk.setHasFixedSize(true)
-        rv_homeProduk.setItemViewCacheSize(20)
-        rv_homeProduk.isDrawingCacheEnabled = true
-        rv_homeProduk.drawingCacheQuality = View.DRAWING_CACHE_QUALITY_HIGH
-        val viewModel = ViewModelProvider(this)[ViewModelHome::class.java]
-        runOnUiThread {
+             val viewModel = ViewModelProvider(this@HomeActivity)[ViewModelHome::class.java]
             Handler(Looper.getMainLooper()).postDelayed({
                 searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
                     androidx.appcompat.widget.SearchView.OnQueryTextListener {
                     override fun onQueryTextSubmit(query: String?): Boolean {
+
                         viewModel.searchproduct(query!!)
                         return false
                     }
@@ -269,7 +247,7 @@ class HomeActivity : AppCompatActivity() {
                 rv_homeProduk.layoutManager = GridLayoutManager(this, 2)
                 rv_homeProduk.adapter = adapterHome
             }
-        }
+
     }
 
     @Deprecated("Deprecated in Java")

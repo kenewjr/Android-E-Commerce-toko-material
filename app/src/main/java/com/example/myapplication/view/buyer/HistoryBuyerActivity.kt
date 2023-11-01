@@ -28,7 +28,6 @@ import kotlinx.android.synthetic.main.activity_history_buyer.default_navigation
 import kotlinx.android.synthetic.main.activity_history_buyer.navigation
 import kotlinx.android.synthetic.main.activity_notifikasi_buyer.*
 import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlin.system.exitProcess
 
 @Suppress("DEPRECATION")
 @AndroidEntryPoint
@@ -37,11 +36,6 @@ class HistoryBuyerActivity : AppCompatActivity() {
     private var getstatus = ""
     @DelicateCoroutinesApi
     private val bottomNavigasi = BottomNavigationView.OnNavigationItemSelectedListener { item ->
-        val sharedPref = getPreferences(Context.MODE_PRIVATE)
-        with (sharedPref.edit()) {
-            putInt("SELECTED_ITEM_ID", item.itemId)
-            apply()
-        }
         when(item.itemId){
             R.id.notifikasi -> {
                 Toast.makeText(this, "Kamu Sedang Berada Di Notifikasi", Toast.LENGTH_SHORT).show()
@@ -90,10 +84,8 @@ class HistoryBuyerActivity : AppCompatActivity() {
         }
         fetchnotif()
         val booleanvalue = userManager.getBooleanValue()
-        val sharedPref = getPreferences(Context.MODE_PRIVATE)
-        val selectedItemId = sharedPref.getInt("SELECTED_ITEM_ID", R.id.history)
-        navigation.selectedItemId = selectedItemId
-        default_navigation.selectedItemId = selectedItemId
+        navigation.selectedItemId = R.id.history
+        default_navigation.selectedItemId = R.id.history
         if (booleanvalue && userManager.fetchstatus() == "seller") {
             val botnav = findViewById<BottomNavigationView>(R.id.navigation)
             val botnav2 = findViewById<BottomNavigationView>(R.id.default_navigation)

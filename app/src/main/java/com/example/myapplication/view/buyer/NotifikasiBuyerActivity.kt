@@ -4,7 +4,6 @@ package com.example.myapplication.view.buyer
 
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -38,11 +37,6 @@ class NotifikasiBuyerActivity : AppCompatActivity() {
     private lateinit var adapterNotifikasiBuyer: AdapterNotifikasiBuyer
 
     private val bottomNavigasi = BottomNavigationView.OnNavigationItemSelectedListener { item ->
-        val sharedPref = getPreferences(Context.MODE_PRIVATE)
-        with (sharedPref.edit()) {
-            putInt("SELECTED_ITEM_ID", item.itemId)
-            apply()
-        }
         when(item.itemId){
             R.id.notifikasi -> {
                 Toast.makeText(this, "Kamu Sedang Berada Di Notifikasi", Toast.LENGTH_SHORT).show()
@@ -95,10 +89,8 @@ class NotifikasiBuyerActivity : AppCompatActivity() {
             navigation.isInvisible = true
             notifikasiBuyer_welcome.text = "History"
         }
-        val sharedPref = getPreferences(Context.MODE_PRIVATE)
-        val selectedItemId = sharedPref.getInt("SELECTED_ITEM_ID", R.id.notifikasi)
-        navigation.selectedItemId = selectedItemId
-        default_navigation.selectedItemId = selectedItemId
+        navigation.selectedItemId = R.id.notifikasi
+        default_navigation.selectedItemId = R.id.notifikasi
         navigation.setOnNavigationItemSelectedListener(bottomNavigasi)
        default_navigation.setOnNavigationItemSelectedListener(bottomNavigasi)
     }

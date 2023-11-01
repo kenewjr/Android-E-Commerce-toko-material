@@ -32,16 +32,11 @@ import kotlinx.coroutines.DelicateCoroutinesApi
 @DelicateCoroutinesApi
 @AndroidEntryPoint
 class DaftarJualActivity : AppCompatActivity() {
-
     private lateinit var adapter : AdapterProductSeller
     private lateinit var  userManager: UserManager
 
     private val bottomNavigasi = BottomNavigationView.OnNavigationItemSelectedListener { item ->
-        val sharedPref = getPreferences(Context.MODE_PRIVATE)
-        with (sharedPref.edit()) {
-            putInt("SELECTED_ITEM_ID", item.itemId)
-            apply()
-        }
+
         when(item.itemId){
             R.id.notifikasi -> {
                 startActivity(Intent(this, NotifikasiBuyerActivity::class.java))
@@ -53,14 +48,14 @@ class DaftarJualActivity : AppCompatActivity() {
             }
             R.id.jual -> {
                 val booleanvalue = userManager.getBooleanValue()
-                    if (booleanvalue){
-                        startActivity(Intent(this, LengkapiDetailProductActivity::class.java))
-                        return@OnNavigationItemSelectedListener true
-                    } else {
-                        Toast.makeText(applicationContext, "Anda Belum Login", Toast.LENGTH_SHORT).show()
-                        startActivity(Intent(this, LoginActivity::class.java))
-                        finish()
-                    }
+                if (booleanvalue){
+                    startActivity(Intent(this, LengkapiDetailProductActivity::class.java))
+                } else {
+                    Toast.makeText(applicationContext, "Anda Belum Login", Toast.LENGTH_SHORT).show()
+                    startActivity(Intent(this, LoginActivity::class.java))
+                    finish()
+                }
+                return@OnNavigationItemSelectedListener true
             }
             R.id.akun -> {
                 startActivity(Intent(this, AkunsayaActivty::class.java))
@@ -76,19 +71,16 @@ class DaftarJualActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_daftar_jual_seller)
+
         userManager = UserManager(this)
         if(!isOnline(this)) {
             Toast.makeText(applicationContext, "Tidak Ada Koneksi Internet", Toast.LENGTH_SHORT)
                 .show()
+        }else {
+            initView()
+            editSeller()
+            addProduct()
         }
-        val botnav = findViewById<BottomNavigationView>(R.id.navigation)
-        botnav.setOnNavigationItemSelectedListener(bottomNavigasi)
-        val sharedPref = getPreferences(Context.MODE_PRIVATE)
-        val selectedItemId = sharedPref.getInt("SELECTED_ITEM_ID", R.id.daftar_jual)
-        navigation.selectedItemId = selectedItemId
-        initView()
-        editSeller()
-        addProduct()
         daftarCtgy.setOnClickListener{
             startActivity(Intent(this,DaftarJualCategory::class.java))
         }
@@ -101,7 +93,8 @@ class DaftarJualActivity : AppCompatActivity() {
         daftarPengiriman.setOnClickListener {
             startActivity(Intent(this,DaftarJualPengiriman::class.java))
         }
-
+        navigation.selectedItemId = R.id.daftar_jual
+        navigation.setOnNavigationItemSelectedListener(bottomNavigasi)
     }
 
     private fun isOnline(context: Context): Boolean {
@@ -128,7 +121,7 @@ class DaftarJualActivity : AppCompatActivity() {
              TV_nama_product.text = it.nama
              TV_kota_product.text = it.alamat
          }
-        initRecyclerView()
+         initRecyclerView()
     }
 
     @SuppressLint("NotifyDataSetChanged")

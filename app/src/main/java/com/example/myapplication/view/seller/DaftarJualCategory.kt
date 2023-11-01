@@ -43,11 +43,6 @@ class DaftarJualCategory : AppCompatActivity() {
 
     @DelicateCoroutinesApi
     private val bottomNavigasi = BottomNavigationView.OnNavigationItemSelectedListener { item ->
-        val sharedPref = getPreferences(Context.MODE_PRIVATE)
-        with (sharedPref.edit()) {
-            putInt("SELECTED_ITEM_ID", item.itemId)
-            apply()
-        }
         when(item.itemId){
             R.id.notifikasi -> {
                 startActivity(Intent(this, NotifikasiBuyerActivity::class.java))
@@ -89,10 +84,9 @@ class DaftarJualCategory : AppCompatActivity() {
                 .show()
         }
         val botnav = findViewById<BottomNavigationView>(R.id.navigation)
+        navigation.selectedItemId = R.id.daftar_jual
         botnav.setOnNavigationItemSelectedListener(bottomNavigasi)
-        val sharedPref = getPreferences(Context.MODE_PRIVATE)
-        val selectedItemId = sharedPref.getInt("SELECTED_ITEM_ID", R.id.daftar_jual)
-        navigation.selectedItemId = selectedItemId
+
         initView()
         daftarHistory.setOnClickListener {
             startActivity(Intent(this,DaftarJualHistory::class.java))

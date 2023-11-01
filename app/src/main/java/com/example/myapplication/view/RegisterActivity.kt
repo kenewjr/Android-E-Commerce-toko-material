@@ -22,6 +22,9 @@ class RegisterActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
         register()
+        loginDisini.setOnClickListener {
+            startActivity(Intent(this, LoginActivity::class.java))
+        }
     }
     private fun isValidEmail(email: String): Boolean {
         val emailRegex = "^[A-Za-z](.*)(@)(.+)(\\.)(.+)"

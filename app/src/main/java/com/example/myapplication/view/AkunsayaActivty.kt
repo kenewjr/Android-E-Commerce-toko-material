@@ -35,11 +35,7 @@ class AkunsayaActivty : AppCompatActivity() {
     private var username : String = ""
 
     private val bottomNavigasi = BottomNavigationView.OnNavigationItemSelectedListener { item ->
-        val sharedPref = getPreferences(Context.MODE_PRIVATE)
-        with (sharedPref.edit()) {
-            putInt("SELECTED_ITEM_ID", item.itemId)
-            apply()
-        }
+
         when(item.itemId){
             R.id.notifikasi -> {
                 startActivity(Intent(this, NotifikasiBuyerActivity::class.java))
@@ -96,10 +92,8 @@ class AkunsayaActivty : AppCompatActivity() {
             Toast.makeText(applicationContext, "Tidak Ada Koneksi Internet", Toast.LENGTH_SHORT)
                 .show()
         }
-        val sharedPref = getPreferences(Context.MODE_PRIVATE)
-        val selectedItemId = sharedPref.getInt("SELECTED_ITEM_ID", R.id.akun)
-        navigation.selectedItemId = selectedItemId
-        default_navigation.selectedItemId = selectedItemId
+        navigation.selectedItemId = R.id.akun
+        default_navigation.selectedItemId = R.id.akun
 
         if (booleanvalue && userManager.fetchstatus() == "seller") {
             val botnav = findViewById<BottomNavigationView>(R.id.navigation)
