@@ -1,8 +1,12 @@
 package com.example.myapplication.view
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -18,6 +22,9 @@ import com.example.myapplication.view.seller.LengkapiDetailProductActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_akunsaya_activty.*
+import kotlinx.android.synthetic.main.activity_akunsaya_activty.default_navigation
+import kotlinx.android.synthetic.main.activity_akunsaya_activty.navigation
+import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.coroutines.DelicateCoroutinesApi
 
 @OptIn(DelicateCoroutinesApi::class)
@@ -28,6 +35,11 @@ class AkunsayaActivty : AppCompatActivity() {
     private var username : String = ""
 
     private val bottomNavigasi = BottomNavigationView.OnNavigationItemSelectedListener { item ->
+        val sharedPref = getPreferences(Context.MODE_PRIVATE)
+        with (sharedPref.edit()) {
+            putInt("SELECTED_ITEM_ID", item.itemId)
+            apply()
+        }
         when(item.itemId){
             R.id.notifikasi -> {
                 startActivity(Intent(this, NotifikasiBuyerActivity::class.java))
@@ -80,6 +92,15 @@ class AkunsayaActivty : AppCompatActivity() {
         username = userManager.fetchusername().toString()
         versiapp.text = "versi : "+BuildConfig.VERSION_NAME
         val booleanvalue = userManager.getBooleanValue()
+        if(!isOnline(this)) {
+            Toast.makeText(applicationContext, "Tidak Ada Koneksi Internet", Toast.LENGTH_SHORT)
+                .show()
+        }
+        val sharedPref = getPreferences(Context.MODE_PRIVATE)
+        val selectedItemId = sharedPref.getInt("SELECTED_ITEM_ID", R.id.akun)
+        navigation.selectedItemId = selectedItemId
+        default_navigation.selectedItemId = selectedItemId
+
         if (booleanvalue && userManager.fetchstatus() == "seller") {
             val botnav = findViewById<BottomNavigationView>(R.id.navigation)
             val botnav2 = findViewById<BottomNavigationView>(R.id.default_navigation)
@@ -110,8 +131,23 @@ class AkunsayaActivty : AppCompatActivity() {
         ubahAkun()
         changePassword()
     }
-
-
+    private fun isOnline(context: Context): Boolean {
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val capabilities = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+        } else {
+            TODO("VERSION.SDK_INT < M")
+        }
+        if (capabilities != null) {
+            return if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
+                true
+            } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)) {
+                true
+            } else capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)
+        }
+        return false
+    }
     private fun keluar(){
         val dataUserManager = UserManager(this)
         akunsaya_btnkeluar.setOnClickListener {

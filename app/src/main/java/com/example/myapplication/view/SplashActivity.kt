@@ -63,6 +63,7 @@ class SplashActivity : AppCompatActivity() {
             }
         }
     }
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
@@ -77,6 +78,7 @@ class SplashActivity : AppCompatActivity() {
         }else{
             Toast.makeText(applicationContext, "Tidak Ada Koneksi Internet", Toast.LENGTH_SHORT)
                 .show()
+            textView22.text = "Tidak Ada Koneksi Internet"
         }
         val filter = IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE)
         registerReceiver(downloadReceiver, filter)
@@ -90,7 +92,7 @@ class SplashActivity : AppCompatActivity() {
         // Buat permintaan pengunduhan
         val downloadUri = Uri.parse(link)
         val request = DownloadManager.Request(downloadUri)
-        request.setTitle("Unduh Pembaruan Aplikasi")
+        request.setTitle("TBCibeberKencana${latest}.apk")
         request.setDescription("Mengunduh versi terbaru aplikasi")
         request.setDestinationInExternalFilesDir(
             this,
@@ -156,7 +158,7 @@ class SplashActivity : AppCompatActivity() {
                                     // Tindakan ketika pengguna mengklik "Ya" (unduh pembaruan)
                                     // Panggil metode untuk mengunduh pembaruan aplikasi di sini
                                     startAppUpdate(linkdl)
-                                    textView22.text = "Update Tersedia Silahkan Install Terlebih Dahulu"
+                                    textView22.text = "Update Tersedia Silahkan Install Terlebih Dahulu \n"+"Jangan Tutup Aplikasi Sampai Instalasi Selesai"
                                 }
                                 .setNegativeButton("Nanti") { _, _ ->
                                     // Tindakan ketika pengguna mengklik "Nanti" (tutup dialog)

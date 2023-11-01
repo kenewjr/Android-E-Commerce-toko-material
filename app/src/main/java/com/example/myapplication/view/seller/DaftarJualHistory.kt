@@ -4,7 +4,11 @@ package com.example.myapplication.view.seller
 
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -24,6 +28,12 @@ import com.example.myapplication.viewmodel.ViewModelUser
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_daftar_jual_history.*
+import kotlinx.android.synthetic.main.activity_daftar_jual_history.cardView_productSeller
+import kotlinx.android.synthetic.main.activity_daftar_jual_history.daftarCtgy
+import kotlinx.android.synthetic.main.activity_daftar_jual_history.daftarPengiriman
+import kotlinx.android.synthetic.main.activity_daftar_jual_history.daftar_jualEdit
+import kotlinx.android.synthetic.main.activity_daftar_jual_history.navigation
+import kotlinx.android.synthetic.main.activity_daftar_jual_seller.*
 import kotlinx.coroutines.DelicateCoroutinesApi
 
 @DelicateCoroutinesApi
@@ -32,6 +42,11 @@ class DaftarJualHistory : AppCompatActivity() {
     private lateinit var adapter : AdapterTerjual
     private lateinit var  userManager: UserManager
     private val bottomNavigasi = BottomNavigationView.OnNavigationItemSelectedListener { item ->
+        val sharedPref = getPreferences(Context.MODE_PRIVATE)
+        with (sharedPref.edit()) {
+            putInt("SELECTED_ITEM_ID", item.itemId)
+            apply()
+        }
         when(item.itemId){
             R.id.notifikasi -> {
                 startActivity(Intent(this, NotifikasiBuyerActivity::class.java))
@@ -66,8 +81,15 @@ class DaftarJualHistory : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_daftar_jual_history)
         userManager = UserManager(this)
+        if(!isOnline(this)) {
+            Toast.makeText(applicationContext, "Tidak Ada Koneksi Internet", Toast.LENGTH_SHORT)
+                .show()
+        }
         val botnav = findViewById<BottomNavigationView>(R.id.navigation)
         botnav.setOnNavigationItemSelectedListener(bottomNavigasi)
+        val sharedPref = getPreferences(Context.MODE_PRIVATE)
+        val selectedItemId = sharedPref.getInt("SELECTED_ITEM_ID", R.id.daftar_jual)
+        navigation.selectedItemId = selectedItemId
         initView()
         daftarCtgy.setOnClickListener {
             startActivity(Intent(this, DaftarJualCategory::class.java))
@@ -84,6 +106,23 @@ class DaftarJualHistory : AppCompatActivity() {
 
     }
 
+    private fun isOnline(context: Context): Boolean {
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val capabilities = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+        } else {
+            TODO("VERSION.SDK_INT < M")
+        }
+        if (capabilities != null) {
+            return if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
+                true
+            } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)) {
+                true
+            } else capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)
+        }
+        return false
+    }
     private fun initView(){
         val viewModelDataSeller = ViewModelProvider(this)[ViewModelUser::class.java]
         viewModelDataSeller.getProfile(id = userManager.fetchId()!!.toInt())

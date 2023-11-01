@@ -32,7 +32,11 @@ import com.example.myapplication.viewmodel.ViewModelProductSeller
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_home.*
+import kotlinx.android.synthetic.main.activity_home.default_navigation
+import kotlinx.android.synthetic.main.activity_home.navigation
+import kotlinx.android.synthetic.main.activity_notifikasi_buyer.*
 import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlin.system.exitProcess
 
 @OptIn(DelicateCoroutinesApi::class)
 @Suppress("DEPRECATION")
@@ -44,6 +48,11 @@ class HomeActivity : AppCompatActivity() {
     private var backPressedCounter = 0
 
     private val bottomNavigasi = BottomNavigationView.OnNavigationItemSelectedListener { item ->
+        val sharedPref = getPreferences(Context.MODE_PRIVATE)
+        with (sharedPref.edit()) {
+            putInt("SELECTED_ITEM_ID", item.itemId)
+            apply()
+        }
         when (item.itemId) {
             R.id.notifikasi -> {
                 startActivity(Intent(this, NotifikasiBuyerActivity::class.java))
@@ -98,17 +107,19 @@ class HomeActivity : AppCompatActivity() {
         setContentView(R.layout.activity_home)
         userManager = UserManager(this)
         val booleanvalue = userManager.getBooleanValue()
+        val botnav = findViewById<BottomNavigationView>(R.id.navigation)
+        val botnav2 = findViewById<BottomNavigationView>(R.id.default_navigation)
         if (booleanvalue && userManager.fetchstatus() == "seller") {
-            val botnav = findViewById<BottomNavigationView>(R.id.navigation)
-            val botnav2 = findViewById<BottomNavigationView>(R.id.default_navigation)
             botnav2.isInvisible = true
-            botnav.setOnNavigationItemSelectedListener(bottomNavigasi)
         } else {
-            val botnav = findViewById<BottomNavigationView>(R.id.default_navigation)
-            val botnav2 = findViewById<BottomNavigationView>(R.id.navigation)
-            botnav2.isInvisible = true
-            botnav.setOnNavigationItemSelectedListener(bottomNavigasi)
+            botnav.isInvisible = true
         }
+        val sharedPref = getPreferences(Context.MODE_PRIVATE)
+        val selectedItemId = sharedPref.getInt("SELECTED_ITEM_ID", R.id.home)
+        navigation.selectedItemId = selectedItemId
+        default_navigation.selectedItemId = selectedItemId
+        botnav.setOnNavigationItemSelectedListener(bottomNavigasi)
+        botnav2.setOnNavigationItemSelectedListener(bottomNavigasi)
 
         if (isOnline(this)) {
             search()

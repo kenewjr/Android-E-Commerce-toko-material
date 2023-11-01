@@ -4,8 +4,12 @@ package com.example.myapplication.view.buyer
 
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -45,6 +49,10 @@ class AddProductBuyerActivity : AppCompatActivity() {
         setContentView(R.layout.activity_add_product_buyer)
         userManager = UserManager(this)
         apiClient = ApiClient()
+        if(!isOnline(this)) {
+            Toast.makeText(applicationContext, "Tidak Ada Koneksi Internet", Toast.LENGTH_SHORT)
+                .show()
+        }
         back.setOnClickListener {
             startActivity(Intent(this,HomeActivity::class.java))
         }
@@ -74,6 +82,24 @@ class AddProductBuyerActivity : AppCompatActivity() {
             }
         }
 
+    }
+
+    private fun isOnline(context: Context): Boolean {
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val capabilities = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+        } else {
+            TODO("VERSION.SDK_INT < M")
+        }
+        if (capabilities != null) {
+            return if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
+                true
+            } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)) {
+                true
+            } else capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)
+        }
+        return false
     }
     private fun chatWA(){
         addProductBuyer_btnWA.setOnClickListener {

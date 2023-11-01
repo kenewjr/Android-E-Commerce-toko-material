@@ -4,6 +4,7 @@ package com.example.myapplication.view.buyer
 
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -37,37 +38,43 @@ class NotifikasiBuyerActivity : AppCompatActivity() {
     private lateinit var adapterNotifikasiBuyer: AdapterNotifikasiBuyer
 
     private val bottomNavigasi = BottomNavigationView.OnNavigationItemSelectedListener { item ->
+        val sharedPref = getPreferences(Context.MODE_PRIVATE)
+        with (sharedPref.edit()) {
+            putInt("SELECTED_ITEM_ID", item.itemId)
+            apply()
+        }
         when(item.itemId){
             R.id.notifikasi -> {
                 Toast.makeText(this, "Kamu Sedang Berada Di Notifikasi", Toast.LENGTH_SHORT).show()
-                return@OnNavigationItemSelectedListener false
+                return@OnNavigationItemSelectedListener true
             }
             R.id.history -> {
                 Toast.makeText(this, "Kamu Sedang Berada Di History", Toast.LENGTH_SHORT).show()
-                return@OnNavigationItemSelectedListener false
+                return@OnNavigationItemSelectedListener true
             }
             R.id.home -> {
                 startActivity(Intent(this, HomeActivity::class.java))
-                return@OnNavigationItemSelectedListener true
+                return@OnNavigationItemSelectedListener false
             }
             R.id.jual -> {
                 val booleanvalue = userManager.getBooleanValue()
                 if (booleanvalue){
                     startActivity(Intent(this, LengkapiDetailProductActivity::class.java))
+                    return@OnNavigationItemSelectedListener false
                 } else {
                     Toast.makeText(applicationContext, "Anda Belum Login", Toast.LENGTH_SHORT).show()
                     startActivity(Intent(this, LoginActivity::class.java))
                     finish()
                 }
-                return@OnNavigationItemSelectedListener true
+                return@OnNavigationItemSelectedListener false
             }
             R.id.akun -> {
                 startActivity(Intent(this, AkunsayaActivty::class.java))
-                return@OnNavigationItemSelectedListener true
+                return@OnNavigationItemSelectedListener false
             }
             R.id.daftar_jual -> {
                 startActivity(Intent(this, DaftarJualActivity::class.java))
-                return@OnNavigationItemSelectedListener true
+                return@OnNavigationItemSelectedListener false
             }
         }
         false
@@ -81,19 +88,19 @@ class NotifikasiBuyerActivity : AppCompatActivity() {
         userManager = UserManager(this)
         val booleanvalue = userManager.getBooleanValue()
         if (booleanvalue && userManager.fetchstatus() == "seller") {
-            val botnav = findViewById<BottomNavigationView>(R.id.navigation)
-            val botnav2 = findViewById<BottomNavigationView>(R.id.default_navigation)
-            botnav2.isInvisible = true
-            botnav.setOnNavigationItemSelectedListener(bottomNavigasi)
+            default_navigation.isInvisible = true
             fetchnotifseller()
         } else {
             fetchnotif()
-            val botnav = findViewById<BottomNavigationView>(R.id.default_navigation)
-            val botnav2 = findViewById<BottomNavigationView>(R.id.navigation)
-            botnav2.isInvisible = true
+            navigation.isInvisible = true
             notifikasiBuyer_welcome.text = "History"
-            botnav.setOnNavigationItemSelectedListener(bottomNavigasi)
         }
+        val sharedPref = getPreferences(Context.MODE_PRIVATE)
+        val selectedItemId = sharedPref.getInt("SELECTED_ITEM_ID", R.id.notifikasi)
+        navigation.selectedItemId = selectedItemId
+        default_navigation.selectedItemId = selectedItemId
+        navigation.setOnNavigationItemSelectedListener(bottomNavigasi)
+       default_navigation.setOnNavigationItemSelectedListener(bottomNavigasi)
     }
 
     private fun fetchnotif(){

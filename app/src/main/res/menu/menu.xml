@@ -3,31 +3,31 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:title="home"
+        android:title="Home"
         android:id="@+id/home"
         android:icon="@drawable/ic_home"
         tools:ignore="HardcodedText" />
 
     <item
-        android:title="notifikasi"
+        android:title="Notifikasi"
         android:id="@+id/notifikasi"
         android:icon="@drawable/ic_notifications"
         tools:ignore="HardcodedText" />
 
     <item
-        android:title="jual"
+        android:title="Jual"
         android:id="@+id/jual"
         android:icon="@drawable/ic_add_circle"
         tools:ignore="HardcodedText" />
 
     <item
-        android:title="daftar jual"
+        android:title="Daftar Jual"
         android:id="@+id/daftar_jual"
         android:icon="@drawable/ic_format_list"
         tools:ignore="HardcodedText" />
 
     <item
-        android:title="akun"
+        android:title="Akun"
         android:id="@+id/akun"
         android:icon="@drawable/ic_person_24"
         tools:ignore="HardcodedText" />

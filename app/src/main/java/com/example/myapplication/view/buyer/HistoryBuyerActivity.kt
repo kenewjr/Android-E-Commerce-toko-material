@@ -1,10 +1,10 @@
 package com.example.myapplication.view.buyer
 
 import android.annotation.SuppressLint
-import android.content.ClipData
-import android.content.ClipboardManager
-import android.content.DialogInterface
-import android.content.Intent
+import android.content.*
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -24,7 +24,11 @@ import com.example.myapplication.viewmodel.ViewModelUser
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_history_buyer.*
+import kotlinx.android.synthetic.main.activity_history_buyer.default_navigation
+import kotlinx.android.synthetic.main.activity_history_buyer.navigation
+import kotlinx.android.synthetic.main.activity_notifikasi_buyer.*
 import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlin.system.exitProcess
 
 @Suppress("DEPRECATION")
 @AndroidEntryPoint
@@ -33,6 +37,11 @@ class HistoryBuyerActivity : AppCompatActivity() {
     private var getstatus = ""
     @DelicateCoroutinesApi
     private val bottomNavigasi = BottomNavigationView.OnNavigationItemSelectedListener { item ->
+        val sharedPref = getPreferences(Context.MODE_PRIVATE)
+        with (sharedPref.edit()) {
+            putInt("SELECTED_ITEM_ID", item.itemId)
+            apply()
+        }
         when(item.itemId){
             R.id.notifikasi -> {
                 Toast.makeText(this, "Kamu Sedang Berada Di Notifikasi", Toast.LENGTH_SHORT).show()
@@ -75,8 +84,16 @@ class HistoryBuyerActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_history_buyer)
         userManager = UserManager(this)
+        if(!isOnline(this)) {
+            Toast.makeText(applicationContext, "Tidak Ada Koneksi Internet", Toast.LENGTH_SHORT)
+                .show()
+        }
         fetchnotif()
         val booleanvalue = userManager.getBooleanValue()
+        val sharedPref = getPreferences(Context.MODE_PRIVATE)
+        val selectedItemId = sharedPref.getInt("SELECTED_ITEM_ID", R.id.history)
+        navigation.selectedItemId = selectedItemId
+        default_navigation.selectedItemId = selectedItemId
         if (booleanvalue && userManager.fetchstatus() == "seller") {
             val botnav = findViewById<BottomNavigationView>(R.id.navigation)
             val botnav2 = findViewById<BottomNavigationView>(R.id.default_navigation)
@@ -137,6 +154,23 @@ class HistoryBuyerActivity : AppCompatActivity() {
         }
     }
 
+    private fun isOnline(context: Context): Boolean {
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val capabilities = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+        } else {
+            TODO("VERSION.SDK_INT < M")
+        }
+        if (capabilities != null) {
+            return if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
+                true
+            } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)) {
+                true
+            } else capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)
+        }
+        return false
+    }
     private fun btnSelesai(){
         btn_selesai.setOnClickListener {
             val dataProduct = intent.extras!!.getSerializable("detailorder") as GetHistoryItem?
