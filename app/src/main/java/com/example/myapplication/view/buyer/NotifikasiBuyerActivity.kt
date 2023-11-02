@@ -48,27 +48,27 @@ class NotifikasiBuyerActivity : AppCompatActivity() {
             }
             R.id.home -> {
                 startActivity(Intent(this, HomeActivity::class.java))
-                return@OnNavigationItemSelectedListener false
+                return@OnNavigationItemSelectedListener true
             }
             R.id.jual -> {
                 val booleanvalue = userManager.getBooleanValue()
                 if (booleanvalue){
                     startActivity(Intent(this, LengkapiDetailProductActivity::class.java))
-                    return@OnNavigationItemSelectedListener false
+                    return@OnNavigationItemSelectedListener true
                 } else {
                     Toast.makeText(applicationContext, "Anda Belum Login", Toast.LENGTH_SHORT).show()
                     startActivity(Intent(this, LoginActivity::class.java))
                     finish()
                 }
-                return@OnNavigationItemSelectedListener false
+                return@OnNavigationItemSelectedListener true
             }
             R.id.akun -> {
                 startActivity(Intent(this, AkunsayaActivty::class.java))
-                return@OnNavigationItemSelectedListener false
+                return@OnNavigationItemSelectedListener true
             }
             R.id.daftar_jual -> {
                 startActivity(Intent(this, DaftarJualActivity::class.java))
-                return@OnNavigationItemSelectedListener false
+                return@OnNavigationItemSelectedListener true
             }
         }
         false
@@ -90,7 +90,7 @@ class NotifikasiBuyerActivity : AppCompatActivity() {
             notifikasiBuyer_welcome.text = "History"
         }
         navigation.selectedItemId = R.id.notifikasi
-        default_navigation.selectedItemId = R.id.notifikasi
+        default_navigation.selectedItemId = R.id.history
         navigation.setOnNavigationItemSelectedListener(bottomNavigasi)
        default_navigation.setOnNavigationItemSelectedListener(bottomNavigasi)
     }
