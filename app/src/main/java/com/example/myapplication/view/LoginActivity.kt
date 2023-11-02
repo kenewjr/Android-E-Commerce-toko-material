@@ -34,7 +34,8 @@ class LoginActivity : AppCompatActivity() {
             finish()
         }
         imageBack.setOnClickListener {
-           finish()
+            startActivity(Intent(this, HomeActivity::class.java))
+            finish()
         }
         tv_lupaPassword.setOnClickListener {
             val message = "Mohon Bantuan Nya Mas Saya Lupa Akun Password saya"
