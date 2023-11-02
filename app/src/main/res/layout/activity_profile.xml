@@ -48,7 +48,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/profile_etnama"
         android:layout_width="match_parent"
-        android:layout_height="55dp"
+        android:layout_height="80dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="20dp"
@@ -60,7 +60,7 @@
         <EditText
             android:id="@+id/etNama_profile"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="60dp"
             android:background="@drawable/custom_drawable"
             android:hint="Nama Lengkap"
             android:inputType="text"
@@ -122,7 +122,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayout4"
         android:layout_width="match_parent"
-        android:layout_height="55dp"
+        android:layout_height="80dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="20dp"
@@ -134,7 +134,7 @@
         <EditText
             android:id="@+id/etNohp_profile"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="60dp"
             android:background="@drawable/custom_drawable"
             android:hint="No Handphone"
             android:inputType="phone"
@@ -152,6 +152,7 @@
         android:background="@drawable/login_btn_bg"
         android:text="simpan"
         android:textSize="16sp"
+        android:textColor="@color/text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

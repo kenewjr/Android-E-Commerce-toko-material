@@ -1,4 +1,4 @@
-@file:Suppress("LocalVariableName")
+@file:Suppress("LocalVariableName", "MemberVisibilityCanBePrivate", "MemberVisibilityCanBePrivate")
 
 package com.example.myapplication.payment
 

@@ -36,7 +36,7 @@ import kotlinx.android.synthetic.main.activity_notifikasi_buyer.*
 import kotlinx.coroutines.DelicateCoroutinesApi
 
 @OptIn(DelicateCoroutinesApi::class)
-@Suppress("DEPRECATION")
+@Suppress("DEPRECATION", "RedundantLambdaArrow", "RedundantLambdaArrow")
 @AndroidEntryPoint
 class HomeActivity : AppCompatActivity() {
     private lateinit var userManager: UserManager

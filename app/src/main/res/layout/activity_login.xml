@@ -51,7 +51,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/login_email"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="60dp"
                 android:background="@drawable/custom_drawable"
                 android:drawableStart="@drawable/ic_email"
                 android:drawablePadding="6dp"
@@ -78,7 +78,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/login_pass"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="60dp"
                 android:background="@drawable/custom_drawable"
                 android:drawableStart="@drawable/ic_lock"
                 android:drawablePadding="6dp"

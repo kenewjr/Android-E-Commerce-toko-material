@@ -1,3 +1,5 @@
+@file:Suppress("EmptyMethod", "EmptyMethod")
+
 package com.example.myapplication.viewmodel
 
 

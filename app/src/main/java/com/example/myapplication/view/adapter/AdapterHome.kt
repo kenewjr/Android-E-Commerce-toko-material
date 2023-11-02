@@ -1,4 +1,4 @@
-@file:Suppress("UselessCallOnNotNull", "UselessCallOnNotNull")
+@file:Suppress("UselessCallOnNotNull", "UselessCallOnNotNull", "unused")
 
 package com.example.myapplication.view.adapter
 
@@ -16,6 +16,19 @@ import com.example.myapplication.model.GetAllProdukItem
 import kotlinx.android.synthetic.main.item_product_home.view.*
 
 
+@Suppress("unused", "unused", "unused", "unused", "unused", "unused", "unused", "unused", "unused",
+    "unused", "unused", "unused", "unused", "unused", "unused", "unused", "unused", "unused",
+    "unused", "unused", "unused", "unused", "unused", "unused", "unused", "unused", "unused",
+    "unused", "unused", "unused", "unused", "unused", "unused", "unused", "unused", "unused",
+    "unused", "unused", "unused", "unused", "unused", "unused", "unused", "unused", "unused",
+    "unused", "unused", "unused", "unused", "unused", "unused", "unused", "unused", "unused",
+    "unused", "unused", "unused", "unused", "unused", "unused", "unused", "unused", "unused",
+    "unused", "unused", "unused", "unused", "unused", "unused", "unused", "unused", "unused",
+    "unused", "unused", "unused", "unused", "unused", "unused", "unused", "unused", "unused",
+    "unused", "unused", "unused", "unused", "unused", "unused", "unused", "unused", "unused",
+    "unused", "unused", "unused", "unused", "unused", "unused", "unused", "unused", "unused",
+    "unused", "unused", "unused", "unused"
+)
 class AdapterHome(private var onClick : (GetAllProdukItem)->Unit):RecyclerView.Adapter<AdapterHome.ViewHolder>() {
     class ViewHolder(itemView : View):RecyclerView.ViewHolder(itemView)
     private var dataProduk : List<GetAllProdukItem>? = null

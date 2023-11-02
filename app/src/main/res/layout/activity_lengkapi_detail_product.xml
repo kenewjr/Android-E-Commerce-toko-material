@@ -61,7 +61,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputnamaproduct"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="80dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginEnd="20dp"
@@ -73,7 +73,7 @@
                 <EditText
                     android:id="@+id/edt_namaprodut"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="60dp"
                     android:background="@drawable/custom_drawable"
                     android:hint="Nama Product"
                     android:inputType="text"
@@ -98,7 +98,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputhargaproduct"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="80dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginEnd="20dp"
@@ -110,7 +110,7 @@
                 <EditText
                     android:id="@+id/edt_hargaproduct"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="60dp"
                     android:background="@drawable/custom_drawable"
                     android:hint="Harga Product"
                     android:inputType="numberDecimal"
@@ -135,7 +135,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputberatproduk"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="80dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginEnd="20dp"
@@ -147,7 +147,7 @@
                 <EditText
                     android:id="@+id/edt_beratproduk"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="60dp"
                     android:background="@drawable/custom_drawable"
                     android:hint="Berat Product"
                     android:inputType="numberDecimal"
@@ -185,6 +185,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:contentDescription="@string/select_category"
+                    android:background="@drawable/custom_drawable"
                     android:labelFor="@id/textselectkategori"
                     android:spinnerMode="dropdown"
                     tools:ignore="SpeakableTextPresentCheck" />
@@ -245,7 +246,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/lokasi"
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="80dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginEnd="20dp"
@@ -257,7 +258,7 @@
                 <EditText
                     android:id="@+id/edt_lokasi"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="60dp"
                     android:background="@drawable/custom_drawable"
                     android:hint="Stok"
                     android:inputType="number"
@@ -330,6 +331,7 @@
                 android:background="@drawable/login_btn_bg"
                 android:text="Terbitkan"
                 android:textSize="16sp"
+                android:textColor="@android:color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/inputfoto"
                 app:layout_constraintVertical_bias="0.854"
