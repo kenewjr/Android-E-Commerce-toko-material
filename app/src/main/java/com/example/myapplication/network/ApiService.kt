@@ -3,6 +3,7 @@
 package com.example.myapplication.network
 
 import com.example.myapplication.model.*
+import com.example.myapplication.model.history.GetRequired
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
@@ -25,6 +26,8 @@ interface ApiService {
         @Field("nama")nama : String,
         @Field("nohp")nohp : String,
         @Field("alamat")alamat : String,
+        @Field("kota")kota : String,
+        @Field("kodepos")kodepos : String,
         @Field("email")email: String
     ): Call<PostRegisterUser>
 
@@ -35,7 +38,7 @@ interface ApiService {
         @Field("password")password : String
     ): Call<PostRegisterUser>
 
-    @GET("get_userid.php")
+    @GET("get_userid")
     fun profileuser(
         @Query("user_id")id : Int
     ): Call<DataUser>
@@ -46,7 +49,10 @@ interface ApiService {
         @Field("username")username : String,
         @Field("nama")nama : String,
         @Field("nohp")nohp : String,
-        @Field("alamat")alamat : String
+        @Field("alamat")alamat : String,
+        @Field("kota")kota : String,
+        @Field("kodepos")kodepos : String,
+        @Field("email")email : String
     ):Call<DataUser>
 
     @FormUrlEncoded
@@ -214,5 +220,9 @@ interface ApiService {
         @Field("status")status:String
     ):Call<Response>
 
-
+    @GET("required_history")
+    fun getRequiredHistory(
+        @Query("id")id:Int,
+        @Query("ORDER_ID")orderId:String
+    ):Call<GetRequired>
 }

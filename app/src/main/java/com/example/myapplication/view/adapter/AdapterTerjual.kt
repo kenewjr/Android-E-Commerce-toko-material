@@ -29,6 +29,9 @@ class AdapterTerjual(private  var onClick :(GetHistoryItem)->Unit) : RecyclerVie
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.itemView.cvSellerHistory.setOnClickListener {
+            onClick(dataOrder!![position])
+        }
         holder.itemView.tvJudul_product_seller.text = "Nama Produk : ${dataOrder!![position].nama_produk}"
         holder.itemView.tvKategori_product_seller.text = "Jumlah Produk : ${dataOrder!![position].jumlah_produk}"
         holder.itemView.tvHarga_product_seller.text = "Harga : Rp. ${dataOrder!![position].total_harga}"

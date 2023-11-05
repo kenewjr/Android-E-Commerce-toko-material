@@ -4,6 +4,8 @@ package com.example.myapplication.view
 
 import android.annotation.SuppressLint
 import android.app.DownloadManager
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -12,15 +14,22 @@ import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import android.net.Uri
 import android.os.*
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.NotificationCompat
 import androidx.core.content.FileProvider
 import androidx.core.view.isVisible
+import androidx.lifecycle.ViewModelProvider
 import com.example.myapplication.BuildConfig
 import com.example.myapplication.R
 import com.example.myapplication.datastore.UserManager
+import com.example.myapplication.model.GetHistoryItem
+import com.example.myapplication.network.ApiClient
+import com.example.myapplication.viewmodel.ViewModelProductSeller
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.activity_notifikasi_buyer.*
 import kotlinx.android.synthetic.main.activity_splash.*
 import okhttp3.*
 import org.json.JSONArray
@@ -35,6 +44,7 @@ import kotlin.system.exitProcess
 class SplashActivity : AppCompatActivity() {
     private lateinit var userManager: UserManager
     var latest :String = ""
+    private lateinit var apiClient: ApiClient
     // Mendefinisikan broadcast receiver untuk menangani penyelesaian unduhan
     private val downloadReceiver = object : BroadcastReceiver() {
         @SuppressLint("Range")
@@ -68,12 +78,14 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
         userManager = UserManager(this)
+        apiClient = ApiClient()
         val cm = application.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val activeNetwork: NetworkInfo? = cm.activeNetworkInfo
         val isConnected: Boolean = activeNetwork?.isConnected == true
         if (isConnected){
             runOnUiThread {
                 checkForUpdate()
+                notif()
         }
         }else{
             Toast.makeText(applicationContext, "Tidak Ada Koneksi Internet", Toast.LENGTH_SHORT)
@@ -102,6 +114,45 @@ class SplashActivity : AppCompatActivity() {
 
         // Memulai pengunduhan
         downloadManager.enqueue(request)
+    }
+
+    private fun notif() {
+        Log.e("notif",userManager.fetchstatus().toString())
+        if (userManager.fetchstatus() == "seller") {
+            val viewModelProductSeller = ViewModelProvider(this)[ViewModelProductSeller::class.java]
+            viewModelProductSeller.getHistory()
+            viewModelProductSeller.datahistory.observe(this) {
+                if (it.isNotEmpty()) {
+                    val statusLunasItems = it.filter { item -> item.status == "Lunas" }
+                    val namaProduk = statusLunasItems.map { it.nama_produk }
+                    if (statusLunasItems.isNotEmpty()) {
+                        Log.e("seller","uwu")
+                        showNotification(this, "Ada Pesanan", "Segera Selesaikan Pesanan $namaProduk")
+                    }
+                }
+            }
+        }else {
+            apiClient.getApiService().getHistoryUserID(userManager.fetchId()!!.toInt())
+                .enqueue(object : retrofit2.Callback<List<GetHistoryItem>> {
+                    override fun onResponse(
+                        call: retrofit2.Call<List<GetHistoryItem>>,
+                        response: retrofit2.Response<List<GetHistoryItem>>
+                    ) {
+                        if (response.isSuccessful) {
+                            Log.e("buyer","uwu2")
+                            val status = response.body()!!
+                            val statusPending = status.filter { items -> items.status == "pending" }
+                            val namaProduk = statusPending.map { it.nama_produk }
+                            if (statusPending.isNotEmpty()) {
+                                showNotification(this@SplashActivity, "Selesaikan Pembayaran", "Segera Selesaikan Pembayaran $namaProduk.")
+                            }
+                        }
+                    }
+                    override fun onFailure(call: retrofit2.Call<List<GetHistoryItem>>, t: Throwable) {
+                        Log.e("error",t.message.toString())
+                    }
+                })
+        }
     }
     private fun installApp(uriString: String) {
         val uri = Uri.parse(uriString)
@@ -176,6 +227,23 @@ class SplashActivity : AppCompatActivity() {
         })
     }
 
+    fun showNotification(context: Context, title: String, message: String) {
+        val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel = NotificationChannel("channel_id", "Channel Name", NotificationManager.IMPORTANCE_DEFAULT)
+            notificationManager.createNotificationChannel(channel)
+        }
+
+        val notificationBuilder = NotificationCompat.Builder(context, "channel_id")
+            .setSmallIcon(R.drawable.ic_notifications)
+            .setContentTitle(title)
+            .setContentText(message)
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setAutoCancel(true)
+
+        val notificationId = 1 // Set ID notifikasi sesuai kebutuhan Anda
+        notificationManager.notify(notificationId, notificationBuilder.build())
+    }
     private fun exitApp() {
         finish() // This closes the current activity
         exitProcess(0) // This forcefully terminates the app (use with caution)

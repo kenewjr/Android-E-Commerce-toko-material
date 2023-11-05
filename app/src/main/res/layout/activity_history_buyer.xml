@@ -157,7 +157,7 @@
                 android:textColor="@color/black"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                android:text="Info Pengiriman"
+                android:text="Info Penerima"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="30dp"
                 android:layout_below="@id/cardHistory"
@@ -194,6 +194,28 @@
                         tools:ignore="HardcodedText" />
 
                     <TextView
+                        android:id="@+id/historyBuyer_namaPenerima"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="nama penerima"
+                        android:textColor="@color/black"
+                        android:textSize="20sp"
+                        android:textStyle="normal"
+                        tools:ignore="HardcodedText,RtlHardcoded" />
+
+                    <TextView
+                        android:id="@+id/historyBuyer_nohp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="no hp"
+                        android:textColor="@color/black"
+                        android:textSize="20sp"
+                        android:textStyle="normal"
+                        tools:ignore="HardcodedText,RtlHardcoded" />
+
+                    <TextView
                         android:id="@+id/historyBuyer_alamat"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -203,6 +225,8 @@
                         android:textSize="20sp"
                         android:textStyle="normal"
                         tools:ignore="HardcodedText,RtlHardcoded" />
+
+
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 

@@ -12,23 +12,154 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:layout_marginStart="10sp"
+        android:layout_margin="10dp"
         android:text="Notifikasi"
         android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="bold"
         tools:ignore="HardcodedText" />
 
+    <HorizontalScrollView
+        android:id="@+id/scroolviewe"
+        android:scrollbars="none"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/notifikasiBuyer_welcome">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10sp"
+            android:orientation="horizontal"
+            tools:ignore="RtlHardcoded,ScrollViewSize">
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/daftarPending"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:backgroundTint="@color/darker"
+                app:cardCornerRadius="8sp">
+                <TextView
+                    android:id="@+id/tvPnding"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:gravity="center"
+                    android:text="Pending"
+                    android:textStyle="bold"
+                    android:textColor="@color/text"
+                    android:textSize="20sp"
+                    tools:ignore="HardcodedText,MissingConstraints" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/daftarLunas"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:backgroundTint="@color/darker"
+                app:cardCornerRadius="8sp">
+                <TextView
+                    android:id="@+id/tvLunas"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:gravity="center"
+                    android:text="Lunas"
+                    android:textStyle="bold"
+                    android:textColor="@color/text"
+                    android:textSize="20sp"
+                    tools:ignore="HardcodedText,MissingConstraints" />
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/daftarTerkirim"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:backgroundTint="@color/darker"
+                app:cardCornerRadius="8sp">
+
+                <TextView
+                    android:id="@+id/tvTerkirim"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:gravity="center"
+                    android:text="Terkirim"
+                    android:textStyle="bold"
+                    android:textColor="@color/text"
+                    android:textSize="20sp"
+                    tools:ignore="HardcodedText,MissingConstraints" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/daftarDibatalkan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:backgroundTint="@color/darker"
+                app:cardCornerRadius="8sp">
+                <TextView
+                    android:id="@+id/tvBatal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:gravity="center"
+                    android:text="Dibatalkan"
+                    android:textStyle="bold"
+                    android:textColor="@color/text"
+                    android:textSize="20sp"
+                    tools:ignore="HardcodedText,MissingConstraints" />
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/daftarSelesai"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:backgroundTint="@color/darker"
+                app:cardCornerRadius="8sp">
+                <TextView
+                    android:id="@+id/tvSlesai"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:gravity="center"
+                    android:text="Selesai"
+                    android:textStyle="bold"
+                    android:textColor="@color/text"
+                    android:textSize="20sp"
+                    tools:ignore="HardcodedText,MissingConstraints" />
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+    </HorizontalScrollView>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_notifikasiBuyer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/navigation"
-        android:layout_below="@id/notifikasiBuyer_welcome"
+        android:layout_below="@id/scroolviewe"
         android:layout_marginStart="10dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="15dp" />
+
+    <TextView
+        android:id="@+id/tvKosong"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="Kosong"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:visibility="invisible"
+        tools:ignore="HardcodedText" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/default_navigation"

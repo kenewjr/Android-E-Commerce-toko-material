@@ -39,11 +39,11 @@ class HistoryBuyerActivity : AppCompatActivity() {
         when(item.itemId){
             R.id.notifikasi -> {
                 Toast.makeText(this, "Kamu Sedang Berada Di Notifikasi", Toast.LENGTH_SHORT).show()
-                return@OnNavigationItemSelectedListener false
+                return@OnNavigationItemSelectedListener true
             }
             R.id.history -> {
                 Toast.makeText(this, "Kamu Sedang Berada Di History", Toast.LENGTH_SHORT).show()
-                return@OnNavigationItemSelectedListener false
+                return@OnNavigationItemSelectedListener true
             }
             R.id.home -> {
                 startActivity(Intent(this, HomeActivity::class.java))
@@ -53,6 +53,7 @@ class HistoryBuyerActivity : AppCompatActivity() {
                 val booleanvalue = userManager.getBooleanValue()
                 if (booleanvalue){
                     startActivity(Intent(this, LengkapiDetailProductActivity::class.java))
+                    return@OnNavigationItemSelectedListener true
                 } else {
                     Toast.makeText(applicationContext, "Anda Belum Login", Toast.LENGTH_SHORT).show()
                     startActivity(Intent(this, LoginActivity::class.java))
@@ -62,7 +63,7 @@ class HistoryBuyerActivity : AppCompatActivity() {
             }
             R.id.akun -> {
                 startActivity(Intent(this, AkunsayaActivty::class.java))
-                return@OnNavigationItemSelectedListener false
+                return@OnNavigationItemSelectedListener true
             }
             R.id.daftar_jual -> {
                 startActivity(Intent(this, DaftarJualActivity::class.java))
@@ -84,7 +85,7 @@ class HistoryBuyerActivity : AppCompatActivity() {
         }
         fetchnotif()
         val booleanvalue = userManager.getBooleanValue()
-        navigation.selectedItemId = R.id.history
+        navigation.selectedItemId = R.id.notifikasi
         default_navigation.selectedItemId = R.id.history
         if (booleanvalue && userManager.fetchstatus() == "seller") {
             val botnav = findViewById<BottomNavigationView>(R.id.navigation)
@@ -92,7 +93,7 @@ class HistoryBuyerActivity : AppCompatActivity() {
             botnav2.isInvisible = true
             botnav.setOnNavigationItemSelectedListener(bottomNavigasi)
             btn_batal.isInvisible = true
-            if(getstatus == "Terkirim"){
+            if(getstatus == "Terkirim" || getstatus == "Selesai"||getstatus == "Pending" ||getstatus == "Dibatalkan"){
                 btn_selesai.isInvisible = true
             }else {
                 btn_selesai.text = "Kirim Pesanan"
@@ -108,7 +109,7 @@ class HistoryBuyerActivity : AppCompatActivity() {
             }else {
                 btn_selesai.text = "Pesanan Selesai"
             }
-            if(getstatus == "Dibatalkan"){
+            if(getstatus == "Dibatalkan" || getstatus == "Selesai"){
                 btn_selesai.isInvisible = true
                 btn_batal.isInvisible = true
             }
@@ -191,11 +192,17 @@ class HistoryBuyerActivity : AppCompatActivity() {
     @SuppressLint("SetTextI18n")
     private fun fetchnotif(){
         val dataProduct = intent.extras!!.getSerializable("detailorder") as GetHistoryItem?
-        with(dataProduct!!){
+        val viewModelDataSeller = ViewModelProvider(this)[ViewModelUser::class.java]
+        viewModelDataSeller.getProfile(id = dataProduct!!.id_user.toInt())
+        viewModelDataSeller.profileData.observe(this) {
+            historyBuyer_nohp.text = "No Hp Penerima : ${it.nohp}"
+        }
+        with(dataProduct){
             tv_norek.setOnClickListener {
                 copyTextToClipboard(tujuan_rekening)
             }
             getstatus = status
+
             tv_status.text = "Status : $status"
             tv_orderid.text = "Order Id : $order_id"
             tv_tanggal.text = "Tanggal Transaksi : $tgl_transaksi"
@@ -205,16 +212,14 @@ class HistoryBuyerActivity : AppCompatActivity() {
                 .load(gambar)
                 .override(80, 80)
                 .into(gambarProdukBuyer)
-            historyBuyer_harga.text = "Harga Produk : $harga_produk"
+            historyBuyer_harga.text = "Harga Produk : Rp.$harga_produk"
             historyBuyer_namaProduk.text = "Nama Produk : $nama_produk"
             historyBuyer_order.text = "Order Id : $order_id"
             historyBuyer_alamat.text = "Alamat Pengiriman : $alamat"
-            historyBuyer_totalongkos.text = "Harga Ongkir : $ongkos"
+            historyBuyer_totalongkos.text = "Harga Ongkir : Rp.$ongkos"
             historyBuyer_jumlahbrg.text = "Jumlah Produk : $jumlah_produk"
-            historyBuyer_ttlbelanja.text = "Total Harga :$total_harga"
-            if (status == "Terkirim"){
-                btn_batal.isInvisible = true
-            }
+            historyBuyer_ttlbelanja.text = "Total Harga : Rp.$total_harga"
+            historyBuyer_namaPenerima.text = "Nama Penerima : $nama_pembeli"
         }
     }
 }

@@ -71,7 +71,7 @@ class LengkapiDetailProductActivity : AppCompatActivity() {
         }
 
     }
-    fun doubleCheck(){
+    fun doubleCheck(): Boolean {
         val namaProduk = edt_namaprodut.text.toString()
         val harga = edt_hargaproduct.text.toString()
         val berat = edt_beratproduk.text.toString()
@@ -80,30 +80,39 @@ class LengkapiDetailProductActivity : AppCompatActivity() {
 
         if (namaProduk.isEmpty()){
             Toast.makeText(this, "NamaProduk harus diisi", Toast.LENGTH_SHORT).show()
+            return false
         }else if(harga.isEmpty()){
             Toast.makeText(this, "Harga harus diisi", Toast.LENGTH_SHORT).show()
+            return false
         }else if(berat.isEmpty()){
             Toast.makeText(this, "Berat harus diisi", Toast.LENGTH_SHORT).show()
+            return false
         }else if(deskripsi.isEmpty()){
             Toast.makeText(this, "Deskripsi harus diisi", Toast.LENGTH_SHORT).show()
+            return false
         }else if(stok.isEmpty()){
             Toast.makeText(this, "Stok harus diisi", Toast.LENGTH_SHORT).show()
+            return false
         }else if(encodeImageString.isEmpty()){
             Toast.makeText(this, "Gambar harus diisi", Toast.LENGTH_SHORT).show()
+            return false
+        }else{
+            return true
         }
     }
 
     fun jualbarang(){
-        doubleCheck()
-        var categoryProduct : String = selectedCategory.id.toString()
-        val namaProdcut : String = edt_namaprodut.text.toString()
-        val hargaProduct : String = edt_hargaproduct.text.toString()
-        val beratProduk : String = edt_beratproduk.text.toString()
-        val stok: String = edt_lokasi.text.toString()
-        val desc : String = edt_deskripsi.text.toString()
-        val viewModelDataSeller = ViewModelProvider(this)[ViewModelProductSeller::class.java]
-        viewModelDataSeller.jualproduct(namaProdcut,desc,hargaProduct,beratProduk,categoryProduct,stok,encodeImageString)
-        startActivity(Intent(applicationContext, HomeActivity::class.java))
+        if(doubleCheck()){
+            var categoryProduct : String = selectedCategory.id.toString()
+            val namaProdcut : String = edt_namaprodut.text.toString()
+            val hargaProduct : String = edt_hargaproduct.text.toString()
+            val beratProduk : String = edt_beratproduk.text.toString()
+            val stok: String = edt_lokasi.text.toString()
+            val desc : String = edt_deskripsi.text.toString()
+            val viewModelDataSeller = ViewModelProvider(this)[ViewModelProductSeller::class.java]
+            viewModelDataSeller.jualproduct(namaProdcut,desc,hargaProduct,beratProduk,categoryProduct,stok,encodeImageString)
+            startActivity(Intent(applicationContext, HomeActivity::class.java))
+        }
     }
 
 

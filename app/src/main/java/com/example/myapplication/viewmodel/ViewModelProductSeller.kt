@@ -10,6 +10,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.myapplication.model.*
+import com.example.myapplication.model.history.GetRequired
 import com.example.myapplication.network.ApiService
 import com.example.myapplication.repository.ProductRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -28,10 +29,11 @@ class ViewModelProductSeller @Inject constructor(private var productRepository: 
 
     private val livedataJualProduct = MutableLiveData<PostSellerProduct>()
 
-    private val livedatabuyerorder = MutableLiveData<GetHistoryItem>()
-
     private val livedatahistory = MutableLiveData<List<GetHistoryItem>>()
     val datahistory : LiveData<List<GetHistoryItem>> = livedatahistory
+
+    private val livedataRequire = MutableLiveData<GetRequired>()
+    val dataRequried : LiveData<GetRequired> = livedataRequire
 
     private val deleteProduct = MutableLiveData<com.example.myapplication.model.Response>()
 
@@ -304,41 +306,6 @@ class ViewModelProductSeller @Inject constructor(private var productRepository: 
             }
         })
     }
-    fun tambahHistory(
-        idUser : Int,
-        idProduk : Int,
-        order_id : String,
-        namaUser : String,
-        alamat : String,
-        tglTransaksi : String,
-        namaProduk : String,
-        hargaProduk : String,
-        totalHarga : String,
-        jumlahProduk : String,
-        gambar : String,
-        ongkos : String,
-        rekening : String,
-        namarek : String
-    ){
-        apiServices.tambahHistory(idUser,idProduk,order_id,namaUser,alamat,tglTransaksi,namaProduk,hargaProduk,totalHarga,jumlahProduk,gambar,ongkos,rekening,namarek)
-            .enqueue(object : Callback<GetHistoryItem>{
-                override fun onResponse(
-                    call: Call<GetHistoryItem>,
-                    response: Response<GetHistoryItem>
-                ) {
-                    if (response.isSuccessful){
-                        livedatabuyerorder.value = response.body()
-                    }else {
-                        Log.e("respone",response.message())
-                    }
-                }
-
-                override fun onFailure(call: Call<GetHistoryItem>, t: Throwable) {
-                    Log.e("respone",t.message.toString())
-                }
-            })
-
-    }
 
     fun getHistory()
     {
@@ -379,5 +346,19 @@ class ViewModelProductSeller @Inject constructor(private var productRepository: 
                     //
                 }
             })
+    }
+
+    fun getRequiredHistory(id: Int, OrderID:String){
+        apiServices.getRequiredHistory(id, OrderID).enqueue(object : Callback<GetRequired>{
+            override fun onResponse(call: Call<GetRequired>, response: Response<GetRequired>) {
+                if (response.isSuccessful){
+                    livedataRequire.value = response.body()
+                }
+            }
+
+            override fun onFailure(call: Call<GetRequired>, t: Throwable) {
+                //
+            }
+        })
     }
 }

@@ -9,11 +9,11 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.widget.SearchView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isInvisible
+import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -29,10 +29,11 @@ import com.example.myapplication.viewmodel.ViewModelHome
 import com.example.myapplication.viewmodel.ViewModelProductSeller
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.activity_daftar_jual_history.*
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.activity_home.default_navigation
+import kotlinx.android.synthetic.main.activity_home.kalaukosongHistory
 import kotlinx.android.synthetic.main.activity_home.navigation
-import kotlinx.android.synthetic.main.activity_notifikasi_buyer.*
 import kotlinx.coroutines.DelicateCoroutinesApi
 
 @OptIn(DelicateCoroutinesApi::class)
@@ -131,15 +132,10 @@ class HomeActivity : AppCompatActivity() {
                 if (it != null) {
                     adapterHome.setProduk(it)
                     adapterHome.notifyDataSetChanged()
+                    kalaukosongHistory.isInvisible = true
                 } else {
-                    // Handle network error or other issues here.
-                    Log.e("HomeActivity", "Error fetching category data")
-                    Toast.makeText(
-                        this@HomeActivity,
-                        "Terjadi kesalahan saat mencari kategori",
-                        Toast.LENGTH_SHORT
-                    ).show()
-
+                    adapterHome.clearProduk()
+                    kalaukosongHistory.isVisible = true
                 }
             }
         }
@@ -160,6 +156,9 @@ class HomeActivity : AppCompatActivity() {
             if (it != null) {
                 adapterHomeCategory.setDataCategory(it)
                 adapterHomeCategory.notifyDataSetChanged()
+                kalaukosongHistory.isInvisible = true
+            }else{
+                kalaukosongHistory.isVisible = true
             }
         }
     }
@@ -181,13 +180,10 @@ class HomeActivity : AppCompatActivity() {
             if (it != null) {
                     adapterHome.setProduk(it)
                     adapterHome.notifyDataSetChanged()
+                kalaukosongHistory.isInvisible = true
             } else {
-                // Handle network error or other issues here.
-                Toast.makeText(
-                    this,
-                    "Barang Kosong",
-                    Toast.LENGTH_SHORT
-                ).show()
+                adapterHome.clearProduk()
+                kalaukosongHistory.isVisible = true
             }
         }
     }
@@ -231,13 +227,10 @@ class HomeActivity : AppCompatActivity() {
                 if (it != null) {
                     adapterHome.setProduk(it)
                     adapterHome.notifyDataSetChanged()
+                    kalaukosongHistory.isInvisible = true
                 } else {
-                    // Handle network error or other issues here.
-                    Toast.makeText(
-                        this,
-                        "Produk Yang Anda Cari Tidak Di Temukan",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    adapterHome.clearProduk()
+                    kalaukosongHistory.isVisible = true
                 }
                 adapterHome = AdapterHome {
                     val pindahdata = Intent(applicationContext, AddProductBuyerActivity::class.java)

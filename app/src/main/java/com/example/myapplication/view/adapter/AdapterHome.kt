@@ -16,25 +16,19 @@ import com.example.myapplication.model.GetAllProdukItem
 import kotlinx.android.synthetic.main.item_product_home.view.*
 
 
-@Suppress("unused", "unused", "unused", "unused", "unused", "unused", "unused", "unused", "unused",
-    "unused", "unused", "unused", "unused", "unused", "unused", "unused", "unused", "unused",
-    "unused", "unused", "unused", "unused", "unused", "unused", "unused", "unused", "unused",
-    "unused", "unused", "unused", "unused", "unused", "unused", "unused", "unused", "unused",
-    "unused", "unused", "unused", "unused", "unused", "unused", "unused", "unused", "unused",
-    "unused", "unused", "unused", "unused", "unused", "unused", "unused", "unused", "unused",
-    "unused", "unused", "unused", "unused", "unused", "unused", "unused", "unused", "unused",
-    "unused", "unused", "unused", "unused", "unused", "unused", "unused", "unused", "unused",
-    "unused", "unused", "unused", "unused", "unused", "unused", "unused", "unused", "unused",
-    "unused", "unused", "unused", "unused", "unused", "unused", "unused", "unused", "unused",
-    "unused", "unused", "unused", "unused", "unused", "unused", "unused", "unused", "unused",
-    "unused", "unused", "unused", "unused"
-)
+@Suppress("unused")
 class AdapterHome(private var onClick : (GetAllProdukItem)->Unit):RecyclerView.Adapter<AdapterHome.ViewHolder>() {
     class ViewHolder(itemView : View):RecyclerView.ViewHolder(itemView)
     private var dataProduk : List<GetAllProdukItem>? = null
 
     fun setProduk(produk : List<GetAllProdukItem>){
         this.dataProduk = produk
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun clearProduk() {
+        dataProduk = null
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -68,6 +62,7 @@ class AdapterHome(private var onClick : (GetAllProdukItem)->Unit):RecyclerView.A
         holder.itemView.tvKategori_product.text = dataProduk!![position].kategori
         holder.itemView.tvHarga_product.text = dataProduk!![position].harga
     }
+
 
     override fun getItemCount(): Int {
         return if (dataProduk == null){

@@ -39,11 +39,12 @@ class RegisterActivity : AppCompatActivity() {
             val password : String = etPassword_register.text.toString()
             val phone : String = etPhone_register.text.toString()
             val alamat : String = etAddress_register.text.toString()
+            val kota: String = etKota_register.text.toString()
+            val kodepos: String = etKodepos_register.text.toString()
             if (etNama_register.text.isEmpty()){
                 Toast.makeText(this@RegisterActivity, "Nama lengkap harus di isi", Toast.LENGTH_SHORT).show()
                 tv_error_nama_register.text = "Nama lengkap harus di isi"
-            }
-            else if (!isValidEmail(email)){
+            } else if (!isValidEmail(email)){
                 Toast.makeText(this@RegisterActivity, "Email harus diisi dengan benar", Toast.LENGTH_SHORT).show()
                 tv_error_email_register.text = "Email harus diisi dengan benar"
             } else if ( etPassword_register.text.isEmpty()){
@@ -61,16 +62,22 @@ class RegisterActivity : AppCompatActivity() {
             }else if (etUsername_register.text.isEmpty()){
                 Toast.makeText(this@RegisterActivity, "Username Tidak Boleh Kosong", Toast.LENGTH_SHORT).show()
                 tv_error_username_register.text = "Username Harus di isi "
+            }else if (etKota_register.text.isEmpty()){
+                Toast.makeText(this@RegisterActivity, "Kota Tidak Boleh Kosong", Toast.LENGTH_SHORT).show()
+                tv_error_kota_register.text = "Kota Harus di isi "
+            }else if (etKodepos_register.text.isEmpty()){
+                Toast.makeText(this@RegisterActivity, "KodePos Tidak Boleh Kosong", Toast.LENGTH_SHORT).show()
+                tv_error_kodepos_register.text = "KodePos Harus di isi "
             }
             else {
-                doRegister(username,nama,password,alamat,phone,email)
+                doRegister(username,nama,password,alamat,kota,kodepos,phone,email)
             }
         }
         }
 
-    private fun doRegister(username: String, nama: String, password: String, alamat : String, phone : String,email :String){
+    private fun doRegister(username: String, nama: String, password: String, alamat : String,kota : String,kodepos : String, phone : String,email :String){
         apiClient = ApiClient()
-        apiClient.getApiService().register(username,password,nama, phone,alamat,email)
+        apiClient.getApiService().register(username,password,nama,phone,alamat,kota,kodepos,email)
             .enqueue(object : retrofit2.Callback<PostRegisterUser> {
                 override fun onResponse(
                     call: Call<PostRegisterUser>,

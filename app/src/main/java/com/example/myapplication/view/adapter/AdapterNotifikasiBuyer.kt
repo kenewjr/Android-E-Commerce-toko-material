@@ -15,10 +15,19 @@ import com.example.myapplication.R
 import com.example.myapplication.model.GetHistoryItem
 import kotlinx.android.synthetic.main.item_notifikasi_buyer.view.*
 
-class AdapterNotifikasiBuyer(private var dataNotif : List<GetHistoryItem>,
-                             private  var onClick : (GetHistoryItem)->Unit):RecyclerView.Adapter<AdapterNotifikasiBuyer.ViewHolder>() {
+class AdapterNotifikasiBuyer(private  var onClick : (GetHistoryItem)->Unit):RecyclerView.Adapter<AdapterNotifikasiBuyer.ViewHolder>() {
     class ViewHolder(itemView : View):RecyclerView.ViewHolder(itemView)
 
+    private var dataNotif : List<GetHistoryItem>? = null
+
+    fun setNotif(Notif : List<GetHistoryItem>){
+        this.dataNotif = Notif
+    }
+    @SuppressLint("NotifyDataSetChanged")
+    fun clearNotif() {
+        dataNotif = null
+        notifyDataSetChanged()
+    }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val viewitem = LayoutInflater.from(parent.context).inflate(R.layout.item_notifikasi_buyer,parent, false)
         return ViewHolder(viewitem)
@@ -31,12 +40,12 @@ class AdapterNotifikasiBuyer(private var dataNotif : List<GetHistoryItem>,
             .override(150,150)
             .skipMemoryCache(true)
         with(holder.itemView){
-            with(dataNotif[position]){
+            with(dataNotif!![position]){
                 cardNotifikasiBuyer.setOnClickListener {
-                    onClick(dataNotif[position])
+                    onClick(dataNotif!![position])
                 }
                 Glide.with(holder.itemView.context)
-                    .load(dataNotif[position].gambar)
+                    .load(dataNotif!![position].gambar)
                     .error(R.drawable.ic_launcher_background)
                     .override(75,75)
                     .apply(requestOptions)
@@ -59,6 +68,10 @@ class AdapterNotifikasiBuyer(private var dataNotif : List<GetHistoryItem>,
     }
 
     override fun getItemCount(): Int {
-        return dataNotif.size
+        return if (dataNotif.isNullOrEmpty()) {
+            0
+        } else {
+            dataNotif!!.size
+        }
     }
 }

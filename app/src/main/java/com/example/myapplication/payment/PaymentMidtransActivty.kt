@@ -21,9 +21,11 @@ import com.bumptech.glide.request.RequestOptions
 import com.example.myapplication.R
 import com.example.myapplication.datastore.UserManager
 import com.example.myapplication.model.GetAllPengirimanItem
+import com.example.myapplication.model.GetHistoryItem
+import com.example.myapplication.network.ApiClient
 import com.example.myapplication.view.HomeActivity
+import com.example.myapplication.view.buyer.NotifikasiBuyerActivity
 import com.example.myapplication.viewmodel.ViewModelHome
-import com.example.myapplication.viewmodel.ViewModelMidtrans
 import com.example.myapplication.viewmodel.ViewModelProductSeller
 import com.example.myapplication.viewmodel.ViewModelUser
 import com.midtrans.sdk.corekit.callback.TransactionFinishedCallback
@@ -39,6 +41,9 @@ import com.midtrans.sdk.uikit.SdkUIFlowBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_payment_midtrans_activty.*
 import kotlinx.coroutines.DelicateCoroutinesApi
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 @DelicateCoroutinesApi
@@ -54,11 +59,12 @@ class PaymentMidtransActivty : AppCompatActivity(), TransactionFinishedCallback 
     private var idriwayat =0
     private lateinit var userManager: UserManager
     private lateinit var selectedOngkos: GetAllPengirimanItem
-
+    private lateinit var apiClient: ApiClient
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_payment_midtrans_activty)
         userManager = UserManager(this)
+        apiClient = ApiClient()
         viewModel()
         getPengiriman()
         val viewModelProductSeller = ViewModelProvider(this)[ViewModelProductSeller::class.java]
@@ -219,6 +225,8 @@ class PaymentMidtransActivty : AppCompatActivity(), TransactionFinishedCallback 
             etphonenumber.setText(it.nohp)
             etadress.setText(it.alamat)
             etemail.setText(it.email)
+            etcity.setText(it.kota)
+            etpostal.setText(it.kodepos)
         }
     }
     private fun uiKitsDetails(transactionRequest: TransactionRequest){
@@ -245,44 +253,56 @@ class PaymentMidtransActivty : AppCompatActivity(), TransactionFinishedCallback 
         transactionRequest.customerDetails = customersDetails
     }
 
-    private fun addHistory(){
+    private fun addHistory() {
         val viewModelProductSeller = ViewModelProvider(this)[ViewModelProductSeller::class.java]
-        val viewModelMidtrans = ViewModelProvider(this)[ViewModelMidtrans::class.java]
-        val viewModel = ViewModelProvider(this)[ViewModelHome::class.java]
         val idUser = userManager.fetchId()!!.toInt()
         val idbarang = intent.getStringExtra("idproduk")
-        viewModelMidtrans.getStatus(orderId)
-        viewModel.getProductid(idbarang!!.toInt())
-        viewModel.productid.observe(this) {
-            viewModelMidtrans.datastatus.observe(this) {t->
-                val tujuanRek: String
-                val namaRek: String
-                if (t.va_numbers.isEmpty()){
-                    tujuanRek = t.payment_code
-                    namaRek = t.store
-                }else{
-                    tujuanRek = t.va_numbers[0].va_number
-                    namaRek = t.va_numbers[0].bank
-                }
-                viewModelProductSeller.tambahHistory(
-                    idUser,
-                    idbarang.toInt(),
-                    t.order_id,
-                    t.metadata.extra_info.user_id,
-                    etadress.text.toString(),
-                    t.transaction_time,
-                    it.nama_produk,
-                    hargabarang.toString(),
-                    t.gross_amount,
-                    etJumlah.text.toString(),
-                    it.gambar,
-                    selectedOngkos.harga,
-                    tujuanRek,
-                    namaRek
-                )
+        viewModelProductSeller.getRequiredHistory(idbarang!!.toInt(),orderId)
+        viewModelProductSeller.dataRequried.observe(this){
+            val tujuanRek: String
+            val namaRek: String
+            if (it.va_numbers.isEmpty()){
+                tujuanRek = it.payment_code
+                namaRek = it.store
+            }else{
+                tujuanRek = it.va_numbers[0].va_number
+                namaRek = it.va_numbers[0].bank
             }
+            apiClient.getApiService().tambahHistory(
+                idUser,
+                idbarang.toInt(),
+                it.order_id,
+                it.metadata.extra_info.user_id,
+                etadress.text.toString(),
+                it.transaction_time,
+                it.nama_produk,
+                hargabarang.toString(),
+                it.gross_amount,
+                etJumlah.text.toString(),
+                it.gambar,
+                selectedOngkos.harga,
+                tujuanRek,
+                namaRek
+            ).enqueue(object : Callback<GetHistoryItem> {
+                override fun onResponse(
+                    call: Call<GetHistoryItem>,
+                    response: Response<GetHistoryItem>
+                ) {
+                    if (response.isSuccessful){
+                        startActivity(Intent(this@PaymentMidtransActivty, NotifikasiBuyerActivity::class.java))
+                    }else {
+                        Log.e("reespone",response.message())
+                    }
+                }
+
+                override fun onFailure(call: Call<GetHistoryItem>, t: Throwable) {
+                    Log.e("respone",t.message.toString())
+                }
+            })
+
         }
-    }
+}
+
     @SuppressLint("SetTextI18n")
     private fun viewModel(){
         val viewModel = ViewModelProvider(this)[ViewModelHome::class.java]
@@ -303,7 +323,7 @@ class PaymentMidtransActivty : AppCompatActivity(), TransactionFinishedCallback 
                     .apply(requestOptions)
                     .into(produk_image)
                 nama_produk.text = "Nama Produk : "+it.nama_produk
-                harga_produk.text = "Harga Produk : "+it.harga
+                harga_produk.text = "Harga Produk : Rp."+it.harga
                 berat_produk.text = "Berat Produk :"+it.berat
             }else {
                 Log.e("midtranssss","kosong")
@@ -316,11 +336,14 @@ class PaymentMidtransActivty : AppCompatActivity(), TransactionFinishedCallback 
             transactionResult.response != null -> {
                 when (transactionResult.status) {
                     TransactionResult.STATUS_SUCCESS -> {
+                        addHistory()
                         Toast.makeText(this, "Success transaction", Toast.LENGTH_LONG).show()
+                        startActivity(Intent(this, NotifikasiBuyerActivity::class.java))
                     }
                     TransactionResult.STATUS_PENDING -> {
                         addHistory()
                         Toast.makeText(this, "Pending transaction", Toast.LENGTH_LONG).show()
+
                     }
                     TransactionResult.STATUS_FAILED -> {
                         Toast.makeText(this, "Failed ${transactionResult.response.statusMessage}", Toast.LENGTH_LONG).show()

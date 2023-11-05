@@ -39,11 +39,14 @@ class ProfileActivity : AppCompatActivity() {
             etNama_profile.setText(it.nama)
             etAlamat_profile.setText(it.alamat)
             etNohp_profile.setText(it.nohp)
+            etkodepos_profile.setText(it.kodepos)
+            etemail_profile.setText(it.email)
+            etkota_profile.setText(it.kota)
         }
     }
-    private fun viewmodelUpdate(username: String,nama:String,nohp:String,alamat:String){
+    private fun viewmodelUpdate(username: String,nama:String,nohp:String,alamat:String,kota:String,kodepos:String,email:String){
         val viewModelDataSeller = ViewModelProvider(this)[ViewModelUser::class.java]
-        viewModelDataSeller.updateUser(username, nama, nohp, alamat)
+        viewModelDataSeller.updateUser(username, nama, nohp, alamat, kota, kodepos, email)
         startActivity(Intent(this,AkunsayaActivty::class.java))
     }
      private fun updatedata() {
@@ -51,7 +54,10 @@ class ProfileActivity : AppCompatActivity() {
              val nama: String = etNama_profile.text.toString()
              val alamat: String = etAlamat_profile.text.toString()
              val nohp: String = etNohp_profile.text.toString()
-             viewmodelUpdate(username,nama,nohp,alamat)
+             val kodepos : String = etkodepos_profile.text.toString()
+             val email : String = etemail_profile.text.toString()
+             val kota : String = etkota_profile.text.toString()
+             viewmodelUpdate(username,nama,nohp,alamat,kota, kodepos, email)
              Toast.makeText(this, "Berhasil Update Data", Toast.LENGTH_SHORT).show()
              }
          }

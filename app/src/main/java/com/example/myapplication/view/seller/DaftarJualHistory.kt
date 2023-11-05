@@ -22,6 +22,7 @@ import com.example.myapplication.view.AkunsayaActivty
 import com.example.myapplication.view.HomeActivity
 import com.example.myapplication.view.LoginActivity
 import com.example.myapplication.view.adapter.AdapterTerjual
+import com.example.myapplication.view.buyer.HistoryBuyerActivity
 import com.example.myapplication.view.buyer.NotifikasiBuyerActivity
 import com.example.myapplication.viewmodel.ViewModelProductSeller
 import com.example.myapplication.viewmodel.ViewModelUser
@@ -131,7 +132,11 @@ class DaftarJualHistory : AppCompatActivity() {
         val viewModelProductSeller = ViewModelProvider(this)[ViewModelProductSeller::class.java]
         viewModelProductSeller.getHistory()
         adapter = AdapterTerjual {
-
+            val clickedproduct = Bundle()
+            clickedproduct.putSerializable("detailorder",it)
+            val pindah = Intent(this, HistoryBuyerActivity::class.java)
+            pindah.putExtras(clickedproduct)
+            startActivity(pindah)
         }
         rv_history.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         rv_history.adapter = adapter

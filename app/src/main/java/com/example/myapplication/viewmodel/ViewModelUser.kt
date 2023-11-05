@@ -123,8 +123,8 @@ class ViewModelUser@Inject constructor(api: ApiService): ViewModel() {
 
         })
     }
-    fun updateUser(username: String,nama:String,nohp:String,alamat:String){
-        apiService.updateuser(username,nama, nohp, alamat).enqueue(object : Callback<DataUser>{
+    fun updateUser(username: String,nama:String,nohp:String,alamat:String,kota:String,kodepos:String,email:String){
+        apiService.updateuser(username,nama, nohp, alamat,kota, kodepos, email).enqueue(object : Callback<DataUser>{
             override fun onResponse(call: Call<DataUser>, response: Response<DataUser>) {
                 if(response.isSuccessful){
                     livedatauser.value = response.body()

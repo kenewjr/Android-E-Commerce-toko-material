@@ -10,6 +10,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isInvisible
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myapplication.R
 import com.example.myapplication.datastore.UserManager
@@ -39,11 +40,11 @@ class NotifikasiBuyerActivity : AppCompatActivity() {
     private val bottomNavigasi = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when(item.itemId){
             R.id.notifikasi -> {
-                Toast.makeText(this, "Kamu Sedang Berada Di Notifikasi", Toast.LENGTH_SHORT).show()
+                fetchnotifseller()
                 return@OnNavigationItemSelectedListener true
             }
             R.id.history -> {
-                Toast.makeText(this, "Kamu Sedang Berada Di History", Toast.LENGTH_SHORT).show()
+                fetchnotif()
                 return@OnNavigationItemSelectedListener true
             }
             R.id.home -> {
@@ -84,8 +85,10 @@ class NotifikasiBuyerActivity : AppCompatActivity() {
         if (booleanvalue && userManager.fetchstatus() == "seller") {
             default_navigation.isInvisible = true
             fetchnotifseller()
+            buttonFilterSeller()
         } else {
             fetchnotif()
+            buttonFilter()
             navigation.isInvisible = true
             notifikasiBuyer_welcome.text = "History"
         }
@@ -95,25 +98,136 @@ class NotifikasiBuyerActivity : AppCompatActivity() {
        default_navigation.setOnNavigationItemSelectedListener(bottomNavigasi)
     }
 
+    private fun buttonFilterSeller(){
+        daftarPending.setOnClickListener{
+            filterSeller("pending")
+        }
+        daftarLunas.setOnClickListener{
+            filterSeller("Lunas")
+        }
+        daftarSelesai.setOnClickListener{
+            filterSeller("Selesai")
+        }
+        daftarDibatalkan.setOnClickListener{
+            filterSeller("Dibatalkan")
+        }
+        daftarTerkirim.setOnClickListener{
+            filterSeller("Terkirim")
+        }
+    }
+    private fun buttonFilter(){
+        daftarPending.setOnClickListener{
+            filter("pending")
+        }
+        daftarLunas.setOnClickListener{
+            filter("Lunas")
+        }
+        daftarSelesai.setOnClickListener{
+            filter("Selesai")
+        }
+        daftarDibatalkan.setOnClickListener{
+            filter("Dibatalkan")
+        }
+        daftarTerkirim.setOnClickListener{
+            filter("Terkirim")
+        }
+    }
+
+    private fun filterSeller(statusF: String){
+        apiClient.getApiService().getHistory()
+            .enqueue(object : Callback<List<GetHistoryItem>> {
+                @SuppressLint("NotifyDataSetChanged")
+                override fun onResponse(
+                    call: Call<List<GetHistoryItem>>,
+                    response: Response<List<GetHistoryItem>>
+                ) {
+                    if (response.isSuccessful) {
+                        Log.e("buyer","uwu2")
+                        val status = response.body()!!
+                        val statusPending = status.filter { items -> items.status == statusF }
+                        if (statusPending.isNotEmpty()) {
+                            adapterNotifikasiBuyer = AdapterNotifikasiBuyer() {
+                                val clickedproduct = Bundle()
+                                clickedproduct.putSerializable("detailorder",it)
+                                val pindah = Intent(this@NotifikasiBuyerActivity, HistoryBuyerActivity::class.java)
+                                pindah.putExtras(clickedproduct)
+                                startActivity(pindah)
+                            }
+                            adapterNotifikasiBuyer.setNotif(statusPending)
+                            adapterNotifikasiBuyer.notifyDataSetChanged()
+                            tvKosong.isInvisible= true
+                        } else {
+                            adapterNotifikasiBuyer.clearNotif()
+                            tvKosong.isVisible= true
+                        }
+                    }
+                    rv_notifikasiBuyer.layoutManager = LinearLayoutManager(this@NotifikasiBuyerActivity, LinearLayoutManager.VERTICAL, false)
+                    rv_notifikasiBuyer.adapter = adapterNotifikasiBuyer
+                }
+                override fun onFailure(call: Call<List<GetHistoryItem>>, t: Throwable) {
+                    Log.e("error",t.message.toString())
+                }
+            })
+    }
+    private fun filter(statusF : String){
+        apiClient.getApiService().getHistoryUserID(userManager.fetchId()!!.toInt())
+            .enqueue(object : Callback<List<GetHistoryItem>> {
+                @SuppressLint("NotifyDataSetChanged")
+                override fun onResponse(
+                    call: Call<List<GetHistoryItem>>,
+                    response: Response<List<GetHistoryItem>>
+                ) {
+                    if (response.isSuccessful) {
+                        Log.e("buyer","uwu2")
+                        val status = response.body()!!
+                        val statusPending = status.filter { items -> items.status == statusF }
+                        if (statusPending.isNotEmpty()) {
+                            adapterNotifikasiBuyer = AdapterNotifikasiBuyer() {
+                                val clickedproduct = Bundle()
+                                clickedproduct.putSerializable("detailorder",it)
+                                val pindah = Intent(this@NotifikasiBuyerActivity, HistoryBuyerActivity::class.java)
+                                pindah.putExtras(clickedproduct)
+                                startActivity(pindah)
+                            }
+                            adapterNotifikasiBuyer.setNotif(statusPending)
+                            adapterNotifikasiBuyer.notifyDataSetChanged()
+                            tvKosong.isInvisible= true
+                        } else {
+                            adapterNotifikasiBuyer.clearNotif()
+                            tvKosong.isVisible= true
+                        }
+                    }
+                    rv_notifikasiBuyer.layoutManager = LinearLayoutManager(this@NotifikasiBuyerActivity, LinearLayoutManager.VERTICAL, false)
+                    rv_notifikasiBuyer.adapter = adapterNotifikasiBuyer
+                }
+                override fun onFailure(call: Call<List<GetHistoryItem>>, t: Throwable) {
+                    Log.e("error",t.message.toString())
+                }
+            })
+    }
     private fun fetchnotif(){
         apiClient.getApiService().getHistoryUserID(userManager.fetchId()!!.toInt())
             .enqueue(object : Callback<List<GetHistoryItem>>{
+            @SuppressLint("NotifyDataSetChanged")
             override fun onResponse(
                 call: Call<List<GetHistoryItem>>,
                 response: Response<List<GetHistoryItem>>
             ) {
                 if (response.isSuccessful) {
-                    adapterNotifikasiBuyer = AdapterNotifikasiBuyer(response.body()!!) {
+                    adapterNotifikasiBuyer = AdapterNotifikasiBuyer() {
                         val clickedproduct = Bundle()
                         clickedproduct.putSerializable("detailorder",it)
                         val pindah = Intent(this@NotifikasiBuyerActivity, HistoryBuyerActivity::class.java)
                         pindah.putExtras(clickedproduct)
                         startActivity(pindah)
                     }
-                    rv_notifikasiBuyer.layoutManager = LinearLayoutManager(applicationContext)
+                    adapterNotifikasiBuyer.setNotif(response.body()!!)
+                    adapterNotifikasiBuyer.notifyDataSetChanged()
+                    rv_notifikasiBuyer.layoutManager = LinearLayoutManager(this@NotifikasiBuyerActivity, LinearLayoutManager.VERTICAL, false)
                     rv_notifikasiBuyer.adapter = adapterNotifikasiBuyer
                 }else{
                     Toast.makeText(this@NotifikasiBuyerActivity, "Anda Belom Berbelanja", Toast.LENGTH_SHORT).show()
+                    tvKosong.isInvisible = true
                 }
             }
             override fun onFailure(call: Call<List<GetHistoryItem>>, t: Throwable) {
@@ -125,22 +239,26 @@ class NotifikasiBuyerActivity : AppCompatActivity() {
     private fun fetchnotifseller(){
         apiClient.getApiService().getHistory()
             .enqueue(object : Callback<List<GetHistoryItem>>{
+                @SuppressLint("NotifyDataSetChanged")
                 override fun onResponse(
                     call: Call<List<GetHistoryItem>>,
                     response: Response<List<GetHistoryItem>>
                 ) {
                     if (response.isSuccessful) {
-                        adapterNotifikasiBuyer = AdapterNotifikasiBuyer(response.body()!!) {
+                        adapterNotifikasiBuyer = AdapterNotifikasiBuyer() {
                             val clickedproduct = Bundle()
                             clickedproduct.putSerializable("detailorder",it)
                             val pindah = Intent(this@NotifikasiBuyerActivity, HistoryBuyerActivity::class.java)
                             pindah.putExtras(clickedproduct)
                             startActivity(pindah)
                         }
-                        rv_notifikasiBuyer.layoutManager = LinearLayoutManager(applicationContext)
+                        adapterNotifikasiBuyer.setNotif(response.body()!!)
+                        adapterNotifikasiBuyer.notifyDataSetChanged()
+                        rv_notifikasiBuyer.layoutManager = LinearLayoutManager(this@NotifikasiBuyerActivity, LinearLayoutManager.VERTICAL, false)
                         rv_notifikasiBuyer.adapter = adapterNotifikasiBuyer
                     }else{
                         Toast.makeText(this@NotifikasiBuyerActivity, "Belom Ada Pembeli Yang Beli", Toast.LENGTH_SHORT).show()
+                        tvKosong.isInvisible = true
                     }
                 }
                 override fun onFailure(call: Call<List<GetHistoryItem>>, t: Throwable) {

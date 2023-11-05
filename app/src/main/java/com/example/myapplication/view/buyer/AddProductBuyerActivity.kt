@@ -25,6 +25,7 @@ import com.example.myapplication.model.GetAllProdukItem
 import com.example.myapplication.network.ApiClient
 import com.example.myapplication.payment.PaymentMidtransActivty
 import com.example.myapplication.view.HomeActivity
+import com.example.myapplication.view.LoginActivity
 import com.example.myapplication.view.adapter.AdapterKomentar
 import com.example.myapplication.viewmodel.ViewModelHome
 import com.example.myapplication.viewmodel.ViewModelUser
@@ -42,6 +43,7 @@ class AddProductBuyerActivity : AppCompatActivity() {
     private var datalengkap: String = "ada"
     private var nama: String = ""
     private var produkpilih: String = ""
+    private var stok: Int = 0
     private lateinit var  adapterKomentar: AdapterKomentar
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -74,10 +76,15 @@ class AddProductBuyerActivity : AppCompatActivity() {
             checkakun()
         } else {
             imageKomen.setOnClickListener {
+                startActivity(Intent(this, LoginActivity::class.java))
                 Toast.makeText(this, "Silahkan Login Terlebih Dahulu", Toast.LENGTH_SHORT).show()
             }
-            addProductBuyer_btnTertarik.text = "Silahkan Login Terlebih Dahulu"
             addProductBuyer_btnTertarik.setOnClickListener {
+                startActivity(Intent(this, LoginActivity::class.java))
+                Toast.makeText(this, "Silahkan Login Terlebih Dahulu", Toast.LENGTH_SHORT).show()
+            }
+            addProductBuyer_btnWA.setOnClickListener {
+                startActivity(Intent(this, LoginActivity::class.java))
                 Toast.makeText(this, "Silahkan Login Terlebih Dahulu", Toast.LENGTH_SHORT).show()
             }
         }
@@ -127,7 +134,9 @@ class AddProductBuyerActivity : AppCompatActivity() {
             viewModel.orderData.observe(this){
                 if (it.status == "pending"){
                     addProductBuyer_btnTertarik.text = "Segera Selesaikan Pembayaran"
-                }else {
+                }else if (stok == 0) {
+                    addProductBuyer_btnTertarik.text = "Barang Sedang Habis"
+                }else{
                     addProductBuyer_btnTertarik.text = "Beli Sekarang"
                 }
             }
@@ -191,12 +200,14 @@ class AddProductBuyerActivity : AppCompatActivity() {
                 .apply(requestOptions)
                 .into(tv_imgdetailproduct)
             produkpilih = dataProduct.id
+            stok = dataProduct.stok.toInt()
             tv_stok.text = "Stok Sisa : "+dataProduct.stok
             tv_judulproductdetail.text = "Nama Produk : "+dataProduct.nama
             tv_acesorisproductdetail.text ="Kategori : "+ dataProduct.kategori
             tv_hargaproductdetail.text = "Harga Produk : "+dataProduct.harga
             tv_beratproduk.text = "Berat Produk : "+dataProduct.berat +"kg"
             tv_deskripsidetail.text = dataProduct.deskripsi
+
         }
     }
 }

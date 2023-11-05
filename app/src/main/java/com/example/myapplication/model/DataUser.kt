@@ -10,5 +10,7 @@ data class DataUser(
     val user_id: String,
     val status: String,
     val username: String,
+    val kota: String,
+    val kodepos: String,
     val email : String
 ): Serializable

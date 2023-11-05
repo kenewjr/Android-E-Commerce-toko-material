@@ -53,13 +53,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
+            android:text="*  "
             android:textColor="#F40808"
             android:textSize="14sp"
-            android:text="*  "
             android:textStyle="italic"
             app:layout_constraintStart_toEndOf="@+id/tv_nama_register"
             app:layout_constraintTop_toBottomOf="@+id/tv_daftar"
-            tools:ignore="HardcodedText,MissingConstraints" />
+            tools:ignore="HardcodedText,MissingConstraints,TextContrastCheck" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textInputLayout1"
@@ -77,10 +77,10 @@
                 android:id="@+id/etNama_register"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:hint="Contoh : Agus Wicaksono"
                 android:background="@drawable/custom_drawable"
+                android:hint="Contoh : Agus Wicaksono"
                 android:inputType="text"
-                tools:ignore="HardcodedText,Autofill,LabelFor,TextFields" />
+                tools:ignore="HardcodedText,Autofill,LabelFor,TextFields,SpeakableTextPresentCheck,VisualLintTextFieldSize" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
@@ -102,13 +102,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:textColor="#F40808"
             android:text="*  "
+            android:textColor="#F40808"
             android:textSize="14sp"
             android:textStyle="italic"
             app:layout_constraintStart_toEndOf="@+id/tv_username_register"
             app:layout_constraintTop_toBottomOf="@+id/textInputLayout1"
-            tools:ignore="HardcodedText,MissingConstraints" />
+            tools:ignore="HardcodedText,MissingConstraints,TextContrastCheck" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textInputLayout2"
@@ -126,10 +126,10 @@
                 android:id="@+id/etUsername_register"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:hint="Contoh : Agus"
                 android:background="@drawable/custom_drawable"
+                android:hint="Contoh : Agus"
                 android:inputType="text"
-                tools:ignore="HardcodedText,Autofill,LabelFor,TextFields" />
+                tools:ignore="HardcodedText,Autofill,LabelFor,TextFields,SpeakableTextPresentCheck,VisualLintTextFieldSize" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -152,13 +152,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:textColor="#F40808"
             android:text="*  "
+            android:textColor="#F40808"
             android:textSize="14sp"
             android:textStyle="italic"
             app:layout_constraintStart_toEndOf="@+id/tv_email_register"
             app:layout_constraintTop_toBottomOf="@+id/textInputLayout2"
-            tools:ignore="HardcodedText,MissingConstraints" />
+            tools:ignore="HardcodedText,MissingConstraints,TextContrastCheck" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textInputLayout22"
@@ -176,10 +176,10 @@
                 android:id="@+id/etEmail_register"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:hint="Contoh : Agus@gmail.com"
                 android:background="@drawable/custom_drawable"
+                android:hint="Contoh : Agus@gmail.com"
                 android:inputType="textEmailAddress"
-                tools:ignore="HardcodedText,Autofill,LabelFor,TextFields" />
+                tools:ignore="HardcodedText,Autofill,LabelFor,TextFields,SpeakableTextPresentCheck,VisualLintTextFieldSize" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -202,13 +202,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
+            android:text="*  "
             android:textColor="#F40808"
             android:textSize="14sp"
-            android:text="*  "
             android:textStyle="italic"
             app:layout_constraintStart_toEndOf="@+id/tv_password_register"
             app:layout_constraintTop_toBottomOf="@+id/textInputLayout22"
-            tools:ignore="HardcodedText,MissingConstraints" />
+            tools:ignore="HardcodedText,MissingConstraints,TextContrastCheck" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textInputLayout3"
@@ -228,10 +228,10 @@
                 android:id="@+id/etPassword_register"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:hint="Contoh : Agus123"
                 android:background="@drawable/custom_drawable"
+                android:hint="Contoh : Agus123"
                 android:inputType="textPassword"
-                tools:ignore="HardcodedText,Autofill,LabelFor,TextFields" />
+                tools:ignore="HardcodedText,Autofill,LabelFor,TextFields,SpeakableTextPresentCheck,VisualLintTextFieldSize" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -254,14 +254,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:inputType="number"
+            android:text="*  "
             android:textColor="#F40808"
             android:textSize="14sp"
-            android:text="*  "
             android:textStyle="italic"
-            android:inputType="number"
             app:layout_constraintStart_toEndOf="@+id/tv_phone_register"
             app:layout_constraintTop_toBottomOf="@+id/textInputLayout3"
-            tools:ignore="HardcodedText,MissingConstraints,TextViewEdits" />
+            tools:ignore="HardcodedText,MissingConstraints,TextViewEdits,TouchTargetSizeCheck,DuplicateSpeakableTextCheck,TextContrastCheck" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textInputLayout4"
@@ -279,10 +279,10 @@
                 android:id="@+id/etPhone_register"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:hint="Contoh : 6285779688533"
                 android:background="@drawable/custom_drawable"
+                android:hint="Contoh : 085779688533"
                 android:inputType="phone"
-                tools:ignore="HardcodedText,Autofill,LabelFor,TextFields" />
+                tools:ignore="HardcodedText,Autofill,LabelFor,TextFields,SpeakableTextPresentCheck,VisualLintTextFieldSize" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -305,13 +305,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:text="*  "
             android:textColor="#F40808"
             android:textSize="14sp"
-            android:text="*  "
             android:textStyle="italic"
             app:layout_constraintStart_toEndOf="@+id/tv_address_register"
             app:layout_constraintTop_toBottomOf="@+id/textInputLayout4"
-            tools:ignore="HardcodedText,MissingConstraints" />
+            tools:ignore="HardcodedText,MissingConstraints,TextContrastCheck" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textInputLayout5"
@@ -329,10 +329,111 @@
                 android:id="@+id/etAddress_register"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:hint="Contoh : Jl. Singaperbangsa"
                 android:background="@drawable/custom_drawable"
+                android:hint="Contoh : Jl. Singaperbangsa"
                 android:inputType="text"
-                tools:ignore="HardcodedText,Autofill,LabelFor,TextFields" />
+                tools:ignore="HardcodedText,Autofill,LabelFor,TextFields,SpeakableTextPresentCheck,VisualLintTextFieldSize" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/tv_city_register"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="10dp"
+            android:text="Kota :"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="normal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayout5"
+            tools:ignore="HardcodedText,MissingConstraints" />
+
+        <TextView
+            android:id="@+id/tv_error_kota_register"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="*  "
+            android:textColor="#F40808"
+            android:textSize="14sp"
+            android:textStyle="italic"
+            app:layout_constraintStart_toEndOf="@+id/tv_city_register"
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayout5"
+            tools:ignore="HardcodedText,MissingConstraints,TextContrastCheck" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayout24"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_error_kota_register"
+            tools:ignore="MissingConstraints">
+
+            <EditText
+                android:id="@+id/etKota_register"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/custom_drawable"
+                android:hint="Contoh : Cilegon"
+                android:inputType="text"
+                tools:ignore="HardcodedText,Autofill,LabelFor,TextFields,SpeakableTextPresentCheck,VisualLintTextFieldSize" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <TextView
+            android:id="@+id/tv_kodepos_register"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="10dp"
+            android:text="KodePos :"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="normal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayout24"
+            tools:ignore="HardcodedText,MissingConstraints" />
+
+        <TextView
+            android:id="@+id/tv_error_kodepos_register"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="*  "
+            android:textColor="#F40808"
+            android:textSize="14sp"
+            android:textStyle="italic"
+            app:layout_constraintStart_toEndOf="@+id/tv_kodepos_register"
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayout24"
+            tools:ignore="HardcodedText,MissingConstraints,TextContrastCheck" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayout32"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_error_kodepos_register"
+            tools:ignore="MissingConstraints">
+
+            <EditText
+                android:id="@+id/etKodepos_register"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/custom_drawable"
+                android:hint="Contoh : 42415"
+                android:inputType="text"
+                tools:ignore="HardcodedText,Autofill,LabelFor,TextFields,SpeakableTextPresentCheck,VisualLintTextFieldSize" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -350,8 +451,8 @@
             app:layout_constraintBottom_toTopOf="@+id/tv_sudah_punya_akun"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayout5"
-            tools:ignore="HardcodedText,MissingConstraints" />
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayout32"
+            tools:ignore="HardcodedText,MissingConstraints,VisualLintButtonSize" />
 
         <TextView
             android:id="@+id/tv_sudah_punya_akun"
