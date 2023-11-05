@@ -82,10 +82,15 @@ class SplashActivity : AppCompatActivity() {
         val cm = application.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val activeNetwork: NetworkInfo? = cm.activeNetworkInfo
         val isConnected: Boolean = activeNetwork?.isConnected == true
+        val booleanvalue = userManager.getBooleanValue()
         if (isConnected){
             runOnUiThread {
                 checkForUpdate()
-                notif()
+                when {
+                    booleanvalue -> {
+                        notif()
+                    }
+                }
         }
         }else{
             Toast.makeText(applicationContext, "Tidak Ada Koneksi Internet", Toast.LENGTH_SHORT)
