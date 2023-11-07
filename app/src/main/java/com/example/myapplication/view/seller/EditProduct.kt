@@ -123,7 +123,8 @@ class EditProduct : AppCompatActivity() {
                  edt_deskripsi.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
              val berat : RequestBody =
                  edt_beratproduk.text.toString().toRequestBody("text/plain".toMediaTypeOrNull())
-
+            Log.e("kategori", categoryProduct.toString())
+            Log.e("pilkategori",  selectedCategory.id.toString())
              val viewModelSeller = ViewModelProvider(this)[ViewModelProductSeller::class.java]
              AlertDialog.Builder(this)
                  .setTitle("KONFIRMASI UPDATE")
@@ -143,6 +144,7 @@ class EditProduct : AppCompatActivity() {
                          val body = MultipartBody.Part.createFormData("gambar", tempFile.name, requestBody)
                          viewModelSeller.editProduct(idproduk.toString().toRequestBody("text/plain".toMediaTypeOrNull()),namaProdcut,categoryProduct,desc,stok,hargaProduct,berat,body)
                      }else {
+
                          viewModelSeller.editProductNG(idproduk.toString().toRequestBody("text/plain".toMediaTypeOrNull()),namaProdcut,categoryProduct,desc,stok,hargaProduct,berat)
                      }
 

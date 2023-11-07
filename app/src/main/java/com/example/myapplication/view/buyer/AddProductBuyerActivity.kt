@@ -11,6 +11,7 @@ import android.net.NetworkCapabilities
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.widget.RatingBar
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -149,9 +150,12 @@ class AddProductBuyerActivity : AppCompatActivity() {
         val dialogView = layoutInflater.inflate(R.layout.custom_dialog_komentar, null)
         val dialogbuilder = AlertDialog.Builder(this).setView(dialogView).create()
         val btnaddkomen = dialogView.addKomentarbtn
+        val ratingBar = dialogView.rBarActive
+        ratingBar.rating = 5.0f
         btnaddkomen.setOnClickListener {
             val komentar = dialogView.edt_komentar.text.toString()
-            viewModelKomentar.addKomentar(komentar,dataProduct!!.id.toInt(),userManager.fetchId()!!.toInt(),nama)
+            val rating = ratingBar.rating
+           viewModelKomentar.addKomentar(komentar,dataProduct!!.id.toInt(),userManager.fetchId()!!.toInt(),nama,rating)
             dialogbuilder.dismiss()
             Toast.makeText(this, "Berhasil Menambahkan Pesan", Toast.LENGTH_SHORT).show()
             fetchkomentar()
@@ -191,6 +195,7 @@ class AddProductBuyerActivity : AppCompatActivity() {
         userManager = UserManager(this)
         val dataProduct = intent.extras!!.getSerializable("detailproduk") as GetAllProdukItem?
         if (dataProduct != null) {
+            val rBar = findViewById<RatingBar>(R.id.rBar)
             val viewModel = ViewModelProvider(this)[ViewModelHome::class.java]
             viewModel.getProductid(dataProduct.id.toInt())
             val requestOptions = RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true)
@@ -201,12 +206,20 @@ class AddProductBuyerActivity : AppCompatActivity() {
                 .into(tv_imgdetailproduct)
             produkpilih = dataProduct.id
             stok = dataProduct.stok.toInt()
-            tv_stok.text = "Stok Sisa : "+dataProduct.stok
+            if (dataProduct.ratinguser.toInt() >=1){
+                val jumlah = dataProduct.rating / dataProduct.ratinguser.toInt()
+                val ratingWithF = "$jumlah" + "f"
+                rBar.rating = ratingWithF.toFloat()
+            }else{
+                rBar.rating = 0f
+            }
+            tv_stok.text = "Stok : "+dataProduct.stok
             tv_judulproductdetail.text = "Nama Produk : "+dataProduct.nama
             tv_acesorisproductdetail.text ="Kategori : "+ dataProduct.kategori
-            tv_hargaproductdetail.text = "Harga Produk : "+dataProduct.harga
+            tv_hargaproductdetail.text = "Harga Produk : Rp."+dataProduct.harga
             tv_beratproduk.text = "Berat Produk : "+dataProduct.berat +"kg"
             tv_deskripsidetail.text = dataProduct.deskripsi
+
 
         }
     }

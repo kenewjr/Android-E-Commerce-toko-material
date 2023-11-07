@@ -93,7 +93,7 @@ class HistoryBuyerActivity : AppCompatActivity() {
             botnav2.isInvisible = true
             botnav.setOnNavigationItemSelectedListener(bottomNavigasi)
             btn_batal.isInvisible = true
-            if(getstatus == "Terkirim" || getstatus == "Selesai"||getstatus == "Pending" ||getstatus == "Dibatalkan"){
+            if(getstatus == "Terkirim" || getstatus == "Selesai"||getstatus == "pending" ||getstatus == "Dibatalkan"){
                 btn_selesai.isInvisible = true
             }else {
                 btn_selesai.text = "Kirim Pesanan"
@@ -104,7 +104,7 @@ class HistoryBuyerActivity : AppCompatActivity() {
             val botnav2 = findViewById<BottomNavigationView>(R.id.navigation)
             botnav2.isInvisible = true
             botnav.setOnNavigationItemSelectedListener(bottomNavigasi)
-            if(getstatus == "Pending"||getstatus == "Lunas"){
+            if(getstatus == "pending"||getstatus == "Lunas"){
                 btn_selesai.isInvisible = true
             }else {
                 btn_selesai.text = "Pesanan Selesai"

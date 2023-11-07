@@ -69,8 +69,8 @@ class ViewModelUser@Inject constructor(api: ApiService): ViewModel() {
             }
         })
     }
-    fun addKomentar(komentar:String,id_produk: Int,id_user: Int,nama: String){
-        apiService.tambahKomentar(id_user,komentar,nama,id_produk).enqueue(object : Callback<com.example.myapplication.model.Response>{
+    fun addKomentar(komentar:String,id_produk: Int,id_user: Int,nama: String,rating : Float){
+        apiService.tambahKomentar(id_user,komentar,nama,id_produk,rating).enqueue(object : Callback<com.example.myapplication.model.Response>{
             override fun onResponse(
                 call: Call<com.example.myapplication.model.Response>,
                 response: Response<com.example.myapplication.model.Response>

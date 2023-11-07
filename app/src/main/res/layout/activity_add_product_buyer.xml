@@ -121,6 +121,19 @@
                                 android:textColor="@color/black"
                                 android:textSize="15sp"
                                 tools:ignore="HardcodedText" />
+
+                            <androidx.appcompat.widget.AppCompatRatingBar
+                                android:id="@+id/rBar"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:isIndicator="true"
+                                android:progressBackgroundTint="@color/soft"
+                                android:progressTint="@color/kuning"
+                                android:numStars="5"
+                                android:stepSize="0.5"
+                                android:clickable="false"
+                                android:focusable="false"
+                                tools:ignore="SpeakableTextPresentCheck"/>
                         </LinearLayout>
 
                     </androidx.cardview.widget.CardView>

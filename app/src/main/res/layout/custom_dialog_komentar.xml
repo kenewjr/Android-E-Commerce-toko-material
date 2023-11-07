@@ -37,6 +37,19 @@
             android:autofillHints="" />
     </com.google.android.material.textfield.TextInputLayout>
 
+    <androidx.appcompat.widget.AppCompatRatingBar
+        android:id="@+id/rBarActive"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/deskripsi"
+        android:progressBackgroundTint="@color/soft"
+        android:progressTint="@color/kuning"
+        android:layout_marginTop="20dp"
+        android:numStars="5"
+        android:stepSize="0.5"
+        tools:ignore="SpeakableTextPresentCheck"/>
+
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/addKomentarbtn"
         android:layout_width="match_parent"
@@ -50,6 +63,6 @@
         android:textColor="@android:color/white"
         android:textSize="18sp"
         android:textStyle="bold"
-        android:layout_below="@id/deskripsi"
+        android:layout_below="@id/rBarActive"
         tools:ignore="HardcodedText" />
 </RelativeLayout>

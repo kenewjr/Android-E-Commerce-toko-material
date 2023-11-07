@@ -99,6 +99,9 @@ class NotifikasiBuyerActivity : AppCompatActivity() {
     }
 
     private fun buttonFilterSeller(){
+        daftarSemua.setOnClickListener{
+            fetchnotifseller()
+        }
         daftarPending.setOnClickListener{
             filterSeller("pending")
         }
@@ -116,6 +119,9 @@ class NotifikasiBuyerActivity : AppCompatActivity() {
         }
     }
     private fun buttonFilter(){
+        daftarSemua.setOnClickListener{
+            fetchnotif()
+        }
         daftarPending.setOnClickListener{
             filter("pending")
         }

@@ -23,5 +23,9 @@ data class GetAllProdukItem(
     @SerializedName("kategori")
     val kategori: String,
     @SerializedName("stok")
-    val stok: String
+    val stok: String,
+    @SerializedName("rating")
+    val rating: Float,
+    @SerializedName("ratinguser")
+    val ratinguser: String
 ): Serializable

@@ -34,6 +34,27 @@
             tools:ignore="RtlHardcoded,ScrollViewSize">
 
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/daftarSemua"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:backgroundTint="@color/darker"
+                app:cardCornerRadius="8sp">
+                <TextView
+                    android:id="@+id/tvSemua"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:gravity="center"
+                    android:text="Semua"
+                    android:textStyle="bold"
+                    android:textColor="@color/text"
+                    android:textSize="20sp"
+                    tools:ignore="HardcodedText,MissingConstraints" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
                 android:id="@+id/daftarPending"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

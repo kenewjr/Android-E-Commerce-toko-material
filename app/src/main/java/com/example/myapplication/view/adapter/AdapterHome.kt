@@ -59,8 +59,8 @@ class AdapterHome(private var onClick : (GetAllProdukItem)->Unit):RecyclerView.A
                 .apply(requestOptions)
                 .into(holder.itemView.imageProduct)
         }
-        holder.itemView.tvKategori_product.text = dataProduk!![position].kategori
-        holder.itemView.tvHarga_product.text = dataProduk!![position].harga
+        holder.itemView.tvKategori_product.text = "Kategori:"+dataProduk!![position].kategori
+        holder.itemView.tvHarga_product.text = "Rp."+dataProduk!![position].harga
     }
 
 

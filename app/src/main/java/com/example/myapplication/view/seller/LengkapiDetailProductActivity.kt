@@ -96,7 +96,14 @@ class LengkapiDetailProductActivity : AppCompatActivity() {
         }else if(encodeImageString.isEmpty()){
             Toast.makeText(this, "Gambar harus diisi", Toast.LENGTH_SHORT).show()
             return false
-        }else{
+        }else if(berat.toInt() <= 0){
+            Toast.makeText(this, "Berat harus lebih dari 0", Toast.LENGTH_SHORT).show()
+            return false
+        }else if (berat.startsWith(".") || berat.startsWith(",")){
+            Toast.makeText(this, "Berat tidak boleh dimulai dengan titik atau koma", Toast.LENGTH_SHORT).show()
+            return false
+        }
+        else{
             return true
         }
     }

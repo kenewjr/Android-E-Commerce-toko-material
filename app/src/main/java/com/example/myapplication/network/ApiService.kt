@@ -127,7 +127,8 @@ interface ApiService {
         @Field("id_user")id_user :Int,
         @Field("komentar")komentar: String,
         @Field("nama_pembeli")nama_pembeli: String,
-        @Field("id_produk")id_produk: Int
+        @Field("id_produk")id_produk: Int,
+        @Field("rating")rating: Float
     ):Call<Response>
 
     @GET("get_komentarPid.php")
@@ -148,7 +149,7 @@ interface ApiService {
         @Part gambar : MultipartBody.Part
     ):Call<Response>
 
-    @POST("edit_produk")
+    @POST("edit_produkNG")
     @Multipart
     fun editProdukNG(
         @Part("id")id : RequestBody,
