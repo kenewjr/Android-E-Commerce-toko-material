@@ -130,7 +130,9 @@ class DaftarJualCategory : AppCompatActivity() {
 
             // Get references to views in the custom dialog
             val buttonUpdate = dialogView.findViewById<Button>(R.id.btn_editCtgy)
+            val edt1 = dialogView.findViewById<EditText>(R.id.cd_edt_ctgy)
             buttonUpdate.text = "Tambahkan Category"
+            edt1.hint = "Masukan NoHP/Email/Username Pengguna"
             buttonUpdate.setOnClickListener {
                 val editTextname = dialogView.findViewById<EditText>(R.id.cd_edt_ctgy)
                 viewModelSellerCategory.tambahCtgy(editTextname.text.toString())

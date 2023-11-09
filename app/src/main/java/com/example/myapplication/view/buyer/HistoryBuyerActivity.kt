@@ -186,7 +186,6 @@ class HistoryBuyerActivity : AppCompatActivity() {
         val clipboardManager = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
         val clipData = ClipData.newPlainText("norek", textToCopy)
         clipboardManager.setPrimaryClip(clipData)
-
         Toast.makeText(this, "Nomor Berahasil Di Copy: $textToCopy", Toast.LENGTH_SHORT).show()
     }
     @SuppressLint("SetTextI18n")

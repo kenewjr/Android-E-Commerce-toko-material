@@ -240,10 +240,13 @@ class PaymentMidtransActivty : AppCompatActivity(), TransactionFinishedCallback 
         customersDetails.customerIdentifier = customerIdenty
         customersDetails.phone = phone
         customersDetails.email = email
+        customersDetails.firstName = customerIdenty
         val shippingAddress = ShippingAddress()
         shippingAddress.address = address
         shippingAddress.city = kota
         shippingAddress.postalCode = kodepos
+        shippingAddress.phone = phone
+        shippingAddress.firstName = customerIdenty
         customersDetails.shippingAddress = shippingAddress
         val billingAddress = BillingAddress()
         billingAddress.address = address

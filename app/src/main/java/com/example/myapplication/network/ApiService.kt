@@ -226,4 +226,16 @@ interface ApiService {
         @Query("id")id:Int,
         @Query("ORDER_ID")orderId:String
     ):Call<GetRequired>
+
+    @FormUrlEncoded
+    @POST("lupa_password")
+    fun LupaPassword(
+        @Field("input")input : String
+    ):Call<ResponseLupaPasswordItem>
+
+    @FormUrlEncoded
+    @POST("lupa_password_email")
+    fun lupaPasswordEmail(
+        @Field("email")input : String
+    ):Call<ResponseLupaPasswordItem>
 }

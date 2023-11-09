@@ -32,7 +32,6 @@
             android:background="@drawable/custom_drawable"
             android:scrollHorizontally="false"
             android:inputType="textMultiLine"
-            android:hint="Kategori"
             tools:ignore="HardcodedText"
             android:autofillHints="" />
     </com.google.android.material.textfield.TextInputLayout>

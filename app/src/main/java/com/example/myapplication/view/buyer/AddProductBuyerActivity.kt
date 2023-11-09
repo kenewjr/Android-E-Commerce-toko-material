@@ -15,6 +15,7 @@ import android.widget.RatingBar
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isInvisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
@@ -59,6 +60,7 @@ class AddProductBuyerActivity : AppCompatActivity() {
         back.setOnClickListener {
             startActivity(Intent(this,HomeActivity::class.java))
         }
+
         addProductBuyer_btnTertarik.setOnClickListener {
             val dataProduct = intent.extras!!.getSerializable("detailproduk") as GetAllProdukItem?
             val pindah = Intent(this, PaymentMidtransActivty::class.java)
@@ -89,7 +91,9 @@ class AddProductBuyerActivity : AppCompatActivity() {
                 Toast.makeText(this, "Silahkan Login Terlebih Dahulu", Toast.LENGTH_SHORT).show()
             }
         }
-
+        if (userManager.fetchstatus() == "seller"){
+            imageKomen.isInvisible = true
+        }
     }
 
     private fun isOnline(context: Context): Boolean {

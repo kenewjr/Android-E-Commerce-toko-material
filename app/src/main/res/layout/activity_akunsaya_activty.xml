@@ -75,6 +75,7 @@
                 tools:ignore="HardcodedText" />
         </LinearLayout>
 
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -126,17 +127,63 @@
                     tools:ignore="HardcodedText" />
             </LinearLayout>
         </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/resetpassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="visible"
+            tools:ignore="UseCompoundDrawables">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_baseline_manage_accounts_24"
+                android:padding="10sp"
+                tools:ignore="ContentDescription" />
+            <TextView
+                android:id="@+id/resetpass"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Reset Password Pengguna"
+                android:padding="10sp"
+                android:textSize="15sp"
+                android:textColor="@color/black"
+                tools:ignore="HardcodedText" />
+        </LinearLayout>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="150dp"
+            android:text="versi"
+            android:textColor="@color/black"
+            android:layout_margin="10dp"
+            android:textSize="15sp"
+            android:id="@+id/tvusername"
+            tools:ignore="HardcodedText" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
             android:text="versi"
             android:textColor="@color/black"
             android:layout_marginTop="10sp"
             android:textSize="15sp"
-            android:id="@+id/versiapp"
+            android:id="@+id/tvpassword"
             tools:ignore="HardcodedText" />
     </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="versi"
+        android:textColor="@color/black"
+        android:layout_marginTop="10sp"
+        android:textSize="20sp"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@id/default_navigation"
+        android:id="@+id/versiapp"
+        tools:ignore="HardcodedText" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/default_navigation"

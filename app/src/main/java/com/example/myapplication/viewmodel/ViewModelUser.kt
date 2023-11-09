@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import com.example.myapplication.model.DataUser
 import com.example.myapplication.model.GetHistoryItem
 import com.example.myapplication.model.GetKomentarItem
+import com.example.myapplication.model.ResponseLupaPasswordItem
 import com.example.myapplication.network.ApiService
 import dagger.hilt.android.lifecycle.HiltViewModel
 import retrofit2.Call
@@ -27,11 +28,52 @@ class ViewModelUser@Inject constructor(api: ApiService): ViewModel() {
     private val liveDataOrder = MutableLiveData<GetHistoryItem>()
     val orderData: LiveData<GetHistoryItem> = liveDataOrder
 
+    private val liveDataPassword = MutableLiveData<ResponseLupaPasswordItem>()
+    val passwordData: LiveData<ResponseLupaPasswordItem> = liveDataPassword
+
     private val liveDataKomentar = MutableLiveData<List<GetKomentarItem>>()
     val komentarData : LiveData<List<GetKomentarItem>> = liveDataKomentar
 
     private val liveKomentar= MutableLiveData<com.example.myapplication.model.Response>()
 
+    fun lupaPasswordEmail(password: String){
+        apiService.lupaPasswordEmail(password).enqueue(object : Callback<ResponseLupaPasswordItem>{
+            override fun onResponse(
+                call: Call<ResponseLupaPasswordItem>,
+                response: Response<ResponseLupaPasswordItem>
+            ) {
+                if (response.isSuccessful){
+                    liveDataPassword.value = response.body()
+                }else{
+                    liveDataPassword.value = response.body()
+                }
+            }
+
+            override fun onFailure(call: Call<ResponseLupaPasswordItem>, t: Throwable) {
+                Log.e("vmlupapass", t.message.toString())
+            }
+
+        })
+    }
+    fun lupaPassword(password: String){
+        apiService.LupaPassword(password).enqueue(object : Callback<ResponseLupaPasswordItem>{
+            override fun onResponse(
+                call: Call<ResponseLupaPasswordItem>,
+                response: Response<ResponseLupaPasswordItem>
+            ) {
+                if (response.isSuccessful){
+                    liveDataPassword.value = response.body()
+                }else{
+                    liveDataPassword.value = response.body()
+                }
+            }
+
+            override fun onFailure(call: Call<ResponseLupaPasswordItem>, t: Throwable) {
+                Log.e("vmlupapass", t.message.toString())
+            }
+
+        })
+    }
     fun changeStatus(status: String,id: Int){
         apiService.updatehisotryStatus(id, status).enqueue(object : Callback<com.example.myapplication.model.Response>{
             override fun onResponse(

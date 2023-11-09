@@ -87,7 +87,7 @@ class RegisterActivity : AppCompatActivity() {
                         startActivity(Intent(this@RegisterActivity, LoginActivity::class.java))
                         Toast.makeText(this@RegisterActivity, "Berhasil Membuat Akun", Toast.LENGTH_SHORT).show()
                     } else {
-                        Toast.makeText(this@RegisterActivity, "Email Sudah Terdaftar", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@RegisterActivity, "Data Sudah Terdaftar", Toast.LENGTH_SHORT).show()
                     }
                 }
 
