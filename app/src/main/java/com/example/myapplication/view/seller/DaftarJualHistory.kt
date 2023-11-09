@@ -142,7 +142,7 @@ class DaftarJualHistory : AppCompatActivity() {
         rv_history.adapter = adapter
         viewModelProductSeller.datahistory.observe(this) {
             if (it.isNotEmpty()) {
-                val statusLunasItems = it.filter { item -> item.status == "Lunas" }
+                val statusLunasItems = it.filter { item -> item.status == "Selesai" }
                 if (statusLunasItems.isNotEmpty()) {
                     adapter.setDataOrder(statusLunasItems)
                     adapter.notifyDataSetChanged()
