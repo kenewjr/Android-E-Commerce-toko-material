@@ -77,10 +77,10 @@ class PaymentMidtransActivty : AppCompatActivity(), TransactionFinishedCallback 
         getdataProfile()
         runOnUiThread {
             SdkUIFlowBuilder.init()
-                .setClientKey("SB-Mid-client-UyV8fwVUJHmHywYZ")
+                .setClientKey("Mid-client-8MhLprlS1I8l_bWO")
                 .setContext(this)
                 .setTransactionFinishedCallback(this)
-                .setMerchantBaseUrl("https://abrar.vzcyberd.my.id/API/midtrans.php/")
+                .setMerchantBaseUrl("https://abrar.vzcyberd.my.id/API/midtrans_production.php/")
                 .enableLog(true)
                 .setColorTheme(CustomColorTheme("#FFE51255", "#B61548", "#FFE51255"))
                 .setLanguage("id")
