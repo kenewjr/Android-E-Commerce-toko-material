@@ -8,6 +8,14 @@ plugins {
 }
 
 android {
+    signingConfigs {
+        kenewjr {
+            storeFile file('abrar')
+            storePassword 'abrar123'
+            keyAlias 'abrar'
+            keyPassword 'abrar123'
+        }
+    }
     namespace 'com.example.myapplication'
     compileSdk 34
 
@@ -23,6 +31,7 @@ android {
         versionName "2.6"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        signingConfig signingConfigs.kenewjr
     }
 
     buildTypes {
@@ -30,6 +39,7 @@ android {
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.kenewjr
         }
     }
 

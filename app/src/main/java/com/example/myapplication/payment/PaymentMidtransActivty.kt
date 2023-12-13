@@ -70,7 +70,8 @@ class PaymentMidtransActivty : AppCompatActivity(), TransactionFinishedCallback 
         val viewModelProductSeller = ViewModelProvider(this)[ViewModelProductSeller::class.java]
         viewModelProductSeller.getHistory()
         viewModelProductSeller.datahistory.observe(this){
-             val lastHistoryItem = it[it.size-1]
+             val lastHistoryItem = it.first()
+            Log.e("idsize",lastHistoryItem.toString())
             idriwayat = lastHistoryItem.id.toInt()+1
             Log.e("idriwayat",idriwayat.toString())
         }
@@ -264,12 +265,15 @@ class PaymentMidtransActivty : AppCompatActivity(), TransactionFinishedCallback 
         viewModelProductSeller.dataRequried.observe(this){
             val tujuanRek: String
             val namaRek: String
-            if (it.va_numbers.isEmpty()){
-                tujuanRek = it.payment_code
-                namaRek = it.store
-            }else{
+            if (it.payment_code != null && it.payment_code.isNullOrEmpty()) {
                 tujuanRek = it.va_numbers[0].va_number
                 namaRek = it.va_numbers[0].bank
+            } else if (it.va_numbers != null && it.va_numbers.isNullOrEmpty()) {
+                tujuanRek = it.payment_code
+                namaRek = it.store
+            } else {
+                tujuanRek = it.bill_key
+                namaRek = it.biller_code
             }
             apiClient.getApiService().tambahHistory(
                 idUser,

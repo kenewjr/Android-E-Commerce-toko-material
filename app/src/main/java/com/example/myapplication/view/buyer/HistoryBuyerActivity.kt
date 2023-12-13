@@ -206,7 +206,11 @@ class HistoryBuyerActivity : AppCompatActivity() {
             tv_orderid.text = "Order Id : $order_id"
             tv_tanggal.text = "Tanggal Transaksi : $tgl_transaksi"
             tv_norek.text = "Tujuan Nomor Rekening : $tujuan_rekening"
-            tv_jenisbank.text = "Penerima : $nama_rekening"
+            if(nama_rekening == "70012"){
+            tv_jenisbank.text = "Kode Bank : $nama_rekening"
+            }else{
+                tv_jenisbank.text = "Penerima : $nama_rekening"
+            }
             Glide.with(this@HistoryBuyerActivity)
                 .load(gambar)
                 .override(80, 80)

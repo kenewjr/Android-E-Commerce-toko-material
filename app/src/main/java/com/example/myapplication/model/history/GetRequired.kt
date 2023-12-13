@@ -23,6 +23,8 @@ data class GetRequired(
     val payment_amounts: List<Any>,
     val payment_type: String,
     val payment_code: String,
+    val biller_code : String,
+    val bill_key : String,
     val store : String,
     val settlement_time: String,
     val signature_key: String,

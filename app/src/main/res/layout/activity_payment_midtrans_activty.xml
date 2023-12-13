@@ -365,7 +365,7 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/pesan"
-        android:layout_width="180dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="30dp"
@@ -379,7 +379,7 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_home"
-        android:layout_width="180dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="30dp"

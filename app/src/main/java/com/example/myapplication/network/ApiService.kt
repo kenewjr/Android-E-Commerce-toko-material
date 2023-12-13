@@ -109,7 +109,7 @@ interface ApiService {
         @Field("nama_rekening")nama_rekening : String
     ):Call<GetHistoryItem>
 
-    @GET("get_history.php")
+    @GET("get_history")
     fun getHistory():Call<List<GetHistoryItem>>
 
     @GET("get_historybyUserid.php")
@@ -221,7 +221,7 @@ interface ApiService {
         @Field("status")status:String
     ):Call<Response>
 
-    @GET("required_history")
+    @GET("required_history(production)")
     fun getRequiredHistory(
         @Query("id")id:Int,
         @Query("ORDER_ID")orderId:String
