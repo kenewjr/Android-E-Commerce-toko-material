@@ -96,7 +96,10 @@ class LengkapiDetailProductActivity : AppCompatActivity() {
         }else if(encodeImageString.isEmpty()){
             Toast.makeText(this, "Gambar harus diisi", Toast.LENGTH_SHORT).show()
             return false
-        }else if(berat.toInt() <= 0){
+        }else if(!isNumeric(berat)){
+            Toast.makeText(this, "Berat harus berupa angka", Toast.LENGTH_SHORT).show()
+            return false
+        }else if(berat.toDouble() <= 0){
             Toast.makeText(this, "Berat harus lebih dari 0", Toast.LENGTH_SHORT).show()
             return false
         }else if (berat.startsWith(".") || berat.startsWith(",")){
@@ -108,6 +111,9 @@ class LengkapiDetailProductActivity : AppCompatActivity() {
         }
     }
 
+    private fun isNumeric(str: String): Boolean {
+        return str.matches("-?\\d+(\\.\\d+)?".toRegex())
+    }
     fun jualbarang(){
         if(doubleCheck()){
             var categoryProduct : String = selectedCategory.id.toString()

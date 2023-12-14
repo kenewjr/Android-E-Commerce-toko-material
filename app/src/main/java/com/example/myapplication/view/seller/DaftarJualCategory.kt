@@ -132,7 +132,7 @@ class DaftarJualCategory : AppCompatActivity() {
             val buttonUpdate = dialogView.findViewById<Button>(R.id.btn_editCtgy)
             val edt1 = dialogView.findViewById<EditText>(R.id.cd_edt_ctgy)
             buttonUpdate.text = "Tambahkan Category"
-            edt1.hint = "Masukan NoHP/Email/Username Pengguna"
+            edt1.hint = "Masukan Kategori"
             buttonUpdate.setOnClickListener {
                 val editTextname = dialogView.findViewById<EditText>(R.id.cd_edt_ctgy)
                 viewModelSellerCategory.tambahCtgy(editTextname.text.toString())
