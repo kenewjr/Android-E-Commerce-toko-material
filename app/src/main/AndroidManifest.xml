@@ -28,18 +28,23 @@
         tools:targetApi="31">
         <activity
             android:name=".view.seller.DaftarJualPengiriman"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".view.seller.DaftarJualCategory"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".view.buyer.HistoryBuyerActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".payment.PaymentMidtransActivty"
+            android:screenOrientation="portrait"
             android:exported="true" />
         <activity
             android:name=".view.SplashActivity"
+            android:screenOrientation="portrait"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -49,39 +54,51 @@
         </activity>
         <activity
             android:name=".view.seller.DaftarJualHistory"
+            android:screenOrientation="portrait"
             android:exported="true" />
         <activity
             android:name=".view.buyer.NotifikasiBuyerActivity"
+            android:screenOrientation="portrait"
             android:exported="true" />
         <activity
             android:name=".view.AkunsayaActivty"
+            android:screenOrientation="portrait"
             android:exported="true" />
         <activity
             android:name=".view.seller.DaftarJualActivity"
+            android:screenOrientation="portrait"
             android:exported="true" />
         <activity
             android:name=".view.seller.EditProduct"
+            android:screenOrientation="portrait"
             android:exported="true" />
         <activity
             android:name=".view.HomeActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".view.buyer.AddProductBuyerActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".view.ChangePasswordActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".view.seller.LengkapiDetailProductActivity"
+            android:screenOrientation="portrait"
             android:exported="true" />
         <activity
             android:name=".view.ProfileActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".view.RegisterActivity"
+            android:screenOrientation="portrait"
             android:exported="true" />
         <activity
             android:name=".view.LoginActivity"
+            android:screenOrientation="portrait"
             android:exported="true" />
 
         <receiver

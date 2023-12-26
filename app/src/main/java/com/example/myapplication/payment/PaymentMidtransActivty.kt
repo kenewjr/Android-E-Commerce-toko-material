@@ -185,9 +185,9 @@ class PaymentMidtransActivty : AppCompatActivity(), TransactionFinishedCallback 
         try {
             val number = input.toInt()
             val result = number * hargabarang + selectedOngkos.harga.toInt()
-            tv_jmlHarga.text = "Total Harga: $result"
+            tv_jmlHarga.text = "Total Harga: Rp.$result"
         } catch (e: NumberFormatException) {
-            tv_jmlHarga.text = "Total Harga : $hargabarang"
+            tv_jmlHarga.text = "Total Harga : Rp.$hargabarang"
         }
     }
     private fun pesan(){
