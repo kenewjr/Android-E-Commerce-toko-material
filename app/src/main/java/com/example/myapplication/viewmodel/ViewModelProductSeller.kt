@@ -26,6 +26,7 @@ import javax.inject.Inject
 class ViewModelProductSeller @Inject constructor(private var productRepository: ProductRepository, api: ApiService) : ViewModel() {
     var sellerCategory = MutableLiveData<List<GetCategorySellerItem>>()
     var sellerPengiriman = MutableLiveData<List<GetAllPengirimanItem>>()
+    var sellerPromo = MutableLiveData<List<GetPromoItem>>()
 
     private val livedataJualProduct = MutableLiveData<PostSellerProduct>()
 
@@ -47,6 +48,8 @@ class ViewModelProductSeller @Inject constructor(private var productRepository: 
 
     private val updateproduct = MutableLiveData<com.example.myapplication.model.Response>()
 
+    private val respon = MutableLiveData<com.example.myapplication.model.Response>()
+
     private val apiServices = api
     @SuppressLint("NullSafeMutableLiveData")
     fun getSellerCategory(){
@@ -67,6 +70,7 @@ class ViewModelProductSeller @Inject constructor(private var productRepository: 
         }
     }
 
+
     @SuppressLint("NullSafeMutableLiveData")
     fun getSellerPengiriman(){
         viewModelScope.launch {
@@ -83,7 +87,44 @@ class ViewModelProductSeller @Inject constructor(private var productRepository: 
             }
         }
     }
+    @SuppressLint("NullSafeMutableLiveData")
+    fun getPromo(){
+        viewModelScope.launch {
+            try {
+                val promo = productRepository.getSellerPromo()
+                if (promo.isEmpty()){
+                    sellerPromo.value=null
+                }else{
+                    sellerPromo.value=promo
+                }
+            }catch (e: Exception) {
+                // Handle network failures or exceptions here
+                Log.e("NetworkError", e.message, e)
+            }
+        }
+    }
+    fun tambahPromo(min: String, max: String,diskon:String){
+        apiServices.tambahpromo(min,max,diskon).enqueue(object : Callback<com.example.myapplication.model.Response>{
+            override fun onResponse(
+                call: Call<com.example.myapplication.model.Response>,
+                response: Response<com.example.myapplication.model.Response>
+            ) {
+                if(response.isSuccessful){
+                    respon.value = response.body()
+                }else {
+                    //
+                }
+            }
 
+            override fun onFailure(
+                call: Call<com.example.myapplication.model.Response>,
+                t: Throwable
+            ) {
+                //
+            }
+
+        })
+    }
     fun tambahPengiriman(kendaraan:String,harga: String,berat: String){
         apiServices.tambahPengiriman(kendaraan,harga,berat).enqueue(object : Callback<com.example.myapplication.model.Response>{
             override fun onResponse(
@@ -92,6 +133,28 @@ class ViewModelProductSeller @Inject constructor(private var productRepository: 
             ) {
                 if(response.isSuccessful){
                     pengiriman.value = response.body()
+                }else {
+                    //
+                }
+            }
+
+            override fun onFailure(
+                call: Call<com.example.myapplication.model.Response>,
+                t: Throwable
+            ) {
+                //
+            }
+        })
+    }
+
+    fun editPromo(id: Int,min:String,max: String,diskon: String){
+        apiServices.editPromo(id,min,max,diskon).enqueue(object : Callback<com.example.myapplication.model.Response>{
+            override fun onResponse(
+                call: Call<com.example.myapplication.model.Response>,
+                response: Response<com.example.myapplication.model.Response>
+            ) {
+                if(response.isSuccessful){
+                    respon.value = response.body()
                 }else {
                     //
                 }
@@ -128,6 +191,27 @@ class ViewModelProductSeller @Inject constructor(private var productRepository: 
         })
     }
 
+    fun deletePromo(id: Int){
+        apiServices.deletepromo(id).enqueue(object : Callback<com.example.myapplication.model.Response>{
+            override fun onResponse(
+                call: Call<com.example.myapplication.model.Response>,
+                response: Response<com.example.myapplication.model.Response>
+            ) {
+                if(response.isSuccessful){
+                    respon.value = response.body()
+                }else {
+                    //
+                }
+            }
+
+            override fun onFailure(
+                call: Call<com.example.myapplication.model.Response>,
+                t: Throwable
+            ) {
+                //
+            }
+        })
+    }
     fun deletePengiriman(id: Int){
         apiServices.deletePengiriman(id).enqueue(object : Callback<com.example.myapplication.model.Response>{
             override fun onResponse(

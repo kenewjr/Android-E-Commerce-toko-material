@@ -1,5 +1,6 @@
 package com.example.myapplication.view.adapter
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,7 @@ import kotlinx.android.synthetic.main.item_product_homectgy.view.*
 
 class AdapterHomeCategory(private var onClick : (GetCategorySellerItem)->Unit) : RecyclerView.Adapter<AdapterHomeCategory.ViewHolder> () {
     class ViewHolder (itemView : View) : RecyclerView.ViewHolder(itemView)
+    var row_index = -1
     fun setDataCategory(list: List<GetCategorySellerItem>){
         this.dataCategory = list
     }
@@ -30,8 +32,14 @@ class AdapterHomeCategory(private var onClick : (GetCategorySellerItem)->Unit) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.itemView.cvHomeCtgy.setOnClickListener {
             onClick(dataCategory!![position])
+            row_index = position
+            notifyDataSetChanged()
         }
-
+        if (row_index == position) {
+            holder.itemView.rvl_kategori.setBackgroundResource(R.color.darker)
+        } else {
+            holder.itemView.rvl_kategori.setBackgroundResource(R.color.soft)
+        }
         holder.itemView.tvCtgy.text = dataCategory!![position].name
     }
 }

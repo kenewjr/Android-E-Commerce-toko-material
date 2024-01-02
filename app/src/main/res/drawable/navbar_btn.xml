@@ -5,7 +5,7 @@
         android:top="2dp"
     android:left="2dp">
     <shape android:shape="rectangle">
-        <solid android:color="#DBE2EF" /> <!-- Warna bayangan -->
+        <!-- Warna bayangan -->
         <corners android:topLeftRadius="10dp" android:topRightRadius="10dp" />
     </shape>
 </item>

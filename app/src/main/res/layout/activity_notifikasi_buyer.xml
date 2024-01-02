@@ -46,7 +46,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:gravity="center"
-                    android:text="Semua"
+                    android:text="Semua Notifikasi"
                     android:textStyle="bold"
                     android:textColor="@color/text"
                     android:textSize="20sp"

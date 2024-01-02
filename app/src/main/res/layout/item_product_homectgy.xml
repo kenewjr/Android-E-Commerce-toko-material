@@ -10,10 +10,11 @@
     android:layout_marginTop="10dp"
     app:cardCornerRadius="10dp"
     app:cardElevation="5dp"
-    android:layout_width="180dp"
+    android:layout_width="150dp"
     android:layout_height="45dp">
 
     <RelativeLayout
+        android:id="@+id/rvl_kategori"
         android:background="@drawable/login_btn_bg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">

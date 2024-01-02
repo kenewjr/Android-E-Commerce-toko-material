@@ -104,6 +104,9 @@ class DaftarJualPengiriman : AppCompatActivity() {
         daftar_jualEdit.setOnClickListener {
             startActivity(Intent(this,AkunsayaActivty::class.java))
         }
+        daftarPromo.setOnClickListener {
+            startActivity(Intent(this,DaftarJualPromo::class.java))
+        }
     }
 
     private fun isOnline(context: Context): Boolean {

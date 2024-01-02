@@ -1,7 +1,4 @@
-@file:Suppress("DEPRECATION")
-
 package com.example.myapplication.view.seller
-
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -9,9 +6,13 @@ import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
-import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.widget.Button
+import android.widget.EditText
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
@@ -21,26 +22,18 @@ import com.example.myapplication.datastore.UserManager
 import com.example.myapplication.view.AkunsayaActivty
 import com.example.myapplication.view.HomeActivity
 import com.example.myapplication.view.LoginActivity
-import com.example.myapplication.view.adapter.AdapterTerjual
-import com.example.myapplication.view.buyer.HistoryBuyerActivity
+import com.example.myapplication.view.adapter.AdapterPromo
 import com.example.myapplication.view.buyer.NotifikasiBuyerActivity
 import com.example.myapplication.viewmodel.ViewModelProductSeller
 import com.example.myapplication.viewmodel.ViewModelUser
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.activity_daftar_jual_history.*
-import kotlinx.android.synthetic.main.activity_daftar_jual_history.cardView_productSeller
-import kotlinx.android.synthetic.main.activity_daftar_jual_history.daftarCtgy
-import kotlinx.android.synthetic.main.activity_daftar_jual_history.daftarPengiriman
-import kotlinx.android.synthetic.main.activity_daftar_jual_history.daftar_jualEdit
-import kotlinx.android.synthetic.main.activity_daftar_jual_history.navigation
-import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.android.synthetic.main.activity_daftar_jual_promo.*
 
-@DelicateCoroutinesApi
 @AndroidEntryPoint
-class DaftarJualHistory : AppCompatActivity() {
-    private lateinit var adapter : AdapterTerjual
+class DaftarJualPromo : AppCompatActivity() {
     private lateinit var  userManager: UserManager
+    private lateinit var adapter : AdapterPromo
     private val bottomNavigasi = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when(item.itemId){
             R.id.notifikasi -> {
@@ -55,6 +48,7 @@ class DaftarJualHistory : AppCompatActivity() {
                 val booleanvalue = userManager.getBooleanValue()
                 if (booleanvalue){
                     startActivity(Intent(this, LengkapiDetailProductActivity::class.java))
+                    return@OnNavigationItemSelectedListener true
                 } else {
                     Toast.makeText(applicationContext, "Anda Belum Login", Toast.LENGTH_SHORT).show()
                     startActivity(Intent(this, LoginActivity::class.java))
@@ -66,15 +60,15 @@ class DaftarJualHistory : AppCompatActivity() {
                 return@OnNavigationItemSelectedListener true
             }
             R.id.daftar_jual -> {
-                Toast.makeText(this, "Kamu Sedang Berada Di Daftar Jual", Toast.LENGTH_SHORT).show()
-                return@OnNavigationItemSelectedListener false
+                startActivity(Intent(this, DaftarJualActivity::class.java))
+                return@OnNavigationItemSelectedListener true
             }
         }
         false
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_daftar_jual_history)
+        setContentView(R.layout.activity_daftar_jual_promo)
         userManager = UserManager(this)
         if(!isOnline(this)) {
             Toast.makeText(applicationContext, "Tidak Ada Koneksi Internet", Toast.LENGTH_SHORT)
@@ -84,23 +78,21 @@ class DaftarJualHistory : AppCompatActivity() {
         navigation.selectedItemId = R.id.daftar_jual
         botnav.setOnNavigationItemSelectedListener(bottomNavigasi)
         initView()
-        daftarCtgy.setOnClickListener {
-            startActivity(Intent(this, DaftarJualCategory::class.java))
+        editSeller()
+        addpromo()
+        cardView_productSeller.setOnClickListener {
+            startActivity(Intent(this,DaftarJualActivity::class.java))
+        }
+        daftarCtgy.setOnClickListener{
+            startActivity(Intent(this,DaftarJualCategory::class.java))
+        }
+        daftarHistory.setOnClickListener {
+            startActivity(Intent(this,DaftarJualHistory::class.java))
         }
         daftar_jualEdit.setOnClickListener {
             startActivity(Intent(this,AkunsayaActivty::class.java))
         }
-        cardView_productSeller.setOnClickListener {
-            startActivity(Intent(this,DaftarJualActivity::class.java))
-        }
-        daftarPengiriman.setOnClickListener {
-            startActivity(Intent(this,DaftarJualPengiriman::class.java))
-        }
-        daftarPromo.setOnClickListener {
-            startActivity(Intent(this,DaftarJualPromo::class.java))
-        }
     }
-
     private fun isOnline(context: Context): Boolean {
         val connectivityManager =
             context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
@@ -118,44 +110,82 @@ class DaftarJualHistory : AppCompatActivity() {
         }
         return false
     }
-    private fun initView(){
+
+    @SuppressLint("SetTextI18n")
+    private fun addpromo(){
+        btn_tambah_promo.setOnClickListener{
+            val viewModelSeller = ViewModelProvider(this)[ViewModelProductSeller::class.java]
+            val dialogView = LayoutInflater.from(this).inflate(R.layout.customdialog_promo, null)
+            val dialogbuilder = AlertDialog.Builder(this)
+                .setView(dialogView)
+                .create()
+
+            // Get references to views in the custom dialog
+            val buttonUpdate = dialogView.findViewById<Button>(R.id.btn_editPromo)
+            buttonUpdate.text = "Tambahkan Promo"
+            buttonUpdate.setOnClickListener {
+                val editTextmin = dialogView.findViewById<EditText>(R.id.cd_min)
+                val editTextmax = dialogView.findViewById<EditText>(R.id.cd_max)
+                val editTextdiskon = dialogView.findViewById<EditText>(R.id.cd_diskon)
+
+                val minVal = editTextmin.text.toString().toDoubleOrNull()
+                val maxVal = editTextmax.text.toString().toDoubleOrNull()
+                val diskon = editTextdiskon.text.toString().toDoubleOrNull()
+                if (minVal != null && maxVal != null && maxVal > minVal) {
+                    viewModelSeller.tambahPromo(
+                        editTextmin.text.toString(),
+                        editTextmax.text.toString(),
+                        editTextdiskon.text.toString()
+                    )
+                    dialogbuilder.dismiss()
+                    Toast.makeText(applicationContext, "Promo Berhasil Ditambahkan", Toast.LENGTH_SHORT).show()
+                    initView()
+                } else if(diskon == null){
+                    Toast.makeText(applicationContext, "Diskon Tidak Boleh Kosong", Toast.LENGTH_SHORT).show()
+                }
+                else {
+                    Toast.makeText(applicationContext, "Nilai di Maksimal Harga harus lebih besar dari Minimal Harga", Toast.LENGTH_SHORT).show()
+                }
+            }
+            // Show the custom dialog
+            dialogbuilder.setCancelable(true)
+            dialogbuilder.show()
+        }
+    }
+
+    fun initView(){
         val viewModelDataSeller = ViewModelProvider(this)[ViewModelUser::class.java]
         viewModelDataSeller.getProfile(id = userManager.fetchId()!!.toInt())
         viewModelDataSeller.profileData.observe(this) {
             TV_nama.text = it.nama
-            diminati_profileKota.text = it.alamat
+            profileKota.text = it.alamat
         }
         initRecyclerView()
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    private fun initRecyclerView(){
+    fun initRecyclerView(){
         userManager = UserManager(this)
-        val viewModelProductSeller = ViewModelProvider(this)[ViewModelProductSeller::class.java]
-        viewModelProductSeller.getHistory()
-        adapter = AdapterTerjual {
-            val clickedproduct = Bundle()
-            clickedproduct.putSerializable("detailorder",it)
-            val pindah = Intent(this, HistoryBuyerActivity::class.java)
-            pindah.putExtras(clickedproduct)
-            startActivity(pindah)
-        }
-        rv_history.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-        rv_history.adapter = adapter
-        viewModelProductSeller.datahistory.observe(this) {
-            if (it.isNotEmpty()) {
-                val statusLunasItems = it.filter { item -> item.status == "Selesai" }
-                if (statusLunasItems.isNotEmpty()) {
-                    adapter.setDataOrder(statusLunasItems)
-                    adapter.notifyDataSetChanged()
-                    kalaukosongHistory.isInvisible = true
-                } else {
-                    kalaukosongHistory.isVisible = true
-                }
-            } else {
+        val viewModelSeller = ViewModelProvider(this)[ViewModelProductSeller::class.java]
+
+        adapter = AdapterPromo()
+        rv_promo.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        rv_promo.adapter = adapter
+        viewModelSeller.getPromo()
+        viewModelSeller.sellerPromo.observe(this) {
+            if (it.isNotEmpty()){
+                adapter.setDataPromo(it)
+                adapter.notifyDataSetChanged()
+                kalaukosongHistory.isInvisible = true
+            }else{
                 kalaukosongHistory.isVisible = true
             }
         }
+    }
 
+    private fun editSeller(){
+        daftar_jualEdit.setOnClickListener {
+            startActivity(Intent(this, AkunsayaActivty::class.java))
+        }
     }
 }

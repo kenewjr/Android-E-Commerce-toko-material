@@ -93,6 +93,9 @@ class DaftarJualActivity : AppCompatActivity() {
         daftarPengiriman.setOnClickListener {
             startActivity(Intent(this,DaftarJualPengiriman::class.java))
         }
+        daftarPromo.setOnClickListener {
+            startActivity(Intent(this,DaftarJualPromo::class.java))
+        }
         navigation.selectedItemId = R.id.daftar_jual
         navigation.setOnNavigationItemSelectedListener(bottomNavigasi)
     }

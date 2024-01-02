@@ -32,7 +32,6 @@ import kotlinx.android.synthetic.main.activity_daftar_jual_category.daftarHistor
 import kotlinx.android.synthetic.main.activity_daftar_jual_category.daftarPengiriman
 import kotlinx.android.synthetic.main.activity_daftar_jual_category.daftar_jualEdit
 import kotlinx.android.synthetic.main.activity_daftar_jual_category.navigation
-import kotlinx.android.synthetic.main.activity_daftar_jual_seller.*
 import kotlinx.coroutines.DelicateCoroutinesApi
 
 @Suppress("DEPRECATION")
@@ -99,6 +98,9 @@ class DaftarJualCategory : AppCompatActivity() {
         }
         daftarPengiriman.setOnClickListener {
             startActivity(Intent(this,DaftarJualPengiriman::class.java))
+        }
+        daftarPromo.setOnClickListener {
+            startActivity(Intent(this,DaftarJualPromo::class.java))
         }
         addCtgy()
     }

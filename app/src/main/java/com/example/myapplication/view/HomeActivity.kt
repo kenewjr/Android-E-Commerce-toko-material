@@ -9,6 +9,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.widget.SearchView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -123,6 +124,7 @@ class HomeActivity : AppCompatActivity() {
     private fun vmCategory() {
         val viewModel = ViewModelProvider(this)[ViewModelHome::class.java]
         val viewModelCategory = ViewModelProvider(this)[ViewModelProductSeller::class.java]
+
         adapterHomeCategory = AdapterHomeCategory { t ->
             viewModel.getCategory(t.id)
             // Hapus observasi sebelum mengamati data kategori
@@ -151,7 +153,6 @@ class HomeActivity : AppCompatActivity() {
 
         // Hapus observasi sebelum mengamati data kategori penjual
         viewModelCategory.sellerCategory.removeObservers(this@HomeActivity)
-
         viewModelCategory.sellerCategory.observe(this@HomeActivity) { it ->
             if (it != null) {
                 adapterHomeCategory.setDataCategory(it)
@@ -171,6 +172,7 @@ class HomeActivity : AppCompatActivity() {
             clickedProduct.putSerializable("detailproduk", it)
             val pindah = Intent(this, AddProductBuyerActivity::class.java)
             pindah.putExtras(clickedProduct)
+            Log.e("adapted", clickedProduct.toString())
             startActivity(pindah)
         }
         rv_homeProduk.layoutManager = GridLayoutManager(this, 2)
@@ -213,7 +215,6 @@ class HomeActivity : AppCompatActivity() {
                 searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
                     androidx.appcompat.widget.SearchView.OnQueryTextListener {
                     override fun onQueryTextSubmit(query: String?): Boolean {
-
                         viewModel.searchproduct(query!!)
                         return false
                     }
@@ -223,24 +224,7 @@ class HomeActivity : AppCompatActivity() {
                     }
                 })
             }, 3000)
-            viewModel.product.observe(this@HomeActivity) { it ->
-                if (it != null) {
-                    adapterHome.setProduk(it)
-                    adapterHome.notifyDataSetChanged()
-                    kalaukosongHistory.isInvisible = true
-                } else {
-                    adapterHome.clearProduk()
-                    kalaukosongHistory.isVisible = true
-                }
-                adapterHome = AdapterHome {
-                    val pindahdata = Intent(applicationContext, AddProductBuyerActivity::class.java)
-                    pindahdata.putExtra("detailproduk", it)
-                    startActivity(pindahdata)
-                }
-                rv_homeProduk.layoutManager = GridLayoutManager(this, 2)
-                rv_homeProduk.adapter = adapterHome
-            }
-
+        iniviewmodel()
     }
 
     @Deprecated("Deprecated in Java")

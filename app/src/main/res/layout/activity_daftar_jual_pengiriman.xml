@@ -232,6 +232,40 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/daftarPromo"
+                android:layout_width="wrap_content"
+                android:layout_height="60sp"
+                android:layout_marginRight="10dp"
+                android:backgroundTint="@color/soft"
+                app:cardCornerRadius="8sp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_margin="10sp"
+                    tools:ignore="UseCompoundDrawables">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/baseline_discount_24"
+                        android:padding="10sp"
+                        tools:ignore="ContentDescription"
+                        app:tint="@color/darksoft" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Promo"
+                        android:textColor="@color/darksoft"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:padding="10sp"
+                        tools:ignore="HardcodedText" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
     </HorizontalScrollView>
 
