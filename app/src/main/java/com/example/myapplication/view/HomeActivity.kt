@@ -172,7 +172,6 @@ class HomeActivity : AppCompatActivity() {
             clickedProduct.putSerializable("detailproduk", it)
             val pindah = Intent(this, AddProductBuyerActivity::class.java)
             pindah.putExtras(clickedProduct)
-            Log.e("adapted", clickedProduct.toString())
             startActivity(pindah)
         }
         rv_homeProduk.layoutManager = GridLayoutManager(this, 2)

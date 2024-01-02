@@ -14,6 +14,8 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isEmpty
+import androidx.core.view.isInvisible
+import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -22,6 +24,7 @@ import com.example.myapplication.R
 import com.example.myapplication.datastore.UserManager
 import com.example.myapplication.model.GetAllPengirimanItem
 import com.example.myapplication.model.GetHistoryItem
+import com.example.myapplication.model.GetPromoItem
 import com.example.myapplication.network.ApiClient
 import com.example.myapplication.view.HomeActivity
 import com.example.myapplication.view.buyer.NotifikasiBuyerActivity
@@ -56,9 +59,14 @@ class PaymentMidtransActivty : AppCompatActivity(), TransactionFinishedCallback 
     var maxberat : String = "0"
     var beratbarang = 0.0
     var namabarang = ""
-    private var idriwayat =0
+    var minimharga = 0
+    var maxharga = 0
+    var hargadiskon = 0
+    private var idriwayat = 0
+    private var validPromo : Boolean = true
     private lateinit var userManager: UserManager
     private lateinit var selectedOngkos: GetAllPengirimanItem
+    private lateinit var selectedPromo: GetPromoItem
     private lateinit var apiClient: ApiClient
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,6 +75,7 @@ class PaymentMidtransActivty : AppCompatActivity(), TransactionFinishedCallback 
         apiClient = ApiClient()
         viewModel()
         getPengiriman()
+        getPromo()
         val viewModelProductSeller = ViewModelProvider(this)[ViewModelProductSeller::class.java]
         viewModelProductSeller.getHistory()
         viewModelProductSeller.datahistory.observe(this){
@@ -102,7 +111,6 @@ class PaymentMidtransActivty : AppCompatActivity(), TransactionFinishedCallback 
             override fun afterTextChanged(p0: Editable?) {
                 calculateResult(p0.toString())
             }
-
         })
     }
 
@@ -147,6 +155,9 @@ class PaymentMidtransActivty : AppCompatActivity(), TransactionFinishedCallback 
         } else if(ttlberat >= maxberat.toLong()){
             Toast.makeText(this, "Barang Terlalu Berat Pilih Ongkir Yang Lain", Toast.LENGTH_SHORT).show()
             return false
+        }else if(validPromo == false){
+            Toast.makeText(this, "Harga Barang Tidak Memenuhi Jarak Untuk Menggunakan Diskon", Toast.LENGTH_SHORT).show()
+            return false
         }
         return true
     }
@@ -179,17 +190,47 @@ class PaymentMidtransActivty : AppCompatActivity(), TransactionFinishedCallback 
         }
         viewModelSeller.getSellerPengiriman()
     }
+
+    fun getPromo(){
+        val viewModelProductSeller = ViewModelProvider(this)[ViewModelProductSeller::class.java]
+        viewModelProductSeller.sellerPromo.observe(this){it->
+            val diskonrange = it.map { "Rp.${it.min_harga} - Rp.${it.max_harga}" }.toMutableList()
+            val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, diskonrange)
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            select_diskon.adapter = adapter
+            select_diskon.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+                override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                    selectedPromo = it[p2]
+                    tv_hargapromo.isVisible = true
+                    tv_hargapromo.text = "Diskon : Rp."+it[p2].harga_diskon
+                    minimharga = it[p2].min_harga.toInt()
+                    maxharga = it[p2].max_harga.toInt()
+                    hargadiskon = it[p2].harga_diskon.toInt()
+                }
+                override fun onNothingSelected(p0: AdapterView<*>?) {
+                    tv_hargapromo.isInvisible = true
+                }
+            }
+        }
+        viewModelProductSeller.getPromo()
+    }
     @SuppressLint("SetTextI18n")
     private fun calculateResult(input: String) {
-        // Melakukan perhitungan (misalnya, mengubah input menjadi integer)
         try {
             val number = input.toInt()
-            val result = number * hargabarang + selectedOngkos.harga.toInt()
+            val result = number * hargabarang + selectedOngkos.harga.toInt() - hargadiskon
             tv_jmlHarga.text = "Total Harga: Rp.$result"
+            if (minimharga <= result && maxharga >= result) {
+                validPromo = true
+            }else{
+                validPromo = false
+                hargadiskon = 0
+            }
         } catch (e: NumberFormatException) {
             tv_jmlHarga.text = "Total Harga : Rp.$hargabarang"
         }
     }
+
     private fun pesan(){
         pesan.setOnClickListener {
             if (doubleCheck()) {
@@ -197,14 +238,16 @@ class PaymentMidtransActivty : AppCompatActivity(), TransactionFinishedCallback 
                 val convert = hargabarang * Jumlah.toDouble()
                 val transactionRequest = TransactionRequest(
                     "material-" + System.currentTimeMillis().toShort() + "",
-                    convert + selectedOngkos.harga.toInt()
+                    convert + selectedOngkos.harga.toInt() - hargadiskon
                 )
                 val detail =
                     ItemDetails("Produk", hargabarang.toDouble(), Jumlah.toInt(), namabarang)
                 val detail2 = ItemDetails("Jenis Pengiriman", selectedOngkos.harga.toDouble(), 1, selectedOngkos.kendaraan)
+                val detail3 = ItemDetails("Diskon", hargadiskon.toDouble(), 1, "Diskon")
                 val itemDetails = ArrayList<ItemDetails>()
                 itemDetails.add(detail)
                 itemDetails.add(detail2)
+                itemDetails.add(detail3)
                 uiKitsDetails(transactionRequest)
                 transactionRequest.customField1 = idriwayat.toString()
                 transactionRequest.customField2 = Jumlah

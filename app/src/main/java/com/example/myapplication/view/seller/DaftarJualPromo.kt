@@ -29,6 +29,14 @@ import com.example.myapplication.viewmodel.ViewModelUser
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_daftar_jual_promo.*
+import kotlinx.android.synthetic.main.activity_daftar_jual_promo.TV_nama
+import kotlinx.android.synthetic.main.activity_daftar_jual_promo.cardView_productSeller
+import kotlinx.android.synthetic.main.activity_daftar_jual_promo.daftarCtgy
+import kotlinx.android.synthetic.main.activity_daftar_jual_promo.daftarHistory
+import kotlinx.android.synthetic.main.activity_daftar_jual_promo.daftarPengiriman
+import kotlinx.android.synthetic.main.activity_daftar_jual_promo.daftar_jualEdit
+import kotlinx.android.synthetic.main.activity_daftar_jual_promo.kalaukosongHistory
+import kotlinx.android.synthetic.main.activity_daftar_jual_promo.navigation
 
 @AndroidEntryPoint
 class DaftarJualPromo : AppCompatActivity() {
@@ -92,6 +100,9 @@ class DaftarJualPromo : AppCompatActivity() {
         daftar_jualEdit.setOnClickListener {
             startActivity(Intent(this,AkunsayaActivty::class.java))
         }
+        daftarPengiriman.setOnClickListener {
+            startActivity(Intent(this,DaftarJualPengiriman::class.java))
+        }
     }
     private fun isOnline(context: Context): Boolean {
         val connectivityManager =
@@ -131,7 +142,7 @@ class DaftarJualPromo : AppCompatActivity() {
                 val minVal = editTextmin.text.toString().toDoubleOrNull()
                 val maxVal = editTextmax.text.toString().toDoubleOrNull()
                 val diskon = editTextdiskon.text.toString().toDoubleOrNull()
-                if (minVal != null && maxVal != null && maxVal > minVal) {
+                if (minVal != null && maxVal != null && diskon != null && maxVal > minVal && diskon < minVal ) {
                     viewModelSeller.tambahPromo(
                         editTextmin.text.toString(),
                         editTextmax.text.toString(),
@@ -144,7 +155,7 @@ class DaftarJualPromo : AppCompatActivity() {
                     Toast.makeText(applicationContext, "Diskon Tidak Boleh Kosong", Toast.LENGTH_SHORT).show()
                 }
                 else {
-                    Toast.makeText(applicationContext, "Nilai di Maksimal Harga harus lebih besar dari Minimal Harga", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(applicationContext, "Nilai di Maksimal Harga harus lebih besar dari Minimal Harga dan Diskon lebih kecil Dari Minimal Harga", Toast.LENGTH_SHORT).show()
                 }
             }
             // Show the custom dialog

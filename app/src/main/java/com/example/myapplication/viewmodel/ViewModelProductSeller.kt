@@ -99,7 +99,7 @@ class ViewModelProductSeller @Inject constructor(private var productRepository: 
                 }
             }catch (e: Exception) {
                 // Handle network failures or exceptions here
-                Log.e("NetworkError", e.message, e)
+                Log.e("NetworkErrorPromo", e.message, e)
             }
         }
     }

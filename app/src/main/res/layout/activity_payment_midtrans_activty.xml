@@ -338,6 +338,41 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
+        android:id="@+id/tv_diskon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="15dp"
+        android:text="Diskon"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="normal"
+        android:layout_below="@id/textselectongkos"
+        tools:ignore="HardcodedText,MissingConstraints" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textselectdiskon"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_below="@id/tv_diskon"
+        tools:ignore="MissingConstraints">
+
+        <Spinner
+            android:id="@+id/select_diskon"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/select_category"
+            android:labelFor="@id/textselectongkos"
+            android:background="@drawable/custom_drawable"
+            android:spinnerMode="dropdown"
+            tools:ignore="SpeakableTextPresentCheck" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+    <TextView
         android:id="@+id/tv_beratpengiriman"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -347,7 +382,21 @@
         android:textColor="@color/red"
         android:textSize="15sp"
         android:textStyle="bold"
-        android:layout_below="@id/textselectongkos"
+        android:layout_below="@id/textselectdiskon"
+        tools:ignore="HardcodedText,MissingConstraints" />
+
+    <TextView
+        android:id="@+id/tv_hargapromo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="15dp"
+        android:text="Diskon"
+        android:visibility="invisible"
+        android:textColor="@color/black"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:layout_below="@id/tv_beratpengiriman"
         tools:ignore="HardcodedText,MissingConstraints" />
 
     <TextView
@@ -360,7 +409,7 @@
         android:textColor="@color/black"
         android:textSize="25sp"
         android:textStyle="bold"
-        android:layout_below="@id/tv_beratpengiriman"
+        android:layout_below="@id/tv_hargapromo"
         tools:ignore="HardcodedText,MissingConstraints" />
 
     <androidx.appcompat.widget.AppCompatButton

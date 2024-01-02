@@ -70,13 +70,22 @@ class AdapterPromo : RecyclerView.Adapter<AdapterPromo.ViewHolder>() {
                 val updatedMin = editTextmin.text.toString()
                 val updatedMax = editTextmax.text.toString()
                 val updatedDiskon = editTextdiskon.text.toString()
-
-                val viewModelProductSeller = ViewModelProvider(holder.itemView.context as DaftarJualPromo)[ViewModelProductSeller::class.java]
-                viewModelProductSeller.editPromo(updatedId.toInt(),updatedMin,updatedMax,updatedDiskon)
-                Toast.makeText(it.context, "Berhasil Diubah", Toast.LENGTH_SHORT).show()
-                (holder.itemView.context as DaftarJualPromo).initRecyclerView()
-                // Dismiss the dialog
-                dialogbuilder.dismiss()
+                val minVal = editTextmin.text.toString().toDoubleOrNull()
+                val maxVal = editTextmax.text.toString().toDoubleOrNull()
+                val diskon = editTextdiskon.text.toString().toDoubleOrNull()
+                if (minVal != null && maxVal != null && diskon != null && maxVal > minVal && diskon < minVal ) {
+                    val viewModelProductSeller = ViewModelProvider(holder.itemView.context as DaftarJualPromo)[ViewModelProductSeller::class.java]
+                    viewModelProductSeller.editPromo(updatedId.toInt(),updatedMin,updatedMax,updatedDiskon)
+                    Toast.makeText(it.context, "Berhasil Diubah", Toast.LENGTH_SHORT).show()
+                    (holder.itemView.context as DaftarJualPromo).initRecyclerView()
+                    // Dismiss the dialog
+                    dialogbuilder.dismiss()
+                } else if(diskon == null){
+                    Toast.makeText(it.context, "Diskon Tidak Boleh Kosong", Toast.LENGTH_SHORT).show()
+                }
+                else {
+                    Toast.makeText(it.context, "Nilai di Maksimal Harga harus lebih besar dari Minimal Harga dan Diskon lebih kecil Dari Minimal Harga", Toast.LENGTH_SHORT).show()
+                }
             }
             // Show the custom dialog
             dialogbuilder.setCancelable(true)
@@ -90,7 +99,7 @@ class AdapterPromo : RecyclerView.Adapter<AdapterPromo.ViewHolder>() {
                 .setMessage("Anda Yakin Ingin Menghapus Promo Ini ?")
                 .setPositiveButton("YA"){ _: DialogInterface, _: Int ->
                     Toast.makeText(it.context, "Berhasil Dihapus", Toast.LENGTH_SHORT).show()
-                    viewModelProductSeller.deletePengiriman(dataPromo!![position].id.toInt())
+                    viewModelProductSeller.deletePromo(dataPromo!![position].id.toInt())
                     (holder.itemView.context as DaftarJualPromo).initView()
                 }
                 .setNegativeButton("TIDAK"){ dialogInterface: DialogInterface, _: Int ->
