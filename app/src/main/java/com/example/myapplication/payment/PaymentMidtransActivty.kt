@@ -222,9 +222,10 @@ class PaymentMidtransActivty : AppCompatActivity(), TransactionFinishedCallback 
             tv_jmlHarga.text = "Total Harga: Rp.$result"
             if (minimharga <= result && maxharga >= result) {
                 validPromo = true
-            }else{
+            }else if (minimharga == 0 && maxharga == 0){
+                validPromo = true
+            }else {
                 validPromo = false
-                hargadiskon = 0
             }
         } catch (e: NumberFormatException) {
             tv_jmlHarga.text = "Total Harga : Rp.$hargabarang"
