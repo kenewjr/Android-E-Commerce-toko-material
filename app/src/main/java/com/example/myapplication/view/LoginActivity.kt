@@ -47,14 +47,6 @@ class LoginActivity : AppCompatActivity() {
         }
         tv_lupaPassword.setOnClickListener {
             resetPassword()
-//            val message = "Mohon Bantuan Nya Mas Saya Lupa Akun Password saya"
-//            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(
-//                String.format(
-//                    "https://api.whatsapp.com/send?phone=%s&text=%s",
-//                    "+6208977715400",
-//                    message
-//                )
-//            )))
         }
     }
     private fun resetPassword() {

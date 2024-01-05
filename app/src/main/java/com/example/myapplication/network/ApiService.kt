@@ -215,6 +215,13 @@ interface ApiService {
     ):Call<List<GetAllProdukItem>>
 
     @FormUrlEncoded
+    @POST("edit_dibaca")
+    fun updateDibaca(
+        @Field("id")id:Int,
+        @Field("dibaca")dibaca:String
+    ):Call<Response>
+
+    @FormUrlEncoded
     @POST("update_history_status")
     fun updatehisotryStatus(
         @Field("id")id:Int,

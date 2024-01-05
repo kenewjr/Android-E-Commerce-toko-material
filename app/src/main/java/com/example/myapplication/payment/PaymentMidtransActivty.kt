@@ -59,11 +59,11 @@ class PaymentMidtransActivty : AppCompatActivity(), TransactionFinishedCallback 
     var maxberat : String = "0"
     var beratbarang = 0.0
     var namabarang = ""
-    var minimharga = 0
-    var maxharga = 0
-    var hargadiskon = 0
+    private var minimharga = 0
+    private var maxharga = 0
+    private var hargadiskon = 0
     private var idriwayat = 0
-    private var validPromo : Boolean = true
+    private var validPromo : Boolean = false
     private lateinit var userManager: UserManager
     private lateinit var selectedOngkos: GetAllPengirimanItem
     private lateinit var selectedPromo: GetPromoItem
@@ -75,14 +75,13 @@ class PaymentMidtransActivty : AppCompatActivity(), TransactionFinishedCallback 
         apiClient = ApiClient()
         viewModel()
         getPengiriman()
-        getPromo()
         val viewModelProductSeller = ViewModelProvider(this)[ViewModelProductSeller::class.java]
         viewModelProductSeller.getHistory()
         viewModelProductSeller.datahistory.observe(this){
             val lastHistoryItem = it.first()
             idriwayat = lastHistoryItem.id.toInt()+1
-            Log.e("idriwayat",idriwayat.toString())
         }
+        getPromo()
         getdataProfile()
         runOnUiThread {
             SdkUIFlowBuilder.init()
@@ -109,7 +108,8 @@ class PaymentMidtransActivty : AppCompatActivity(), TransactionFinishedCallback 
             }
 
             override fun afterTextChanged(p0: Editable?) {
-                calculateResult(p0.toString())
+                val result = calculateResult(p0.toString())
+                tv_jmlHarga.text = "Total Harga: Rp.$result"
             }
         })
     }
@@ -127,7 +127,7 @@ class PaymentMidtransActivty : AppCompatActivity(), TransactionFinishedCallback 
         } catch (e: NumberFormatException) {
             beratbarang*jumlah.toInt()
         }
-
+        val result = jumlah.toInt() * hargabarang + selectedOngkos.harga.toInt() - hargadiskon
         if (nama.isEmpty()) {
             Toast.makeText(this, "Username harus diisi", Toast.LENGTH_SHORT).show()
             return false
@@ -155,8 +155,9 @@ class PaymentMidtransActivty : AppCompatActivity(), TransactionFinishedCallback 
         } else if(ttlberat >= maxberat.toLong()){
             Toast.makeText(this, "Barang Terlalu Berat Pilih Ongkir Yang Lain", Toast.LENGTH_SHORT).show()
             return false
-        }else if(validPromo == false){
+        }else if(!validPromo){
             Toast.makeText(this, "Harga Barang Tidak Memenuhi Jarak Untuk Menggunakan Diskon", Toast.LENGTH_SHORT).show()
+            select_diskon.setSelection(0)
             return false
         }
         return true
@@ -198,14 +199,23 @@ class PaymentMidtransActivty : AppCompatActivity(), TransactionFinishedCallback 
             val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, diskonrange)
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             select_diskon.adapter = adapter
+            var result = 0
             select_diskon.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
                 override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                     selectedPromo = it[p2]
                     tv_hargapromo.isVisible = true
                     tv_hargapromo.text = "Diskon : Rp."+it[p2].harga_diskon
-                    minimharga = it[p2].min_harga.toInt()
-                    maxharga = it[p2].max_harga.toInt()
-                    hargadiskon = it[p2].harga_diskon.toInt()
+                    result = calculateResult(etJumlah.text.toString())
+                    if((it[p2].min_harga.toInt() == 0 && it[p2].max_harga.toInt() == 0) ||
+                        (result in it[p2].min_harga.toInt() .. it[p2].max_harga.toInt() )){
+                        minimharga = it[p2].min_harga.toInt()
+                        maxharga = it[p2].max_harga.toInt()
+                        hargadiskon = it[p2].harga_diskon.toInt()
+                        validPromo = true
+                    }else{
+                        validPromo = false
+                    }
+
                 }
                 override fun onNothingSelected(p0: AdapterView<*>?) {
                     tv_hargapromo.isInvisible = true
@@ -215,20 +225,12 @@ class PaymentMidtransActivty : AppCompatActivity(), TransactionFinishedCallback 
         viewModelProductSeller.getPromo()
     }
     @SuppressLint("SetTextI18n")
-    private fun calculateResult(input: String) {
-        try {
+    private fun calculateResult(input: String): Int {
+        return try {
             val number = input.toInt()
-            val result = number * hargabarang + selectedOngkos.harga.toInt() - hargadiskon
-            tv_jmlHarga.text = "Total Harga: Rp.$result"
-            if (minimharga <= result && maxharga >= result) {
-                validPromo = true
-            }else if (minimharga == 0 && maxharga == 0){
-                validPromo = true
-            }else {
-                validPromo = false
-            }
+            number * hargabarang + selectedOngkos.harga.toInt() - hargadiskon
         } catch (e: NumberFormatException) {
-            tv_jmlHarga.text = "Total Harga : Rp.$hargabarang"
+            hargabarang // Return default value if parsing fails
         }
     }
 

@@ -116,6 +116,7 @@ class HistoryBuyerActivity : AppCompatActivity() {
             btnSelesai()
         }
         btnBatal()
+
     }
 
     private fun btnBatal(){
@@ -224,5 +225,10 @@ class HistoryBuyerActivity : AppCompatActivity() {
             historyBuyer_ttlbelanja.text = "Total Harga : Rp.$total_harga"
             historyBuyer_namaPenerima.text = "Nama Penerima : $nama_pembeli"
         }
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        finish()
     }
 }

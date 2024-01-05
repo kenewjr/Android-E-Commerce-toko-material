@@ -103,6 +103,28 @@ class ViewModelProductSeller @Inject constructor(private var productRepository: 
             }
         }
     }
+    fun editDibaca(id: Int, dibaca:String){
+        apiServices.updateDibaca(id, dibaca).enqueue(object : Callback<com.example.myapplication.model.Response>{
+            override fun onResponse(
+                call: Call<com.example.myapplication.model.Response>,
+                response: Response<com.example.myapplication.model.Response>
+            ) {
+                if(response.isSuccessful){
+                    respon.value = response.body()
+                }else {
+                    //
+                }
+            }
+
+            override fun onFailure(
+                call: Call<com.example.myapplication.model.Response>,
+                t: Throwable
+            ) {
+                //
+            }
+
+        })
+    }
     fun tambahPromo(min: String, max: String,diskon:String){
         apiServices.tambahpromo(min,max,diskon).enqueue(object : Callback<com.example.myapplication.model.Response>{
             override fun onResponse(

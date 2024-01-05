@@ -17,4 +17,5 @@ data class GetHistoryItem(
     val total_harga: String,
     val tujuan_rekening : String,
     val nama_rekening : String,
+    val dibaca : String,
 ):java.io.Serializable
