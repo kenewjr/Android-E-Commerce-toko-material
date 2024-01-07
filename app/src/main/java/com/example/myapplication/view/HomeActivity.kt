@@ -3,6 +3,7 @@ package com.example.myapplication.view
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
@@ -10,14 +11,18 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import android.widget.RelativeLayout
 import android.widget.SearchView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
 import com.example.myapplication.datastore.UserManager
 import com.example.myapplication.view.adapter.AdapterHome
@@ -35,6 +40,7 @@ import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.activity_home.default_navigation
 import kotlinx.android.synthetic.main.activity_home.kalaukosongHistory
 import kotlinx.android.synthetic.main.activity_home.navigation
+import kotlinx.android.synthetic.main.item_product_homectgy.view.*
 import kotlinx.coroutines.DelicateCoroutinesApi
 
 @OptIn(DelicateCoroutinesApi::class)
@@ -114,10 +120,24 @@ class HomeActivity : AppCompatActivity() {
             search()
             iniviewmodel()
             vmCategory()
+            reset()
         } else {
             Toast.makeText(applicationContext, "Tidak Ada Koneksi Internet", Toast.LENGTH_SHORT)
                 .show()
         }
+    }
+    fun reset() {
+        cv_reset.setOnClickListener{
+            adapterHomeCategory.setRecyclerViewEnabled(false)
+            iniviewmodel()
+        }
+    }
+
+    fun enable() {
+        // Call this function to enable interactions
+        adapterHomeCategory.setRecyclerViewEnabled(true)
+        cv_reset.setBackgroundColor(ContextCompat.getColor(this, R.color.darker))
+        tv_reset.setTextColor(ContextCompat.getColor(this, R.color.white))
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -127,9 +147,9 @@ class HomeActivity : AppCompatActivity() {
 
         adapterHomeCategory = AdapterHomeCategory { t ->
             viewModel.getCategory(t.id)
+            enable()
             // Hapus observasi sebelum mengamati data kategori
             viewModel.category.removeObservers(this@HomeActivity)
-
             viewModel.category.observe(this@HomeActivity) { it ->
                 if (it != null) {
                     adapterHome.setProduk(it)
@@ -163,7 +183,6 @@ class HomeActivity : AppCompatActivity() {
             }
         }
     }
-
 
     @SuppressLint("NotifyDataSetChanged")
     private fun iniviewmodel() {
