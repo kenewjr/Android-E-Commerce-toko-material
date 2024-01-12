@@ -271,4 +271,7 @@ interface ApiService {
     fun deletepromo(
         @Field("id")id: Int
     ):Call<Response>
+
+    @GET("total_penjualan")
+    fun total_penjualan():Call<GetTotalItem>
 }

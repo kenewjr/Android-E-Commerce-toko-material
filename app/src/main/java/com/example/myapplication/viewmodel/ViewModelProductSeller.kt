@@ -36,6 +36,9 @@ class ViewModelProductSeller @Inject constructor(private var productRepository: 
     private val livedataRequire = MutableLiveData<GetRequired>()
     val dataRequried : LiveData<GetRequired> = livedataRequire
 
+    private val livedataTotal = MutableLiveData<GetTotalItem>()
+    val dataTotal : LiveData<GetTotalItem> = livedataTotal
+
     private val deleteProduct = MutableLiveData<com.example.myapplication.model.Response>()
 
     private val deleteCategory = MutableLiveData<com.example.myapplication.model.Response>()
@@ -428,6 +431,20 @@ class ViewModelProductSeller @Inject constructor(private var productRepository: 
             override fun onFailure(call: Call<List<GetHistoryItem>>, t: Throwable) {
                 //
             }
+        })
+    }
+    fun getTotal(){
+        apiServices.total_penjualan().enqueue(object : Callback<GetTotalItem>{
+            override fun onResponse(call: Call<GetTotalItem>, response: Response<GetTotalItem>) {
+                if (response.isSuccessful) {
+                    livedataTotal.value = response.body()
+                }
+            }
+
+            override fun onFailure(call: Call<GetTotalItem>, t: Throwable) {
+               //
+            }
+
         })
     }
     fun jualproduct(

@@ -3,21 +3,28 @@
 package com.example.myapplication.view.seller
 
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
 import android.os.Bundle
+import android.os.Environment
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myapplication.R
 import com.example.myapplication.datastore.UserManager
+import com.example.myapplication.model.GetHistoryItem
 import com.example.myapplication.view.AkunsayaActivty
 import com.example.myapplication.view.HomeActivity
 import com.example.myapplication.view.LoginActivity
@@ -25,22 +32,20 @@ import com.example.myapplication.view.adapter.AdapterTerjual
 import com.example.myapplication.view.buyer.HistoryBuyerActivity
 import com.example.myapplication.view.buyer.NotifikasiBuyerActivity
 import com.example.myapplication.viewmodel.ViewModelProductSeller
-import com.example.myapplication.viewmodel.ViewModelUser
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.opencsv.CSVWriter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.activity_daftar_jual_history.*
-import kotlinx.android.synthetic.main.activity_daftar_jual_history.cardView_productSeller
-import kotlinx.android.synthetic.main.activity_daftar_jual_history.daftarCtgy
-import kotlinx.android.synthetic.main.activity_daftar_jual_history.daftarPengiriman
-import kotlinx.android.synthetic.main.activity_daftar_jual_history.daftar_jualEdit
-import kotlinx.android.synthetic.main.activity_daftar_jual_history.navigation
 import kotlinx.coroutines.DelicateCoroutinesApi
+import java.io.File
+import java.io.IOException
 
 @DelicateCoroutinesApi
 @AndroidEntryPoint
 class DaftarJualHistory : AppCompatActivity() {
     private lateinit var adapter : AdapterTerjual
     private lateinit var  userManager: UserManager
+    private val WRITE_EXTERNAL_STORAGE_REQUEST_CODE = 123
     private val bottomNavigasi = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when(item.itemId){
             R.id.notifikasi -> {
@@ -88,7 +93,7 @@ class DaftarJualHistory : AppCompatActivity() {
             startActivity(Intent(this, DaftarJualCategory::class.java))
         }
         daftar_jualEdit.setOnClickListener {
-            startActivity(Intent(this,AkunsayaActivty::class.java))
+            getCsv()
         }
         cardView_productSeller.setOnClickListener {
             startActivity(Intent(this,DaftarJualActivity::class.java))
@@ -118,12 +123,113 @@ class DaftarJualHistory : AppCompatActivity() {
         }
         return false
     }
-    private fun initView(){
-        val viewModelDataSeller = ViewModelProvider(this)[ViewModelUser::class.java]
-        viewModelDataSeller.getProfile(id = userManager.fetchId()!!.toInt())
-        viewModelDataSeller.profileData.observe(this) {
-            TV_nama.text = it.nama
-            diminati_profileKota.text = it.alamat
+
+    fun getCsv() {
+        if (checkStoragePermission()) {
+            // Permission is already granted, proceed with exporting
+            performCsvExport()
+        } else {
+            // Permission is not granted, request it
+            requestStoragePermission()
+        }
+    }
+
+    private fun checkStoragePermission(): Boolean {
+        return ContextCompat.checkSelfPermission(
+            this,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+        ) == PackageManager.PERMISSION_GRANTED
+    }
+
+    private fun requestStoragePermission() {
+        ActivityCompat.requestPermissions(
+            this,
+            arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+            WRITE_EXTERNAL_STORAGE_REQUEST_CODE
+        )
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        when (requestCode) {
+            WRITE_EXTERNAL_STORAGE_REQUEST_CODE -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // Permission granted, proceed with exporting
+                    performCsvExport()
+                } else {
+                    // Permission denied, handle accordingly
+                    Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show()
+                }
+            }
+            else -> super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        }
+    }
+
+    private fun performCsvExport() {
+        val viewModelProductSeller = ViewModelProvider(this)[ViewModelProductSeller::class.java]
+        viewModelProductSeller.getHistory()
+        viewModelProductSeller.datahistory.observe(this) {
+            if (it.isNotEmpty()) {
+                val statusLunasItems = it.filter { item -> item.status == "Selesai" }
+                if (statusLunasItems.isNotEmpty()) {
+                    exportToCsv(statusLunasItems)
+                }
+            }
+        }
+    }
+
+    fun getDownloadDirectory(): File? {
+        val state = Environment.getExternalStorageState()
+        return if (Environment.MEDIA_MOUNTED == state) {
+            val downloadDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+            if (!downloadDir.exists()) {
+                downloadDir.mkdirs()
+            }
+            downloadDir
+        } else {
+            null
+        }
+    }
+
+    fun exportToCsv(history: List<GetHistoryItem>) {
+        val downloadDir = getDownloadDirectory()
+        if (downloadDir != null) {
+            val filePath = File(downloadDir, "transaksi.csv")
+            try {
+                val writer = filePath.writer()
+                val csvWriter = CSVWriter(writer)
+
+                // Menulis header
+                val headerRecord = arrayOf("No","ID", "Nama Produk", "Jumlah Produk", "Total Harga", "Tanggal Transaksi")
+                csvWriter.writeNext(headerRecord)
+                var No = 1
+                // Menulis data
+                for (person in history) {
+                    val dataRecord = arrayOf(No++.toString(),person.id, person.nama_produk, person.jumlah_produk,person.total_harga,person.tgl_transaksi)
+                    csvWriter.writeNext(dataRecord)
+                }
+
+                // Menutup penulisan
+                csvWriter.close()
+                writer.close()
+                Toast.makeText(this, "Berhasil Download Di ${filePath.absolutePath}", Toast.LENGTH_SHORT).show()
+            } catch (e: IOException) {
+                Toast.makeText(this, "Error : ${e.message}", Toast.LENGTH_SHORT).show()
+            }
+        } else {
+            Toast.makeText(this, "External storage not available", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    fun initView(){
+        val viewModelProductSeller = ViewModelProvider(this)[ViewModelProductSeller::class.java]
+        viewModelProductSeller.getTotal()
+        viewModelProductSeller.dataTotal.observe(this) {
+            TV_totalrp.text = "Total Pendapatan : Rp."+it.total_harga
+            TV_totalbrg.text = "Total Produk Yang terjual : "+it.total_produk
         }
         initRecyclerView()
     }
