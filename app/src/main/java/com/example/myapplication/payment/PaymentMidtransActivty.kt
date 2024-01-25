@@ -358,16 +358,12 @@ class PaymentMidtransActivty : AppCompatActivity(), TransactionFinishedCallback 
                 ) {
                     if (response.isSuccessful){
                         startActivity(Intent(this@PaymentMidtransActivty, NotifikasiBuyerActivity::class.java))
-                    }else {
-                        Log.e("reespone",response.message())
                     }
                 }
-
                 override fun onFailure(call: Call<GetHistoryItem>, t: Throwable) {
                     Log.e("respone",t.message.toString())
                 }
             })
-
         }
 }
 
@@ -411,7 +407,6 @@ class PaymentMidtransActivty : AppCompatActivity(), TransactionFinishedCallback 
                     TransactionResult.STATUS_PENDING -> {
                         addHistory()
                         Toast.makeText(this, "Pending transaction", Toast.LENGTH_LONG).show()
-                        startActivity(Intent(this, NotifikasiBuyerActivity::class.java))
                     }
                     TransactionResult.STATUS_FAILED -> {
                         Toast.makeText(this, "Failed ${transactionResult.response.statusMessage}", Toast.LENGTH_LONG).show()
