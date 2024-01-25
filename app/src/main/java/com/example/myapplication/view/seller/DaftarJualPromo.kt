@@ -142,7 +142,8 @@ class DaftarJualPromo : AppCompatActivity() {
                 val minVal = editTextmin.text.toString().toDoubleOrNull()
                 val maxVal = editTextmax.text.toString().toDoubleOrNull()
                 val diskon = editTextdiskon.text.toString().toDoubleOrNull()
-                if (minVal != null && maxVal != null && diskon != null && maxVal > minVal && diskon < minVal ) {
+                if (minVal != null && maxVal != null && diskon != null && maxVal > minVal && diskon < minVal ||
+                    editTextmin.text.toString().toInt() == 0 &&  editTextmax.text.toString().toInt() == 0 && editTextdiskon.text.toString().toInt() == 0) {
                     viewModelSeller.tambahPromo(
                         editTextmin.text.toString(),
                         editTextmax.text.toString(),

@@ -390,13 +390,25 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="5dp"
         android:text="Diskon"
-        android:visibility="invisible"
         android:textColor="@color/black"
-        android:textSize="25sp"
+        android:textSize="15sp"
         android:textStyle="bold"
         android:layout_below="@id/tv_beratpengiriman"
+        tools:ignore="HardcodedText,MissingConstraints" />
+
+    <TextView
+        android:id="@+id/tv_hargapengiriman"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="5dp"
+        android:text="pengiriman"
+        android:textColor="@color/black"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:layout_below="@id/tv_hargapromo"
         tools:ignore="HardcodedText,MissingConstraints" />
 
     <TextView
@@ -409,7 +421,7 @@
         android:textColor="@color/black"
         android:textSize="25sp"
         android:textStyle="bold"
-        android:layout_below="@id/tv_hargapromo"
+        android:layout_below="@id/tv_hargapengiriman"
         tools:ignore="HardcodedText,MissingConstraints" />
 
     <androidx.appcompat.widget.AppCompatButton

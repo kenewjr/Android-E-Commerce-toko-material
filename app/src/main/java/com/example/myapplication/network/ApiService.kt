@@ -254,16 +254,16 @@ interface ApiService {
     fun editPromo(
         @Field("id")id: Int,
         @Field("min_harga")min_harga:String,
-        @Field("maxharga")max_harga:String,
-        @Field("hargadiskon")harga_diskon:String,
+        @Field("max_harga")max_harga:String,
+        @Field("harga_diskon")harga_diskon:String,
     ):Call<Response>
 
     @FormUrlEncoded
     @POST("tambah_promo")
     fun tambahpromo(
         @Field("min_harga")min_harga:String,
-        @Field("maxharga")max_harga:String,
-        @Field("hargadiskon")harga_diskon:String,
+        @Field("max_harga")max_harga:String,
+        @Field("harga_diskon")harga_diskon:String,
     ):Call<Response>
 
     @FormUrlEncoded

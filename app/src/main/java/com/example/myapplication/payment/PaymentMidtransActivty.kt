@@ -59,11 +59,11 @@ class PaymentMidtransActivty : AppCompatActivity(), TransactionFinishedCallback 
     var maxberat : String = "0"
     var beratbarang = 0.0
     var namabarang = ""
+    var totalhitung = 0
     private var minimharga = 0
     private var maxharga = 0
     private var hargadiskon = 0
     private var idriwayat = 0
-    private var validPromo : Boolean = false
     private lateinit var userManager: UserManager
     private lateinit var selectedOngkos: GetAllPengirimanItem
     private lateinit var selectedPromo: GetPromoItem
@@ -88,7 +88,7 @@ class PaymentMidtransActivty : AppCompatActivity(), TransactionFinishedCallback 
                 .setClientKey("SB-Mid-client-UyV8fwVUJHmHywYZ")
                 .setContext(this)
                 .setTransactionFinishedCallback(this)
-                .setMerchantBaseUrl("https://abrar.vzcyberd.my.id/API/midtrans.php/")
+                .setMerchantBaseUrl("http://abrar.vzcyberd.my.id/API/midtrans.php/")
                 .enableLog(true)
                 .setColorTheme(CustomColorTheme("#FFE51255", "#B61548", "#FFE51255"))
                 .setLanguage("id")
@@ -108,65 +108,71 @@ class PaymentMidtransActivty : AppCompatActivity(), TransactionFinishedCallback 
             }
 
             override fun afterTextChanged(p0: Editable?) {
-                val result = calculateResult(p0.toString())
-                tv_jmlHarga.text = "Total Harga: Rp.$result"
+                totalhitung = calculateResult(p0.toString())
+                tv_jmlHarga.text = "Total Harga: Rp.$totalhitung"
             }
         })
     }
 
-    private fun doubleCheck(): Boolean {
-        val nama = etnamaBuyer.text.toString()
-        val phone = etphonenumber.text.toString()
-        val email = etemail.text.toString()
-        val adress = etadress.text.toString()
-        val postal = etpostal.text.toString()
-        val kota = etcity.text.toString()
-        val jumlah = etJumlah.text.toString()
-        val ttlberat: Double = try {
-            beratbarang*jumlah.toInt()
-        } catch (e: NumberFormatException) {
-            beratbarang*jumlah.toInt()
-        }
-        val result = jumlah.toInt() * hargabarang + selectedOngkos.harga.toInt() - hargadiskon
-        if (nama.isEmpty()) {
-            Toast.makeText(this, "Username harus diisi", Toast.LENGTH_SHORT).show()
-            return false
-        } else if (phone.isEmpty()) {
-            Toast.makeText(this, "Nomor HP harus diisi", Toast.LENGTH_SHORT).show()
-            return false
-        } else if (!isValidEmail(email)) {
-            Toast.makeText(this, "Email harus diisi dengan benar", Toast.LENGTH_SHORT).show()
-            return false
-        } else if (adress.isEmpty()) {
-            Toast.makeText(this, "Alamat harus diisi", Toast.LENGTH_SHORT).show()
-            return false
-        } else if (postal.isEmpty()) {
-            Toast.makeText(this, "KodePos harus diisi", Toast.LENGTH_SHORT).show()
-            return false
-        } else if (kota.isEmpty()) {
-            Toast.makeText(this, "Kota harus diisi", Toast.LENGTH_SHORT).show()
-            return false
-        } else if (jumlah.isEmpty()) {
-            Toast.makeText(this, "Jumlah Produk harus diisi", Toast.LENGTH_SHORT).show()
-            return false
-        } else if (select_ongkos.isEmpty()) {
+    private fun doubleCheck(
+        nama: String,
+        phone: String,
+        email: String,
+        address: String,
+        postal: String,
+        city: String,
+        jumlah: String,
+        ttlberat: Double,
+        totalhitung: Int
+    ): Boolean {
+        if (isEmptyAndToast(nama, "Username harus diisi")) return false
+        if (isEmptyAndToast(phone, "Nomor HP harus diisi")) return false
+        if (!isValidEmailAndToast(email, "Email harus diisi dengan benar")) return false
+        if (isEmptyAndToast(address, "Alamat harus diisi")) return false
+        if (isEmptyAndToast(postal, "KodePos harus diisi")) return false
+        if (isEmptyAndToast(city, "Kota harus diisi")) return false
+        if (isEmptyAndToast(jumlah, "Jumlah Produk harus diisi")) return false
+        if (select_ongkos.isEmpty()) {
             Toast.makeText(this, "Ongkos harus diisi", Toast.LENGTH_SHORT).show()
             return false
-        } else if(ttlberat >= maxberat.toLong()){
-            Toast.makeText(this, "Barang Terlalu Berat Pilih Ongkir Yang Lain", Toast.LENGTH_SHORT).show()
+        }
+        if (ttlberat >= maxberat.toLong()) {
+            showToast("Barang Terlalu Berat Pilih Ongkir Yang Lain")
             return false
-        }else if(!validPromo){
-            Toast.makeText(this, "Harga Barang Tidak Memenuhi Jarak Untuk Menggunakan Diskon", Toast.LENGTH_SHORT).show()
+        }
+        if (minimharga == 0 && maxharga == 0) {
+            return true
+        }
+            if (maxharga <= totalhitung || minimharga >= totalhitung) {
+            showToast("Harga Barang Tidak Memenuhi Jarak Untuk Menggunakan Diskon")
             select_diskon.setSelection(0)
             return false
+        }else {
+            return true
         }
         return true
     }
 
-
+    private fun isEmptyAndToast(value: String, message: String): Boolean {
+        if (value.isEmpty()) {
+            showToast(message)
+            return true
+        }
+        return false
+    }
+    private fun showToast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
     private fun isValidEmail(email: String): Boolean {
         val emailRegex = "^[A-Za-z](.*)(@)(.+)(\\.)(.+)"
         return email.matches(emailRegex.toRegex())
+    }
+    private fun isValidEmailAndToast(email: String, message: String): Boolean {
+        if (!isValidEmail(email)) {
+            showToast(message)
+            return false
+        }
+        return true
     }
 
     private fun getPengiriman(){
@@ -182,6 +188,9 @@ class PaymentMidtransActivty : AppCompatActivity(), TransactionFinishedCallback 
                     selectedOngkos = it[p2]
                     maxberat = it[p2].max_berat
                     tv_beratpengiriman.text = "Max Berat Ongkir : "+it[p2].max_berat
+                    tv_hargapengiriman.text = "Ongkos : Rp."+it[p2].harga
+                    totalhitung = calculateResult(etJumlah.text.toString())
+                    tv_jmlHarga.text = "Total Harga: Rp.$totalhitung"
                 }
 
                 override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -192,43 +201,38 @@ class PaymentMidtransActivty : AppCompatActivity(), TransactionFinishedCallback 
         viewModelSeller.getSellerPengiriman()
     }
 
-    fun getPromo(){
+    private fun getPromo() {
         val viewModelProductSeller = ViewModelProvider(this)[ViewModelProductSeller::class.java]
-        viewModelProductSeller.sellerPromo.observe(this){it->
+        viewModelProductSeller.sellerPromo.observe(this) { it ->
             val diskonrange = it.map { "Rp.${it.min_harga} - Rp.${it.max_harga}" }.toMutableList()
             val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, diskonrange)
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             select_diskon.adapter = adapter
-            var result = 0
-            select_diskon.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            select_diskon.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                     selectedPromo = it[p2]
                     tv_hargapromo.isVisible = true
-                    tv_hargapromo.text = "Diskon : Rp."+it[p2].harga_diskon
-                    result = calculateResult(etJumlah.text.toString())
-                    if((it[p2].min_harga.toInt() == 0 && it[p2].max_harga.toInt() == 0) ||
-                        (result in it[p2].min_harga.toInt() .. it[p2].max_harga.toInt() )){
-                        minimharga = it[p2].min_harga.toInt()
-                        maxharga = it[p2].max_harga.toInt()
-                        hargadiskon = it[p2].harga_diskon.toInt()
-                        validPromo = true
-                    }else{
-                        validPromo = false
-                    }
-
+                    tv_hargapromo.text = "Diskon : Rp."+selectedPromo.harga_diskon
+                    hargadiskon = selectedPromo.harga_diskon.toInt()
+                    minimharga = it[p2].min_harga.toInt()
+                    maxharga = it[p2].max_harga.toInt()
+                    totalhitung = calculateResult(etJumlah.text.toString())
+                    tv_jmlHarga.text = "Total Harga: Rp.$totalhitung"
                 }
+
                 override fun onNothingSelected(p0: AdapterView<*>?) {
-                    tv_hargapromo.isInvisible = true
+                    //
                 }
             }
         }
         viewModelProductSeller.getPromo()
     }
+
     @SuppressLint("SetTextI18n")
     private fun calculateResult(input: String): Int {
         return try {
             val number = input.toInt()
-            number * hargabarang + selectedOngkos.harga.toInt() - hargadiskon
+            (number * hargabarang) + selectedOngkos.harga.toInt()
         } catch (e: NumberFormatException) {
             hargabarang // Return default value if parsing fails
         }
@@ -236,17 +240,29 @@ class PaymentMidtransActivty : AppCompatActivity(), TransactionFinishedCallback 
 
     private fun pesan(){
         pesan.setOnClickListener {
-            if (doubleCheck()) {
+            val nama = etnamaBuyer.text.toString()
+            val phone = etphonenumber.text.toString()
+            val email = etemail.text.toString()
+            val adress = etadress.text.toString()
+            val postal = etpostal.text.toString()
+            val kota = etcity.text.toString()
+            val jumlah = etJumlah.text.toString()
+            totalhitung = ((hargabarang.toInt()) * jumlah.toInt()) + selectedOngkos.harga.toInt()
+            val ttlberat: Double = try {
+                beratbarang*jumlah.toInt()
+            } catch (e: NumberFormatException) {
+                beratbarang*jumlah.toInt()
+            }
+            if (doubleCheck(nama,phone,email,adress,postal,kota,jumlah,ttlberat,totalhitung)) {
                 val Jumlah = etJumlah.text.toString()
-                val convert = hargabarang * Jumlah.toDouble()
+                val totalAmount = (hargabarang.toDouble() * Jumlah.toInt()) + selectedOngkos.harga.toDouble() - hargadiskon.toDouble()
                 val transactionRequest = TransactionRequest(
                     "material-" + System.currentTimeMillis().toShort() + "",
-                    convert + selectedOngkos.harga.toInt() - hargadiskon
+                    totalAmount
                 )
-                val detail =
-                    ItemDetails("Produk", hargabarang.toDouble(), Jumlah.toInt(), namabarang)
+                val detail = ItemDetails("Produk", hargabarang.toDouble(), Jumlah.toInt(), namabarang)
                 val detail2 = ItemDetails("Jenis Pengiriman", selectedOngkos.harga.toDouble(), 1, selectedOngkos.kendaraan)
-                val detail3 = ItemDetails("Diskon", hargadiskon.toDouble(), 1, "Diskon")
+                val detail3 = ItemDetails("Diskon", -hargadiskon.toDouble(), 1, "Diskon")
                 val itemDetails = ArrayList<ItemDetails>()
                 itemDetails.add(detail)
                 itemDetails.add(detail2)
@@ -395,7 +411,7 @@ class PaymentMidtransActivty : AppCompatActivity(), TransactionFinishedCallback 
                     TransactionResult.STATUS_PENDING -> {
                         addHistory()
                         Toast.makeText(this, "Pending transaction", Toast.LENGTH_LONG).show()
-
+                        startActivity(Intent(this, NotifikasiBuyerActivity::class.java))
                     }
                     TransactionResult.STATUS_FAILED -> {
                         Toast.makeText(this, "Failed ${transactionResult.response.statusMessage}", Toast.LENGTH_LONG).show()
