@@ -294,16 +294,15 @@ class SplashActivity : AppCompatActivity() {
                     response: retrofit2.Response<ResponseLogin>
                 ) {
                     if (response.isSuccessful) {
-                        Toast.makeText(this@SplashActivity, "Selamat Datang Kembali", Toast.LENGTH_SHORT).show()
                         Handler(Looper.getMainLooper()).postDelayed({
                             startActivity(Intent(this@SplashActivity, HomeActivity::class.java))
+                            Toast.makeText(this@SplashActivity, "Selamat Datang Kembali", Toast.LENGTH_SHORT).show()
                             finish()
                         },4500)
-                        finish()
                     }  else {
-                        Toast.makeText(applicationContext, "Username atau Password Salah", Toast.LENGTH_SHORT).show()
                         Handler(Looper.getMainLooper()).postDelayed({
                         startActivity(Intent(applicationContext, LoginActivity::class.java))
+                            Toast.makeText(applicationContext, "Username atau Password Salah", Toast.LENGTH_SHORT).show()
                             finish()
                         },4500)
                         userManager.setBooleanValue(false)

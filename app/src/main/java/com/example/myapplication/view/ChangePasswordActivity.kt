@@ -65,8 +65,10 @@ class ChangePasswordActivity : AppCompatActivity() {
                     response: Response<PostRegisterUser>
                 ) {
                     if (response.isSuccessful){
-                        Toast.makeText(this@ChangePasswordActivity, "Ubah Password Berhasil", Toast.LENGTH_SHORT).show()
-                        startActivity(Intent(this@ChangePasswordActivity, AkunsayaActivty::class.java))
+                        Toast.makeText(this@ChangePasswordActivity, "Ubah Password Berhasil, Silahkan login ulang", Toast.LENGTH_SHORT).show()
+                        userManager.setBooleanValue(false)
+                        userManager.logout()
+                        startActivity(Intent(applicationContext, LoginActivity::class.java))
                     } else {
                         Toast.makeText(this@ChangePasswordActivity, "Password Lama Salah", Toast.LENGTH_SHORT).show()
                     }
