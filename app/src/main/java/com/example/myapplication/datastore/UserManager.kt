@@ -54,6 +54,9 @@ class UserManager(context : Context) {
     fun fetchusername(): String?{
         return prefs.getString(USERNAME,null)
     }
+    fun fetchpassword(): String?{
+        return prefs.getString(PASSWORD,null)
+    }
     fun fetchstatus(): String?{
         return prefs.getString(STATUS,null)
     }

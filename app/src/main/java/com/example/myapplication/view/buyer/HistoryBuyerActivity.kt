@@ -113,6 +113,9 @@ class HistoryBuyerActivity : AppCompatActivity() {
                 btn_selesai.isInvisible = true
                 btn_batal.isInvisible = true
             }
+            if(getstatus == "Terkirim"){
+                btn_batal.isInvisible = true
+            }
             btnSelesai()
         }
         btnBatal()
@@ -129,6 +132,7 @@ class HistoryBuyerActivity : AppCompatActivity() {
                     val viewModel = ViewModelProvider(this)[ViewModelUser::class.java]
                     viewModel.changeStatus("Dibatalkan",dataProduct!!.id.toInt())
                     Toast.makeText(this, "Berhasil Membatalkan Produk", Toast.LENGTH_SHORT).show()
+                    btn_batal.isInvisible = true
                     updateStatus("Dibatalkan")
                 }
                 .setNegativeButton("TIDAK") { dialogInterface: DialogInterface, _: Int ->
@@ -146,6 +150,7 @@ class HistoryBuyerActivity : AppCompatActivity() {
             viewModel.changeStatus("Terkirim",dataProduct!!.id.toInt())
             updateStatus("Terkirim")
             btn_selesai.isInvisible = true // Hide the button
+            Toast.makeText(this, "Status Pesanan Berhasil Berubah Menjadi Terkirim", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -172,6 +177,7 @@ class HistoryBuyerActivity : AppCompatActivity() {
             val viewModel = ViewModelProvider(this)[ViewModelUser::class.java]
             viewModel.changeStatus("Selesai",dataProduct!!.id.toInt())
             updateStatus("Selesai")
+            Toast.makeText(this, "Status Pesanan Berhasil Berubah Menjadi Selesai", Toast.LENGTH_SHORT).show()
             btn_selesai.isInvisible = true // Hide the button
         }
     }

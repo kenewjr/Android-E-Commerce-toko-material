@@ -35,7 +35,7 @@ class AdapterTerjual(private  var onClick :(GetHistoryItem)->Unit) : RecyclerVie
         holder.itemView.tvJudul_product_seller.text = "Nama Produk : ${dataOrder!![position].nama_produk}"
         holder.itemView.tvKategori_product_seller.text = "Jumlah Produk : ${dataOrder!![position].jumlah_produk}"
         holder.itemView.tvHarga_product_seller.text = "Harga : Rp. ${dataOrder!![position].total_harga}"
-        holder.itemView.tvStatus_product_seller.text = "Harga Produk : ${dataOrder!![position].harga_produk}"
+        holder.itemView.tvStatus_product_seller.text = "Harga Produk : Rp.${dataOrder!![position].harga_produk}"
         holder.itemView.textTanggalUpdate.text = dataOrder!![position].tgl_transaksi
         Glide.with(holder.itemView.context)
             .load(dataOrder!![position].gambar)

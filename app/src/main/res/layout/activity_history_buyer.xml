@@ -76,6 +76,14 @@
                 android:layout_height="wrap_content"
                 tools:ignore="HardcodedText" />
 
+            <ImageView
+                android:id="@+id/iv_norek"
+                android:layout_below="@id/tv_tanggal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/tv_norek"
+                android:src="@drawable/baseline_content_copy_24"/>
+
             <TextView
                 android:id="@+id/tv_jenisbank"
                 android:textColor="@color/black"

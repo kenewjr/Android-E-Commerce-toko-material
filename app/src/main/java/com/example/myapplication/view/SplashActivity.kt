@@ -26,9 +26,11 @@ import com.example.myapplication.BuildConfig
 import com.example.myapplication.R
 import com.example.myapplication.datastore.UserManager
 import com.example.myapplication.model.GetHistoryItem
+import com.example.myapplication.model.ResponseLogin
 import com.example.myapplication.network.ApiClient
 import com.example.myapplication.viewmodel.ViewModelProductSeller
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_notifikasi_buyer.*
 import kotlinx.android.synthetic.main.activity_splash.*
 import okhttp3.*
@@ -284,13 +286,47 @@ class SplashActivity : AppCompatActivity() {
         return parts
     }
 
+    private fun loginauth(loginusername : String, loginPassword : String){
+        apiClient.getApiService().login(username = loginusername, password = loginPassword)
+            .enqueue(object : retrofit2.Callback<ResponseLogin> {
+                override fun onResponse(
+                    call: retrofit2.Call<ResponseLogin>,
+                    response: retrofit2.Response<ResponseLogin>
+                ) {
+                    if (response.isSuccessful) {
+                        Toast.makeText(this@SplashActivity, "Selamat Datang Kembali", Toast.LENGTH_SHORT).show()
+                        Handler(Looper.getMainLooper()).postDelayed({
+                            startActivity(Intent(this@SplashActivity, HomeActivity::class.java))
+                            finish()
+                        },4500)
+                        finish()
+                    }  else {
+                        Toast.makeText(applicationContext, "Username atau Password Salah", Toast.LENGTH_SHORT).show()
+                        Handler(Looper.getMainLooper()).postDelayed({
+                        startActivity(Intent(applicationContext, LoginActivity::class.java))
+                            finish()
+                        },4500)
+                        userManager.setBooleanValue(false)
+                        userManager.logout()
+                    }
+                }
 
+                override fun onFailure(call: retrofit2.Call<ResponseLogin>, t: Throwable) {
+                    Toast.makeText(this@SplashActivity, t.message, Toast.LENGTH_SHORT).show()
+                }
+
+            })
+    }
     private fun checkAccount(){
         userManager = UserManager(this)
-        Handler(Looper.getMainLooper()).postDelayed({
+        if (userManager.getBooleanValue() == false) {
+            Handler(Looper.getMainLooper()).postDelayed({
                 startActivity(Intent(this, HomeActivity::class.java))
                 finish()
-        },4500)
+            },4500)
+        }else{
+            loginauth(userManager.fetchusername().toString(),userManager.fetchpassword().toString())
+        }
     }
     override fun onDestroy() {
         super.onDestroy()
